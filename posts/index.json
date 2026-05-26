@@ -1,0 +1,19 @@
+[
+  {
+    "slug": "2026-05-20-ai-clusters-cisco-ucs",
+    "title": "\"Building Enterprise AI Infrastructure: What an Architect Actually Goes Through\"",
+    "date": "2026-05-20",
+    "excerpt": "Enterprise AI isn't just about buying H100s. It's a multi-layer architecture problem involving resiliency, redundancy, load balancing, GPU scheduling, and months of decisions that nobody documents. Here's the full stack from the perspective of an enterprise AI architect working with Cisco UCS and OpenShift.",
+    "tags": [
+      "AI",
+      "Kubernetes",
+      "OpenShift",
+      "Cisco",
+      "GPU",
+      "RDMA",
+      "Resiliency",
+      "Enterprise"
+    ],
+    "image": "assets/images/blog/covers/AI-Infrastructure.png"
+  }
+]

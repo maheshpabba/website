@@ -1,386 +1,382 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en" data-theme="solarized-light">
 <head>
-	<title>DevCard - Bootstrap 5 vCard &amp; Portfolio Template For Developers</title>
-	
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="DevCard Bootstrap 5 Template">
-	<meta name="author" content="Xiaoying Riley at 3rd Wave Media">    
-	<link rel="shortcut icon" href="favicon.ico"> 
-	
-	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet">
-	
-	<!-- FontAwesome JS -->
-    <script defer src="assets/fontawesome/js/all.js"></script>
-	
-	<!-- Theme CSS -->  
-	<link id="theme-style" rel="stylesheet" href="assets/css/theme-1.css">
+  <title>Resume — Mahesh Pabba</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mahesh Pabba — 22+ years in AI infrastructure, SAP, Cloud, and Kubernetes.">
+  <meta name="author" content="Mahesh Pabba">
+  <meta property="og:title" content="Resume — Mahesh Pabba">
+  <meta property="og:description" content="22+ years as an AI & Cloud Architect. Cisco, SAP HANA, Kubernetes, AWS, Azure, GenAI.">
+  <meta property="og:image" content="assets/images/profile-lg.jpg">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script defer src="assets/fontawesome/js/all.js"></script>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <style>
 
-</head> 
+    /* Print / PDF styles */
+    @media print {
+      /* ── Layout ── */
+      .no-print { display: none !important; }
+      html { color-scheme: light; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      @page { margin: 15mm 12mm; }
 
-<body>
-	
-	<header class="header text-center">	    
-		<div class="force-overflow">
-			<h1 class="blog-name pt-lg-4 mb-0"><a class="no-text-decoration" href="index.html">Simon Doe</a></h1>
-			
-			<nav class="navbar navbar-expand-lg navbar-dark" >
-				
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				
-				<div id="navigation" class="collapse navbar-collapse flex-column" >
-					<div class="profile-section pt-3 pt-lg-0">
-						<img class="profile-image mb-3 rounded-circle mx-auto" src="assets/images/profile.png" alt="image" >			
-						
-						<div class="bio mb-3">Hi, my name is Simon Doe and I'm a senior software engineer. Welcome to my personal website!</div><!--//bio-->
-						<ul class="social-list list-inline py-2 mx-auto">
-							<li class="list-inline-item"><a href="resume.html#"><i class="fab fa-twitter fa-fw"></i></a></li>
-							<li class="list-inline-item"><a href="resume.html#"><i class="fab fa-linkedin-in fa-fw"></i></a></li>
-							<li class="list-inline-item"><a href="resume.html#"><i class="fab fa-github-alt fa-fw"></i></a></li>
-							<li class="list-inline-item"><a href="resume.html#"><i class="fab fa-stack-overflow fa-fw"></i></a></li>
-							<li class="list-inline-item"><a href="resume.html#"><i class="fab fa-codepen fa-fw"></i></a></li>
-						</ul><!--//social-list-->
-						<hr> 
-					</div><!--//profile-section-->
-					
-					<ul class="navbar-nav flex-column text-start">
-						<li class="nav-item">
-							<a class="nav-link" href="index.html"><i class="fas fa-user fa-fw me-2"></i>About Me</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="portfolio.html"><i class="fas fa-laptop-code fa-fw me-2"></i>Portfolio</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="services.html"><i class="fas fa-briefcase fa-fw me-2"></i>Services &amp; Pricing</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link active" href="resume.html"><i class="fas fa-file-alt fa-fw me-2"></i>Resume<span class="sr-only">(current)</span></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="blog-home.html"><i class="fas fa-blog fa-fw me-2"></i>Blog</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="contact.html"><i class="fas fa-envelope-open-text fa-fw me-2"></i>Contact</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="resume.html#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								<i class="fas fa-cogs fa-fw me-2"></i>More Pages
-							</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" href="project.html">Project Page</a></li>
-								<li><a class="dropdown-item" href="blog-home.html">Blog Home 1</a></li>
-								<li><a class="dropdown-item" href="blog-home-alt.html">Blog Home 2</a></li>
-								<li><a class="dropdown-item" href="blog-post.html">Blog Post</a></li>
-							</ul>
-						</li>
-					</ul>
-					
-					<div class="my-2">
-						<a class="btn btn-primary" href="contact.html" target="_blank"><i class="fas fa-paper-plane me-2"></i>Hire Me</a>
-					</div>
-					
-	
-					<div class="dark-mode-toggle text-center w-100">
-						<hr class="mb-4">
-					    <h4 class="toggle-name mb-3 "><i class="fas fa-adjust me-1"></i>Dark Mode</h4>
-					    
-					    <input class="toggle" id="darkmode" type="checkbox">
-					    <label class="toggle-btn mx-auto mb-0" for="darkmode"></label>
-					    
-					</div><!--//dark-mode-toggle-->
-				</div>
-			</nav>
-		</div><!--//force-overflow-->
-	</header>
-	
-	<div class="main-wrapper">
-		<section class="cta-section theme-bg-light py-5">
-			<div class="container text-center single-col-max-width">
-				<h2 class="heading mb-3">Online Resume</h2>
-				<a class="btn btn-primary" href="https://themes.3rdwavemedia.com/resources/sketch-template/resume-sketch-sketch-resume-template-for-software-developers/" target="_blank"><i class="fas fa-file-pdf me-2"></i>Download PDF Version</a>
-				
-				
-			</div><!--//container-->
-		</section>
-		<div class="container resume-container px-3 px-lg-5">
-			<article class="resume-wrapper mx-auto theme-bg-light p-5 mb-5 my-5 shadow-lg">
-				
-				<div class="resume-header">
-					<div class="row align-items-center">
-						<div class="resume-title col-12 col-md-6 col-lg-8 col-xl-9">
-							<h2 class="resume-name mb-0 text-uppercase">Simon Doe</h2>
-							<div class="resume-tagline mb-3 mb-md-0">Senior Software Engineer</div>
-						</div><!--//resume-title-->
-						<div class="resume-contact col-12 col-md-6 col-lg-4 col-xl-3">
-							<ul class="list-unstyled mb-0">
-								<li class="mb-2"><i class="fas fa-phone-square fa-fw fa-lg me-2 "></i><a class="resume-link" href="tel:#">0123 4567 890</a></li>
-								<li class="mb-2"><i class="fas fa-envelope-square fa-fw fa-lg me-2"></i><a class="resume-link" href="mailto:#">simon@yourwebsite.com</a></li>
-								<li class="mb-2"><i class="fas fa-globe fa-fw fa-lg me-2"></i><a class="resume-link" href="resume.html#">www.yourwebsite.com</a></li>
-								<li class="mb-0"><i class="fas fa-map-marker-alt fa-fw fa-lg me-2"></i>New York</li>
-							</ul>
-						</div><!--//resume-contact-->
-					</div><!--//row-->
-					
-				</div><!--//resume-header-->
-				<hr>
-				<div class="resume-intro py-3">
-					<div class="row align-items-center">
-						<div class="col-12 col-md-3 col-xl-2 text-center">
-						    <img class="resume-profile-image mb-3 mb-md-0 me-md-5  ms-md-0 rounded mx-auto" src="assets/images/resume-profile.png" alt="image">
-						</div>
-						
-						<div class="col text-start">
-							<p class="mb-0">Summarise your career here. <a class="theme-link" href="https://themes.3rdwavemedia.com/resources/sketch-template/resume-sketch-sketch-resume-template-for-software-developers/" target="_blank">You can make a PDF version of your resume using our free Sketch template here</a>. Donec quam felis, ultricies nec, pellentesque eu. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.  Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. </p>
-						</div><!--//col-->
-					</div>
-				</div><!--//resume-intro-->
-				<hr>
-				<div class="resume-body">
-					<div class="row">
-						<div class="resume-main col-12 col-lg-8 col-xl-9   pe-0   pe-lg-5">
-							<section class="work-section py-3">
-								<h3 class="text-uppercase resume-section-heading mb-4">Work Experiences</h3>
-								<div class="item mb-3">
-									<div class="item-heading row align-items-center mb-2">
-										<h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Senior Software Engineer</h4>
-										<div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Google | 2019 - Present</div>
-										
-									</div>
-									<div class="item-content">
-										<p>Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Donec pede justo, fringilla vel. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.</p>
-										<ul class="resume-list">
-											<li>Lorem ipsum dolor sit amet, consectetuer.</li>
-											<li>Aenean commodo ligula eget dolor.</li>
-											<li>Etiam ultricies nisi vel augue.</li>
-										</ul>
-									</div>
-								</div><!--//item-->
-								<div class="item mb-3">
-									<div class="item-heading row align-items-center mb-2">
-										<h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Lead Software Developer</h4>
-										<div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Apple | 2016 - 2019</div>
-										
-									</div>
-									<div class="item-content">
-										<p>Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Donec pede justo, fringilla vel.</p>
-										<ul class="resume-list">
-											<li>Lorem ipsum dolor sit amet, consectetuer.</li>
-											<li>Aenean commodo ligula eget dolor.</li>
-										</ul>
-									</div>
-								</div><!--//item-->
-								<div class="item mb-3">
-									<div class="item-heading row align-items-center mb-2">
-										<h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Senior Software Developer</h4>
-										<div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Dropbox | 2014 - 2016</div>
-										
-									</div>
-									<div class="item-content">
-										<p>Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-									</div>
-								</div><!--//item-->
-								<div class="item">
-									<div class="item-heading row align-items-center mb-2">
-										<h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Senior Developer</h4>
-										<div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Uber | 2013 - 2014</div>
-										
-									</div>
-									<div class="item-content">
-										<p>Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus. </p>
-									</div>
-								</div><!--//item-->
-								<div class="item">
-									<div class="item-heading row align-items-center mb-2">
-										<h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Backend Developer</h4>
-										<div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Amazon | 2014 - 2016</div>
-										
-									</div>
-									<div class="item-content">
-										<p>Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-									</div>
-								</div><!--//item-->
-								<div class="item">
-									<div class="item-heading row align-items-center mb-2">
-										<h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Frontend Developer</h4>
-										<div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Startup | 2013 - 2014</div>
-										
-									</div>
-									<div class="item-content">
-										<p>Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus. </p>
-									</div>
-								</div><!--//item-->
-								
-							</section><!--//work-section-->
+      /* ── Force white backgrounds everywhere ── */
+      html, body,
+      .bg-base-100, .bg-base-200, .bg-base-300,
+      .card, .card-body,
+      section, div { background-color: #ffffff !important; }
 
-							
-							<section class="project-section py-3">
-								<h3 class="text-uppercase resume-section-heading mb-4">Projects</h3>
-								<div class="item mb-3">
-									<div class="item-heading row align-items-center mb-2">
-										<h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Project Lorem Ipsum</h4>
-										<div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Open Source</div>
-										
-									</div>
-									<div class="item-content">
-										<p>You can use this section for your side projects. You can <a href="resume.html#" class="theme-link">provide a project link here</a> as well. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-										
-										
-									</div>
-								</div><!--//item-->
-								<div class="item">
-									<div class="item-heading row align-items-center mb-2">
-										<h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Project Sed Fringilla</h4>
-										<div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Open Source</div>
-										
-									</div>
-									<div class="item-content">
-										<p>You can use this section for your side projects. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
-										
-									</div>
-								</div><!--//item-->
-								<div class="item">
-									<div class="item-heading row align-items-center mb-2">
-										<h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Project Praesent </h4>
-										<div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Open Source</div>
-										
-									</div>
-									<div class="item-content">
-										<p>You can use this section for your side projects. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
-										
-									</div>
-								</div><!--//item-->
-							</section><!--//project-section-->	
-						</div><!--//resume-main-->
-						<aside class="resume-aside col-12 col-lg-4 col-xl-3 px-lg-4 pb-lg-4">
-							<section class="skills-section py-3">
-								<h3 class="text-uppercase resume-section-heading mb-4">Skills</h3>
-								<div class="item">
-									<h4 class="item-title">Technical</h4>
-									<ul class="list-unstyled resume-skills-list">
-										<li class="mb-2">JavaScript/Angular/React/Vue</li>
-										<li class="mb-2">Python/Ruby/PHP<li>
-											<li class="mb-2">Node.js/ASP.NET</li>
-											<li class="mb-2">PostgreSQL/MySQL</li>
-											<li class="mb-2">Object-oriented design</li>
-											<li class="mb-2">Design and implement database structures</li>
-											<li>Lead and deliver complex software systems</li>
-										</ul>
-									</div><!--//item-->
-									<div class="item">
-										<h4 class="item-title">Professional</h4>
-										<ul class="list-unstyled resume-skills-list">
-											<li class="mb-2">Effective communication</li>
-											<li class="mb-2">Team player<li>
-												<li class="mb-2">Strong problem solver</li>
-												<li>Good time management</li>
-											</ul>
-										</div><!--//item-->
-									</section><!--//skills-section-->
-									<section class="education-section py-3">
-										<h3 class="text-uppercase resume-section-heading mb-4">Education</h3>
-										<ul class="list-unstyled resume-education-list">
-											<li class="mb-3">
-												<div class="resume-degree font-weight-bold">MSc in Computer Science</div>
-												<div class="resume-degree-org text-muted">University College London</div>
-												<div class="resume-degree-time text-muted">2010 - 2011</div>
-											</li>
-											<li>
-												<div class="resume-degree font-weight-bold">BSc Maths and Physics</div>
-												<div class="resume-degree-org text-muted">Imperial College London</div>
-												<div class="resume-degree-time text-muted">2007 - 2010</div>
-											</li>
-										</ul>
-									</section><!--//education-section-->
-									<section class="education-section py-3">
-										<h3 class="text-uppercase resume-section-heading mb-4">Awards</h3>
-										<ul class="list-unstyled resume-awards-list">
-											<li class="mb-3">
-												<div class="font-weight-bold">Award Lorem Ipsum</div>
-												<div class="text-muted">Microsoft lorem ipsum (2019)</div>
-											</li>
-											<li>
-												<div class="font-weight-bold">Award Donec Sodales</div>
-												<div class="text-muted">Oracle Aenean (2017)</div>
-											</li>
-										</ul>
-									</section><!--//education-section-->
-									<section class="skills-section py-3">
-										<h3 class="text-uppercase resume-section-heading mb-4">Languages</h3>
-										<ul class="list-unstyled resume-lang-list">
-											<li class="mb-2">English <span class="text-muted">(Native)</span></li>
-											<li>Spanish <span class="text-muted">(Professional)</span></li>
-										</ul>
-									</section><!--//certificates-section-->
-									<section class="skills-section py-3">
-										<h3 class="text-uppercase resume-section-heading mb-4">Interests</h3>
-										<ul class="list-unstyled resume-interests-list mb-0">
-											<li class="mb-2">Climbing</li>
-											<li class="mb-2">Snowboarding</li>
-											<li class="mb-2">Photography</li>
-											<li>Travelling</li>
-										</ul>
-									</section><!--//certificates-section-->
-									
-								</aside><!--//resume-aside-->
-							</div><!--//row-->
-						</div><!--//resume-body-->
-						<hr>
-						<div class="resume-footer text-center">
-							<ul class="resume-social-list list-inline mx-auto mb-0 d-inline-block text-muted">
-								<li class="list-inline-item mb-lg-0 me-3"><a class="resume-link" href="resume.html#"><i class="fab fa-github-square fa-2x me-2" data-fa-transform="down-4"></i><span class="d-none d-lg-inline-block text-muted">github.com/username</span></a></li>
-								<li class="list-inline-item mb-lg-0 me-3"><a class="resume-link" href="resume.html#"><i class="fab fa-linkedin fa-2x me-2" data-fa-transform="down-4"></i><span class="d-none d-lg-inline-block text-muted">linkedin.com/in/username</span></a></li>
-								<li class="list-inline-item mb-lg-0 me-lg-3"><a class="resume-link" href="resume.html#"><i class="fab fa-twitter-square fa-2x me-2" data-fa-transform="down-4"></i><span class="d-none d-lg-inline-block text-muted">@twittername</span></a></li>
-							</ul>
-						</div><!--//resume-footer-->
-					</article>
-					
-				</div><!--//container-->
-				
-				<footer class="footer text-center py-4">
-					<small class="copyright">Template Copyright &copy; <a href="https://themes.3rdwavemedia.com/" target="_blank">3rd Wave Media</a></small>
-				</footer>
-				
-			</div><!--//main-wrapper-->
+      /* ── Force all text dark ── */
+      body, p, li, span, td, th, h1, h2, h3, h4, a,
+      .card-body, .card-body * { color: #1a1a1a !important; }
 
-			<!-- *****CONFIGURE STYLE (REMOVE ON YOUR PRODUCTION SITE)****** -->  
-			<div id="config-panel" class="config-panel config-panel-hide d-none d-lg-block">
-				<div class="panel-inner">
-					<a id="config-trigger" class="config-trigger text-center" href="resume.html#"><i class="fas fa-cog mx-auto" data-fa-transform="down-6" ></i></a>
-					<h5 class="panel-title">Choose Colour</h5>
-					<ul id="color-options" class="list-inline mb-0">
-						<li class="theme-1 active list-inline-item"><a data-style="assets/css/theme-1.css" href="resume.html#"></a></li>
-						<li class="theme-2  list-inline-item"><a data-style="assets/css/theme-2.css" href="resume.html#"></a></li>
-						<li class="theme-3  list-inline-item"><a data-style="assets/css/theme-3.css" href="resume.html#"></a></li>
-						<li class="theme-4  list-inline-item"><a data-style="assets/css/theme-4.css" href="resume.html#"></a></li>
-						<li class="theme-5  list-inline-item"><a data-style="assets/css/theme-5.css" href="resume.html#"></a></li>
-						<li class="theme-6  list-inline-item"><a data-style="assets/css/theme-6.css" href="resume.html#"></a></li>
-						<li class="theme-7  list-inline-item"><a data-style="assets/css/theme-7.css" href="resume.html#"></a></li>
-						<li class="theme-8  list-inline-item"><a data-style="assets/css/theme-8.css" href="resume.html#"></a></li>
-						<li class="theme-9  list-inline-item"><a data-style="assets/css/theme-9.css" href="resume.html#"></a></li>
-						<li class="theme-10  list-inline-item"><a data-style="assets/css/theme-10.css" href="resume.html#"></a></li>
-					</ul>
-					<a id="config-close" class="close" href="resume.html#"><i class="fa fa-times-circle"></i></a>
-				</div><!--//panel-inner-->
-			</div><!--//configure-panel-->
+      /* ── Section headings (PROFESSIONAL SUMMARY, EXPERIENCE …) ── */
+      h2 { color: #1d4ed8 !important; }
+      h2 span.bg-primary { background-color: #1d4ed8 !important; }
 
-			<!-- Javascript -->          
-			<script src="assets/plugins/popper.min.js"></script> 
-			<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-			
-			<!-- Dark Mode -->
-			<script src="assets/plugins/js-cookie.min.js"></script>
-			<script src="assets/js/dark-mode.js"></script>
+      /* ── Named accent colors ──  */
+      .text-primary, .link-primary { color: #1d4ed8 !important; }
+      .text-secondary                { color: #6d28d9 !important; }
+      .text-info                     { color: #0369a1 !important; }
+      .text-success                  { color: #15803d !important; }
+      .text-error                    { color: #b91c1c !important; }
+      .text-warning                  { color: #b45309 !important; }
+      .text-accent                   { color: #a21caf !important; }
 
-			<!-- Style Switcher (REMOVE ON YOUR PRODUCTION SITE) -->
-			<script src="assets/js/demo/style-switcher.js"></script>     
-			
+      /* ── Cards / boxes ── */
+      .card { box-shadow: none !important; border: 1px solid #d1d5db !important; border-radius: 6px !important; }
 
-		</body>
-		</html> 
+      /* ── Badges ── */
+      .badge { border: 1px solid #9ca3af !important; background: #f3f4f6 !important; color: #374151 !important; }
+      .badge-outline { border-color: currentColor !important; background: transparent !important; }
 
+      /* ── Dividers / lines ── */
+      .divider { color: #374151 !important; border-color: #d1d5db !important; }
+      .divider::before, .divider::after { background-color: #d1d5db !important; }
+
+      /* ── Table text ── */
+      table, thead, tbody, tr, th, td { color: #1a1a1a !important; background: transparent !important; }
+
+      /* ── Collapse multi-column grids to single column so nothing clips ── */
+      .grid {
+        display: block !important;
+      }
+      .grid > * {
+        width: 100% !important;
+        margin-bottom: 1.5rem !important;
+        height: auto !important;
+      }
+      /* Remove forced full height on cards so they size to content in print */
+      .h-full { height: auto !important; }
+
+      /* ── Page-break rules ── */
+      /* Only prevent headings from being orphaned at page bottom */
+      h2, h3           { page-break-after: avoid; break-after: avoid; }
+      /* Keep individual list items together */
+      li               { page-break-inside: avoid; break-inside: avoid; }
+      /* Smaller cards (earlier roles table, certs, skills) stay together */
+      .card.mb-4:not(:first-of-type) { page-break-inside: auto; }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-base-100">
+
+<!-- ── NAVBAR ─────────────────────────────────────── no-print -->
+<div class="navbar bg-base-200 shadow-md sticky top-0 z-50 px-4 lg:px-8 no-print">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden"><i class="fas fa-bars text-lg"></i></label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+        <li><a href="index.html">About</a></li>
+        <li><a href="resume.html" class="font-semibold">Resume</a></li>
+        <li><a href="blog-home.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <a href="index.html" class="btn btn-ghost text-xl font-bold tracking-tight">Mahesh Pabba</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-1">
+      <li><a href="index.html" class="font-medium rounded-lg">About</a></li>
+      <li><a href="resume.html" class="font-medium rounded-lg bg-base-300">Resume</a></li>
+      <li><a href="blog-home.html" class="font-medium rounded-lg">Blog</a></li>
+      <li><a href="contact.html" class="font-medium rounded-lg">Contact</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end gap-2">
+    <button onclick="window.print()" class="btn btn-outline btn-sm gap-2">
+      <i class="fas fa-file-pdf"></i> Download PDF
+    </button>
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-primary btn-sm">
+      <i class="fas fa-paper-plane mr-1"></i> Hire Me
+    </a>
+  </div>
+</div>
+
+<!-- ── RESUME WRAPPER (max-w matches a printable A4-ish width) ── -->
+<div class="max-w-4xl mx-auto px-4 py-10 pb-20">
+
+  <!-- ── HEADER CARD ──────────────────────────────────────────── -->
+  <div class="card bg-base-200 shadow-lg mb-8">
+    <div class="card-body p-8">
+      <div class="flex flex-col sm:flex-row items-start gap-6">
+        <div class="w-24 h-24 rounded-full overflow-hidden ring ring-primary ring-offset-base-100 ring-offset-2 shrink-0">
+          <img src="assets/images/profile-lg.jpg" alt="Mahesh Pabba" class="w-full h-full object-cover object-center">
+        </div>
+        <div class="flex-1">
+          <h1 class="text-4xl font-bold tracking-tight mb-1">MAHESH PABBA</h1>
+          <p class="text-primary font-semibold text-lg mb-3">Customer Delivery Architect · AI &amp; Cloud Infrastructure</p>
+          <div class="flex flex-wrap gap-x-6 gap-y-1 text-sm text-base-content/60">
+            <span><i class="fas fa-envelope mr-1 text-primary"></i><a href="mailto:mahesh.pabba@gmail.com" class="link link-primary">mahesh.pabba@gmail.com</a></span>
+            <span><i class="fab fa-linkedin mr-1 text-primary"></i><a href="https://linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="link link-primary">linkedin.com/in/maheshpabba</a></span>
+            <span><i class="fab fa-github mr-1 text-primary"></i><a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="link link-primary">github.com/maheshpabba</a></span>
+          </div>
+        </div>
+        <div class="no-print">
+          <button onclick="window.print()" class="btn btn-primary btn-sm gap-2 whitespace-nowrap">
+            <i class="fas fa-file-pdf"></i> Download PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SUMMARY ──────────────────────────────────────────────── -->
+  <section class="mb-8">
+    <h2 class="text-xs font-bold tracking-widest text-primary uppercase mb-3 flex items-center gap-2">
+      <span class="w-6 h-0.5 bg-primary inline-block"></span> Professional Summary
+    </h2>
+    <div class="card bg-base-200">
+      <div class="card-body p-6 text-base-content/80 leading-relaxed space-y-2 text-sm">
+        <p>Seasoned IT Infrastructure Leader with <strong>22+ years</strong> of experience in data center computing, enterprise architecture, and technical solutions delivery. Specialized in designing high-performance AI training and inference infrastructure for enterprise customers.</p>
+        <p>Expert in architecting scalable <strong>AI factories</strong> on Cisco UCS platforms with NVIDIA GPUs, OpenShift/Kubernetes clusters, high-speed RDMA networking, and hybrid cloud architectures. Proven track record in infrastructure automation with Python, Ansible, and Terraform. Developed GenAI solutions including LangChain agents and fine-tuned Llama2 models.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCE ───────────────────────────────────────────── -->
+  <section class="mb-8">
+    <h2 class="text-xs font-bold tracking-widest text-primary uppercase mb-4 flex items-center gap-2">
+      <span class="w-6 h-0.5 bg-primary inline-block"></span> Professional Experience
+    </h2>
+
+    <!-- Cisco -->
+    <div class="card bg-base-200 mb-4">
+      <div class="card-body p-6">
+        <div class="flex flex-wrap justify-between items-start gap-2 mb-1">
+          <div>
+            <h3 class="font-bold text-base text-base-content">Customer Delivery Architect — Data Center & AI Infrastructure</h3>
+            <p class="text-primary text-sm font-medium">Cisco</p>
+          </div>
+          <span class="badge badge-outline badge-primary text-xs whitespace-nowrap">Feb 2016 – Present</span>
+        </div>
+        <div class="divider my-2 text-xs font-semibold text-primary">AI Architect</div>
+        <ul class="space-y-1 text-sm text-base-content/75 list-none">
+          <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Designed and deployed high-performance AI training &amp; inference clusters with NVIDIA GPUs, OpenShift, and RDMA networking (PFC, ECN, RoCE) on Cisco UCS platforms.</span></li>
+          <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Led end-to-end AI infrastructure implementations using NVIDIA GPU Operator, Network Operator, and Node Feature Discovery (NFD) managed through Cisco Intersight.</span></li>
+          <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Automated compute provisioning for UCS, Fabric Interconnects, and OpenShift clusters using Terraform, Ansible, and Python — significantly reducing deployment time.</span></li>
+          <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Developed Python + LangChain agents and a Webex bot for autonomous Day-2 operations; fine-tuned Llama2 on Intersight operational data for domain-specific inference.</span></li>
+          <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Built and maintained Kubernetes/OpenShift clusters across AWS, Azure, and on-prem with Kubespray; supported real customer AI training and inference workloads.</span></li>
+        </ul>
+        <div class="divider my-2 text-xs font-semibold text-primary">SAP Technical Solution Architect</div>
+        <ul class="space-y-1 text-sm text-base-content/75 list-none">
+          <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>End-to-end SAP HANA TDI design, sizing, hardware config, HA and DR implementations on Cisco Hardware for enterprise customers.</span></li>
+          <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Technical lead for hybrid cloud/on-premise SAP landscape strategies; developed ARM templates and deployed SAP HA/DR on Azure with Express Routes and BGP.</span></li>
+          <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Installed full Azure Stack Appliance on Cisco Hardware; configured BGP on Cisco routers for on-premise to cloud connectivity.</span></li>
+          <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Used internal BPA automation platform (Docker, Kubernetes, Kafka, MongoDB, Kong, Grafana) to control and automate infrastructure operations through NSO and Ansible.</span></li>
+        </ul>
+        <div class="flex flex-wrap gap-1 mt-3">
+          <span class="badge badge-ghost badge-xs">NVIDIA GPUs</span><span class="badge badge-ghost badge-xs">OpenShift</span><span class="badge badge-ghost badge-xs">Kubernetes</span><span class="badge badge-ghost badge-xs">LangChain</span><span class="badge badge-ghost badge-xs">Llama2</span><span class="badge badge-ghost badge-xs">Terraform</span><span class="badge badge-ghost badge-xs">Ansible</span><span class="badge badge-ghost badge-xs">Python</span><span class="badge badge-ghost badge-xs">SAP HANA</span><span class="badge badge-ghost badge-xs">Azure</span><span class="badge badge-ghost badge-xs">AWS</span><span class="badge badge-ghost badge-xs">Cisco UCS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Numbers Only -->
+    <div class="card bg-base-200 mb-4">
+      <div class="card-body p-6">
+        <div class="flex flex-wrap justify-between items-start gap-2 mb-3">
+          <div>
+            <h3 class="font-bold text-base">SAP Architect</h3>
+            <p class="text-secondary text-sm font-medium">Numbers Only · Client: Cisco, Raleigh NC</p>
+          </div>
+          <span class="badge badge-outline badge-secondary text-xs whitespace-nowrap">May 2014 – Jan 2016</span>
+        </div>
+        <ul class="space-y-1 text-sm text-base-content/75">
+          <li class="flex gap-2"><span class="text-secondary shrink-0">▸</span><span>Installed SAP HANA on Cisco UCS Rack and Blade Servers with EMC, NetApp, and HP 3PAR storage configurations; sizing BW on HANA and migration planning.</span></li>
+          <li class="flex gap-2"><span class="text-secondary shrink-0">▸</span><span>SAP OS/DB migration (HP-UX to RHEL Linux) via Oracle-to-Oracle Online Migration with near-zero downtime on multi-terabyte systems (ECC, BW, SCM, HR).</span></li>
+          <li class="flex gap-2"><span class="text-secondary shrink-0">▸</span><span>VMware HA for ACS (enqueue/message server high availability); re-implemented SolMan 7.1.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Earlier roles condensed -->
+
+    <div class="card bg-base-200 mb-4">
+      <div class="card-body p-6">
+        <div class="flex flex-wrap justify-between items-start gap-2 mb-3">
+          <div>
+            <h3 class="font-bold text-base">Sr. Consultant</h3>
+            <p class="text-info text-sm font-medium">Deloitte</p>
+          </div>
+          <span class="badge badge-outline badge-info text-xs whitespace-nowrap">Aug 2010 – May 2013</span>
+        </div>
+        <ul class="space-y-1 text-sm text-base-content/75">
+          <li class="flex gap-2"><span class="text-info shrink-0">▸</span><span>Installed parallel GRC 10.0 landscape on NetWeaver 7.3; migrated from GRC 5.3 to 10.0 and enabled AC, PC, RM modules.</span></li>
+          <li class="flex gap-2"><span class="text-info shrink-0">▸</span><span>Established BOBJ to SAP HANA database connectivity for the BI development team.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 mb-4">
+      <div class="card-body p-6">
+        <div class="flex flex-wrap justify-between items-start gap-2 mb-3">
+          <div>
+            <h3 class="font-bold text-base">Senior Consultant</h3>
+            <p class="text-success text-sm font-medium">CapGemini</p>
+          </div>
+          <span class="badge badge-outline badge-success text-xs whitespace-nowrap">Jun 2008 – Aug 2010</span>
+        </div>
+        <ul class="space-y-1 text-sm text-base-content/75">
+          <li class="flex gap-2"><span class="text-success shrink-0">▸</span><span>Managed multiple concurrent SAP projects (R/3 ECC 6.0, CRM 5.0, BI 7.0, EP 7.0, BPC, BO XI 3.1) for US and India clients simultaneously.</span></li>
+          <li class="flex gap-2"><span class="text-success shrink-0">▸</span><span>OS/DB migrations, Unicode conversions, upgrades, system copies, and SAP-to-SAP &amp; SAP-to-3rd-party integration activities.</span></li>
+          <li class="flex gap-2"><span class="text-success shrink-0">▸</span><span>MSSQL database administration, workload analysis, performance tuning, memory profile parameter adjustments.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Oldest roles as a table -->
+    <div class="card bg-base-200">
+      <div class="card-body p-6">
+        <h3 class="font-bold text-base mb-3">Earlier Experience <span class="text-base-content/40 font-normal text-sm">(2003 – 2008)</span></h3>
+        <div class="overflow-x-auto">
+          <table class="table table-sm w-full text-sm">
+            <thead><tr><th>Period</th><th>Role</th><th>Company / Client</th></tr></thead>
+            <tbody>
+              <tr><td class="text-base-content/50">2007–2008</td><td>IT Consultant</td><td>Reliance Retail Limited, Mumbai — SAP Portal, BI, R/3</td></tr>
+              <tr><td class="text-base-content/50">2005–2007</td><td>Associate BASIS Consultant</td><td>Wega Solutions, Bengaluru — SAP BASIS administration</td></tr>
+              <tr><td class="text-base-content/50">2003–2005</td><td>System Administrator</td><td>Mother Dairy India Ltd, Hyderabad — NT/2000/2003, 100+ users</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TWO COLUMN: SKILLS + EDUCATION ───────────────────────── -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+
+    <!-- Technical Skills -->
+    <section>
+      <h2 class="text-xs font-bold tracking-widest text-primary uppercase mb-4 flex items-center gap-2">
+        <span class="w-6 h-0.5 bg-primary inline-block"></span> Technical Skills
+      </h2>
+      <div class="card bg-base-200 h-full">
+        <div class="card-body p-5">
+          <div class="overflow-x-auto">
+            <table class="table table-xs w-full text-xs">
+              <tbody>
+                <tr><th class="text-base-content/50 w-28">Cloud</th><td>AWS · Azure · GCP · Azure Stack</td></tr>
+                <tr><th class="text-base-content/50">Orchestration</th><td>Kubernetes · OpenShift · Docker Swarm</td></tr>
+                <tr><th class="text-base-content/50">Automation</th><td>Python · Ansible · Terraform · Bash</td></tr>
+                <tr><th class="text-base-content/50">AI / GenAI</th><td>LangChain · Llama2 · NVIDIA GPU Op · RDMA/RoCE</td></tr>
+                <tr><th class="text-base-content/50">SAP</th><td>HANA · S/4HANA · ECC · BW · GRC · PI/PO · SRM</td></tr>
+                <tr><th class="text-base-content/50">Databases</th><td>Oracle · SAP HANA · MSSQL · MySQL · MongoDB</td></tr>
+                <tr><th class="text-base-content/50">Networking</th><td>BGP · NSO · PFC · ECN · Cisco Fabric Interconnects</td></tr>
+                <tr><th class="text-base-content/50">Storage</th><td>EMC · NetApp · PURE · VAST · HP 3PAR</td></tr>
+                <tr><th class="text-base-content/50">Servers</th><td>Cisco UCS (Rack &amp; Blade) · HP · Dell</td></tr>
+                <tr><th class="text-base-content/50">OS</th><td>RHEL · SUSE Linux · HP Unix · Windows Server</td></tr>
+                <tr><th class="text-base-content/50">Languages</th><td>Python · JavaScript · Bash · PowerShell · Angular</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education & Certs -->
+    <section>
+      <h2 class="text-xs font-bold tracking-widest text-primary uppercase mb-4 flex items-center gap-2">
+        <span class="w-6 h-0.5 bg-primary inline-block"></span> Education &amp; Certifications
+      </h2>
+      <div class="card bg-base-200 h-full">
+        <div class="card-body p-5 space-y-2">
+          <div class="flex gap-3 items-center text-sm">
+            <i class="fas fa-graduation-cap text-secondary w-4 shrink-0"></i>
+            <span>Master's in Business Administration (MBA)</span>
+          </div>
+          <div class="flex gap-3 items-center text-sm">
+            <i class="fas fa-laptop-code text-secondary w-4 shrink-0"></i>
+            <span>B.Sc. — Computer Science</span>
+          </div>
+          <div class="divider my-1"></div>
+          <div class="flex gap-3 items-center text-sm">
+            <i class="fab fa-aws text-warning w-4 shrink-0"></i>
+            <span>Certified AWS Cloud Architect</span>
+          </div>
+          <div class="flex gap-3 items-center text-sm">
+            <i class="fas fa-dharmachakra text-info w-4 shrink-0"></i>
+            <span>Certified Kubernetes Administrator (CKA)</span>
+          </div>
+          <div class="flex gap-3 items-center text-sm">
+            <i class="fab fa-docker text-primary w-4 shrink-0"></i>
+            <span>Docker Certified Associate</span>
+          </div>
+          <div class="flex gap-3 items-center text-sm">
+            <i class="fab fa-microsoft text-info w-4 shrink-0"></i>
+            <span>Azure Specialty — SAP Workloads</span>
+          </div>
+          <div class="flex gap-3 items-center text-sm">
+            <i class="fas fa-network-wired text-success w-4 shrink-0"></i>
+            <span>Cisco Certified DEVNET Associate</span>
+          </div>
+          <div class="flex gap-3 items-center text-sm">
+            <i class="fas fa-database text-error w-4 shrink-0"></i>
+            <span>Certified SAP HANA Installation Expert</span>
+          </div>
+          <div class="flex gap-3 items-center text-sm">
+            <i class="fas fa-exchange-alt text-warning w-4 shrink-0"></i>
+            <span>Certified SAP OS/DB Migration Expert</span>
+          </div>
+          <div class="flex gap-3 items-center text-sm">
+            <i class="fas fa-server text-accent w-4 shrink-0"></i>
+            <span>Certified SAP Consultant — NetWeaver 7.0</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ── DOWNLOAD BUTTON (bottom) ─────────────────────────────── -->
+  <div class="text-center no-print">
+    <button onclick="window.print()" class="btn btn-primary gap-2 px-10">
+      <i class="fas fa-file-pdf"></i> Download as PDF
+    </button>
+    <p class="text-xs text-base-content/40 mt-3">Use your browser's print dialog → Save as PDF for best results.</p>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer class="footer footer-center p-10 bg-base-300 text-base-content no-print">
+  <nav class="flex flex-wrap gap-4 justify-center">
+    <a href="index.html" class="link link-hover">About</a>
+    <a href="resume.html" class="link link-hover">Resume</a>
+    <a href="blog-home.html" class="link link-hover">Blog</a>
+    <a href="contact.html" class="link link-hover">Contact</a>
+  </nav>
+  <nav class="flex gap-4">
+    <a href="https://linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-linkedin-in text-lg"></i></a>
+    <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-github text-lg"></i></a>
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-circle btn-sm"><i class="fas fa-envelope text-lg"></i></a>
+  </nav>
+  <aside><p class="text-base-content/50 text-sm">&#169; 2026 Mahesh Pabba &middot; AI &amp; Cloud Architect</p></aside>
+</footer>
+
+</body>
+</html>

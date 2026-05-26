@@ -1,276 +1,483 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en" data-theme="solarized-light">
 <head>
-	<title>Mahesh Pabba</title>
-	
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="DevCard Bootstrap 5 Template">
-	<meta name="author" content="Xiaoying Riley at 3rd Wave Media">    
-	<link rel="shortcut icon" href="favicon.ico"> 
-	
-	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-	
-	<!-- FontAwesome JS -->
-    <script defer src="assets/fontawesome/js/all.js"></script>
-    
-    <!-- Plugin CSS -->
-    <link rel="stylesheet" href="assets/plugins/tiny-slider/tiny-slider.css">
+  <title>Mahesh Pabba — AI & Cloud Architect</title>
 
-	<!-- Theme CSS -->  
-	<link id="theme-style" rel="stylesheet" href="assets/css/theme-1.css">
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mahesh Pabba — Customer Delivery Architect with 22+ years in AI infrastructure, Cisco UCS, OpenShift, Kubernetes, and Cloud platforms.">
+  <meta name="author" content="Mahesh Pabba">
 
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mahesh Pabba — AI & Cloud Architect">
+  <meta property="og:description" content="Seasoned IT Infrastructure Leader specializing in AI training clusters, Cisco UCS, OpenShift, and hybrid cloud architectures.">
+  <meta property="og:image" content="assets/images/profile-lg.jpg">
+  <meta property="og:type" content="website">
+
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <!-- Tailwind CSS + DaisyUI -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome -->
+  <script defer src="assets/fontawesome/js/all.js"></script>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <style>
+    .skill-badge { transition: transform 0.2s; }
+    .skill-badge:hover { transform: translateY(-2px); }
+    .section-divider { border-color: oklch(var(--bc) / 0.15); }
+  </style>
 </head> 
 
-<body>
-	
-	<header class="header text-center">	    
-		<div class="force-overflow">
-			<h1 class="blog-name pt-lg-4 mb-0"><a class="no-text-decoration" href="index.html">Mahesh Pabba</a></h1>
-			
-			<nav class="navbar navbar-expand-lg navbar-dark" >
-				
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				
-				<div id="navigation" class="collapse navbar-collapse flex-column" >
-					<div class="profile-section pt-3 pt-lg-0">
-						<img class="profile-image mb-3 rounded-circle mx-auto" src="assets/images/profile.png" alt="image" >			
-						
-						<div class="bio mb-3">Cloud Solution Architect.</div><!--//bio-->
-						<div class="bio mb-3">Welcome to my personal website!</div><!--//bio-->
-						<ul class="social-list list-inline py-2 mx-auto">
-							<li class="list-inline-item"><a href="index.html#"><i class="fab fa-twitter fa-fw"></i></a></li>
-							<li class="list-inline-item"><a href="index.html#"><i class="fab fa-linkedin-in fa-fw"></i></a></li>
-							<li class="list-inline-item"><a href="index.html#"><i class="fab fa-github-alt fa-fw"></i></a></li>
-							<li class="list-inline-item"><a href="index.html#"><i class="fab fa-stack-overflow fa-fw"></i></a></li>
-							<li class="list-inline-item"><a href="index.html#"><i class="fab fa-codepen fa-fw"></i></a></li>
-						</ul><!--//social-list-->
-						<hr> 
-					</div><!--//profile-section-->
-					
-					<ul class="navbar-nav flex-column text-start">
-						<li class="nav-item">
-							<a class="nav-link active" href="index.html"><i class="fas fa-user fa-fw me-2"></i>About Me<span class="sr-only">(current)</span></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="portfolio.html"><i class="fas fa-laptop-code fa-fw me-2"></i>Portfolio</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="services.html"><i class="fas fa-briefcase fa-fw me-2"></i>Services &amp; Pricing</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="resume.html"><i class="fas fa-file-alt fa-fw me-2"></i>Resume</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="blog-home.html"><i class="fas fa-blog fa-fw me-2"></i>Blog</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="contact.html"><i class="fas fa-envelope-open-text fa-fw me-2"></i>Contact</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="index.html#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								<i class="fas fa-cogs fa-fw me-2"></i>More Pages
-							</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" href="project.html">Project Page</a></li>
-								<li><a class="dropdown-item" href="blog-home.html">Blog Home 1</a></li>
-								<li><a class="dropdown-item" href="blog-home-alt.html">Blog Home 2</a></li>
-								<li><a class="dropdown-item" href="blog-post.html">Blog Post</a></li>
-							</ul>
-						</li>
-					</ul>
-					
-					<div class="my-2">
-						<a class="btn btn-primary" href="contact.html" target="_blank"><i class="fas fa-paper-plane me-2"></i>Hire Me</a>
-					</div>
-					
-	
-					<div class="dark-mode-toggle text-center w-100">
-						<hr class="mb-4">
-					    <h4 class="toggle-name mb-3 "><i class="fas fa-adjust me-1"></i>Dark Mode</h4>
-					    
-					    <input class="toggle" id="darkmode" type="checkbox">
-					    <label class="toggle-btn mx-auto mb-0" for="darkmode"></label>
-					    
-					</div><!--//dark-mode-toggle-->
-					
-				</div>
-			</nav>
-		</div><!--//force-overflow-->
-	</header>
-	
-	<div class="main-wrapper">		
-		<section class="about-me-section p-3 p-lg-5 theme-bg-light">
-			<div class="container">
-				<div class="profile-teaser row">
-					
-					<div class="col">
-						<h2 class="name font-weight-bold mb-1">Mahesh Pabba</h2>
-						<div class="tagline mb-3">Cloud Solution Architect</div>
-						<div class="bio mb-4">I am an IT Professional with expertise in designing and implementing solutions in areas of SAP, Cloud Platforms, Container Platform, Development or Scripting.<br> My Specialization comprises of designing, installing, upgrading, administeringand configuring solutions on premise or commonly available clouds like Azure, AWS, GCP in accordance with business and technical specifications. <br> I write multiple <a class="text-link" href="blog-home.html">cross domain</a> blogs. Checkout my <a class="text-link" href="resume.html">online resume</a>.
-						</div><!--//bio-->
-						<div class="mb-4">
-				<!--			<a class="btn btn-primary me-2 mb-3" href="portfolio.html"><i class="fas fa-arrow-alt-circle-right me-2"></i><span class="d-none d-md-inline">View</span> Portfolio</a> -->
-							<a class="btn btn-secondary mb-3" href="resume.html"><i class="fas fa-file-alt me-2"></i><span class="d-none d-md-inline">View</span> Resume</a>
-						</div>
-					</div><!--//col-->
-					
-					<div class="col-md-5 col-lg-5">
-					    <img class="profile-image img-fluid mb-3 mb-lg-0 me-md-0" src="assets/images/profile-lg.jpg" alt="">
-					</div>
-				</div>
-			</div>
-		</section><!--//about-me-section-->
-		
-		<section class="overview-section p-3 p-lg-5">
-			<div class="container">
-				<h2 class="section-title font-weight-bold mb-3">What I do</h2>
-				<div class="section-intro mb-5">I have around 18 years' experience working for clients all over the world. Below is a quick overview of my main technical skill sets and technologies I use. Want to find out more about my experience? Check out my <a class="text-link" href="resume.html">online resume.</a> <!--and <a class="text-link" href="portfolio.html">project portfolio</a>. --></div>
-				<div class="row">
-					<div class="item col-6 col-lg-3">
-						<div class="item-inner">
-							<div class="item-icon"><i class="fab fa-js-square"></i></div>
-							<h3 class="item-title">Vanilla JavaScript</h3>
-							<div class="item-desc">List skills/technologies here. You can change the icon above to any of the 1500+ <a class="theme-link" href="https://fontawesome.com/" target="_blank">FontAwesome 5 free icons</a> available. Aenean commodo ligula eget dolor.</div>
-						</div><!--//item-inner-->
-					</div><!--//item-->
-					<div class="item col-6 col-lg-3">
-						<div class="item-inner">
-							<div class="item-icon"><i class="fab fa-angular me-2"></i><i class="fab fa-react me-2"></i><i class="fab fa-vuejs"></i></div>
-							<h3 class="item-title">Angular, React &amp;  Vue</h3>
-							<div class="item-desc">List skills/technologies here. You can change the icon above to any of the 1500+ <a class="theme-link" href="https://fontawesome.com/" target="_blank">FontAwesome 5 free icons</a> available. Aenean commodo ligula eget dolor.  </div>
-						</div><!--//item-inner-->
-					</div><!--//item-->
-					
-					<div class="item col-6 col-lg-3">
-						<div class="item-inner">
-							<div class="item-icon"><i class="fab fa-node-js"></i></div>
-							<h3 class="item-title">Node.js</h3>
-							<div class="item-desc">List skills/technologies here. You can change the icon above to any of the 1500+ <a class="theme-link" href="https://fontawesome.com/" target="_blank">FontAwesome 5 free icons</a> available. Aenean commodo ligula eget dolor.  </div>
-						</div><!--//item-inner-->
-					</div><!--//item-->
-					
-					<div class="item col-6 col-lg-3">
-						<div class="item-inner">
-							<div class="item-icon"><i class="fab fa-python"></i></div>
-							<h3 class="item-title">Python &amp; Django</h3>
-							<div class="item-desc">List skills/technologies here. You can change the icon above to any of the 1500+ <a class="theme-link" href="https://fontawesome.com/" target="_blank">FontAwesome 5 free icons</a> available. Aenean commodo ligula eget dolor.  </div>
-						</div><!--//item-inner-->
-					</div><!--//item-->
-					<div class="item col-6 col-lg-3">
-						<div class="item-inner">
-							<div class="item-icon"><i class="fab fa-php"></i></div>
-							<h3 class="item-title">PHP</h3>
-							<div class="item-desc">List skills/technologies here. You can change the icon above to any of the 1500+ <a class="theme-link" href="https://fontawesome.com/" target="_blank">FontAwesome 5 free icons</a> available. Aenean commodo ligula eget dolor.  </div>
-						</div><!--//item-inner-->
-					</div><!--//item-->
-					<div class="item col-6 col-lg-3">
-						<div class="item-inner">
-							<div class="item-icon"><i class="fab fa-npm me-2"></i><i class="fab fa-gulp me-2"></i><i class="fab fa-grunt"></i></div>
-							<h3 class="item-title">npm, Gulp &amp; Grunt</h3>
-							<div class="item-desc">List skills/technologies here. You can change the icon above to any of the 1500+ <a class="theme-link" href="https://fontawesome.com/" target="_blank">FontAwesome 5 free icons</a> available. Aenean commodo ligula eget dolor.  </div>
-						</div><!--//item-inner-->
-					</div><!--//item-->
-					<div class="item col-6 col-lg-3">
-						<div class="item-inner">
-							<div class="item-icon"><i class="fab fa-html5 me-2"></i><i class="fab fa-css3-alt"></i></div>
-							<h3 class="item-title">HTML &amp; CSS</h3>
-							<div class="item-desc">List skills/technologies here. You can change the icon above to any of the 1500+ <a class="theme-link" href="https://fontawesome.com/" target="_blank">FontAwesome 5 free icons</a> available. Aenean commodo ligula eget dolor.  </div>
-						</div><!--//item-inner-->
-					</div><!--//item-->
-					<div class="item col-6 col-lg-3">
-						<div class="item-inner">
-							<div class="item-icon"><i class="fab fa-sass me-2"></i><i class="fab fa-less"></i></div>
-							<h3 class="item-title">Sass &amp; LESS</h3>
-							<div class="item-desc">List skills/technologies here. You can change the icon above to any of the 1500+ <a class="theme-link" href="https://fontawesome.com/" target="_blank">FontAwesome 5 free icons</a> available. Aenean commodo ligula eget dolor.  </div>
-						</div><!--//item-inner-->
-					</div><!--//item-->
-				</div><!--//row-->
-				<div class="text-center py-3"><a href="services.html" class="btn btn-primary"><i class="fas fa-arrow-alt-circle-right me-2"></i>Services &amp; Pricing
-					
-				</a></div>
-				
-			</div><!--//container-->
-		</section>
-		
-		<div class="container"><hr></div>
-		
-		
-		<section class="latest-blog-section p-3 p-lg-5">
-			<div class="container">
-				<h2 class="section-title font-weight-bold mb-5">Latest Blog Posts</h2>
-				<div class="row">
-					<div class="col-md-4 mb-5">
-						<div class="card blog-post-card">
-							<img class="card-img-top" src="assets/images/blog/blog-post-thumb-card-1.jpg" alt="image">
-							<div class="card-body">
-								<h5 class="card-title"><a class="theme-link" href="blog-post.html">Top 3 JavaScript Frameworks</a></h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient...</p>
-								<p class="mb-0"><a class="text-link" href="blog-post.html">Read more &rarr;</a></p>
-								
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">Published 2 days ago</small>
-							</div>
-						</div><!--//card-->
-					</div><!--//col-->
-					<div class="col-md-4 mb-5">
-						<div class="card blog-post-card">
-							<img class="card-img-top" src="assets/images/blog/blog-post-thumb-card-2.jpg" alt="image">
-							<div class="card-body">
-								<h5 class="card-title"><a class="theme-link" href="blog-post.html">About Remote Working</a></h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient...</p>
-								<p class="mb-0"><a class="text-link" href="blog-post.html">Read more &rarr;</a></p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">Published a week ago</small>
-								
-							</div>
-						</div><!--//card-->
-					</div><!--//col-->
-					<div class="col-md-4 mb-5">
-						<div class="card blog-post-card">
-							<img class="card-img-top" src="assets/images/blog/blog-post-thumb-card-3.jpg" alt="image">
-							<div class="card-body">
-								<h5 class="card-title"><a class="theme-link" href="blog-post.html">A Guide to Becoming a Full-Stack Developer</a></h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient...</p>
-								<p class="mb-0"><a class="text-link" href="blog-post.html">Read more &rarr;</a></p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">Published 3 weeks ago</small>
-							</div>
-						</div><!--//card-->
-					</div><!--//col-->
-				</div><!--//row-->
-				<div class="text-center py-3"><a href="blog-home.html" class="btn btn-primary"><i class="fas fa-arrow-alt-circle-right me-2"></i>View Blog</a></div>
-			</div><!--//container-->
-			
-		</section><!--//latest-blog-section-->
+<body class="min-h-screen bg-base-100">
 
-		<footer class="footer text-center py-4">
-			<small class="copyright">mahesh pabba &copy; <a href="https://maheshpabba.com/" target="_blank">my website</a></small>
-		</footer>
-		
-	</div><!--//main-wrapper-->
+<!-- ── NAVBAR ─────────────────────────────────────────────────── -->
+<div class="navbar bg-base-200 shadow-md sticky top-0 z-50 px-4 lg:px-8">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden">
+        <i class="fas fa-bars text-lg"></i>
+      </label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+        <li><a href="index.html" class="font-medium">About</a></li>
+        <li><a href="resume.html" class="font-medium">Resume</a></li>
+        <li><a href="blog-home.html" class="font-medium">Blog</a></li>
+        <li><a href="contact.html" class="font-medium">Contact</a></li>
+      </ul>
+    </div>
+    <a href="index.html" class="btn btn-ghost text-xl font-bold tracking-tight">Mahesh Pabba</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-1">
+      <li><a href="index.html" class="font-medium rounded-lg">About</a></li>
+      <li><a href="resume.html" class="font-medium rounded-lg">Resume</a></li>
+      <li><a href="blog-home.html" class="font-medium rounded-lg">Blog</a></li>
+      <li><a href="contact.html" class="font-medium rounded-lg">Contact</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end gap-2">
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-primary btn-sm">
+      <i class="fas fa-paper-plane mr-1"></i> Hire Me
+    </a>
+  </div>
+</div>
 
-	
+<!-- ── HERO ───────────────────────────────────────────────────── -->
+<section class="hero min-h-[92vh] bg-base-100" id="hero">
+  <div class="hero-content flex-col lg:flex-row-reverse gap-12 max-w-6xl mx-auto px-4 py-16">
+    <div class="relative">
+      <div class="w-64 h-64 lg:w-80 lg:h-80 rounded-full ring ring-primary ring-offset-base-100 ring-offset-4 overflow-hidden mx-auto shadow-2xl">
+        <img src="assets/images/profile-lg.jpg" alt="Mahesh Pabba" class="w-full h-full object-cover object-center">
+      </div>
+      <div class="badge badge-primary badge-lg absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap shadow-lg">
+        <i class="fas fa-circle text-xs mr-1 text-success"></i> Open to opportunities
+      </div>
+    </div>
+    <div class="max-w-xl">
+      <div class="badge badge-outline badge-primary mb-4">AI &amp; Cloud Architect</div>
+      <h1 class="text-5xl lg:text-6xl font-bold leading-tight mb-4">
+        Hi, I'm <span class="text-primary">Mahesh</span> Pabba
+      </h1>
+      <p class="text-lg text-base-content/70 mb-6 leading-relaxed">
+        Seasoned IT Infrastructure Leader with <strong>22+ years</strong> of experience in data center computing,
+        enterprise architecture, and technical solutions delivery. Specialized in designing and implementing
+        high-performance <strong>AI training &amp; inference infrastructure</strong> for enterprise customers.
+      </p>
+      <div class="flex flex-wrap gap-2 mb-8">
+        <span class="badge badge-ghost badge-lg"><i class="fab fa-python mr-1"></i>Python</span>
+        <span class="badge badge-ghost badge-lg"><i class="fas fa-dharmachakra mr-1"></i>Kubernetes</span>
+        <span class="badge badge-ghost badge-lg"><i class="fab fa-aws mr-1"></i>AWS</span>
+        <span class="badge badge-ghost badge-lg"><i class="fab fa-microsoft mr-1"></i>Azure</span>
+        <span class="badge badge-ghost badge-lg"><i class="fas fa-robot mr-1"></i>GenAI</span>
+        <span class="badge badge-ghost badge-lg"><i class="fas fa-network-wired mr-1"></i>Cisco UCS</span>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="resume.html" class="btn btn-primary">
+          <i class="fas fa-file-alt mr-2"></i> View Resume
+        </a>
+        <a href="blog-home.html" class="btn btn-outline">
+          <i class="fas fa-blog mr-2"></i> Read My Blog
+        </a>
+        <a href="contact.html" class="btn btn-ghost">
+          <i class="fas fa-envelope mr-2"></i> Contact
+        </a>
+      </div>
+      <div class="flex gap-4 mt-6">
+        <a href="https://linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-circle btn-ghost btn-sm text-lg">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-circle btn-ghost btn-sm text-lg">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-circle btn-ghost btn-sm text-lg">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
-	<!-- Javascript -->
-	<script src="assets/plugins/popper.min.js"></script> 
-	<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-	
-	<script src="assets/plugins/tiny-slider/min/tiny-slider.js"></script>
-	<script src="assets/js/testimonials.js"></script>
-	
-	<!-- Dark Mode -->
-	<script src="assets/plugins/js-cookie.min.js"></script>
-	<script src="assets/js/dark-mode.js"></script>   
-	
+<!-- ── ABOUT ──────────────────────────────────────────────────── -->
+<section class="py-20 bg-base-200" id="about">
+  <div class="max-w-5xl mx-auto px-4">
+    <div class="text-center mb-14">
+      <h2 class="text-4xl font-bold mb-3">About Me</h2>
+      <div class="divider max-w-xs mx-auto"></div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+      <div class="lg:col-span-2 space-y-4 text-base-content/80 text-lg leading-relaxed">
+        <p>
+          Expert in architecting scalable <strong>AI factories</strong> on Cisco UCS platforms with NVIDIA GPUs,
+          OpenShift/Kubernetes clusters, high-speed RDMA networking, and hybrid cloud architectures.
+        </p>
+        <p>
+          Proven track record in infrastructure automation using <strong>Python, Ansible, and Terraform</strong>,
+          along with the development of GenAI solutions including LangChain agents and fine-tuned Llama2 models.
+        </p>
+        <p>
+          Recognized for bridging deep technical expertise with customer-focused delivery — helping organizations
+          accelerate their AI journey through optimized compute, storage, and networking solutions.
+        </p>
+      </div>
+      <div class="space-y-4">
+        <div class="card bg-base-100 shadow">
+          <div class="card-body p-5">
+            <h3 class="card-title text-base mb-3"><i class="fas fa-info-circle text-primary mr-2"></i>Quick Info</h3>
+            <ul class="space-y-2 text-sm">
+              <li class="flex items-center gap-2"><i class="fas fa-briefcase text-primary w-4"></i><span><strong>Role:</strong> AI &amp; Cloud Architect</span></li>
+              <li class="flex items-center gap-2"><i class="fas fa-building text-primary w-4"></i><span><strong>Company:</strong> Cisco Inc.</span></li>
+              <li class="flex items-start gap-2"><i class="fas fa-calendar text-primary w-4 mt-0.5"></i><span><strong>Experience:</strong> 22+ years</span></li>
+              <li class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-primary w-4"></i><span><strong>Location:</strong> USA</span></li>
+              <li class="flex items-center gap-2"><i class="fas fa-envelope text-primary w-4"></i><a href="mailto:mahesh.pabba@gmail.com" class="link link-primary text-xs">mahesh.pabba@gmail.com</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT I DO ──────────────────────────────────────────────── -->
+<section class="py-20 bg-base-100" id="skills">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center mb-14">
+      <h2 class="text-4xl font-bold mb-3">What I Do</h2>
+      <div class="divider max-w-xs mx-auto"></div>
+      <p class="text-base-content/60 max-w-2xl mx-auto">
+        End-to-end solutions across AI infrastructure, cloud platforms, SAP, and enterprise automation.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <div class="card bg-base-200 hover:shadow-xl transition-shadow duration-300">
+        <div class="card-body">
+          <div class="text-4xl text-primary mb-3"><i class="fas fa-microchip"></i></div>
+          <h3 class="card-title text-lg">AI Infrastructure</h3>
+          <p class="text-sm text-base-content/70">Design and deploy high-performance AI training &amp; inference clusters with NVIDIA GPUs, OpenShift, and RDMA networking on Cisco UCS platforms.</p>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 hover:shadow-xl transition-shadow duration-300">
+        <div class="card-body">
+          <div class="text-4xl text-primary mb-3"><i class="fas fa-cloud"></i></div>
+          <h3 class="card-title text-lg">Hybrid Cloud</h3>
+          <p class="text-sm text-base-content/70">Architect and deliver hybrid cloud solutions across AWS, Azure, and GCP including Azure Stack, Express Routes, BGP, and VPN Gateways.</p>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 hover:shadow-xl transition-shadow duration-300">
+        <div class="card-body">
+          <div class="text-4xl text-primary mb-3"><i class="fas fa-robot"></i></div>
+          <h3 class="card-title text-lg">GenAI &amp; Automation</h3>
+          <p class="text-sm text-base-content/70">Develop LangChain agents, Webex bots, and fine-tuned Llama2 models for autonomous Day-2 operations and domain-specific AI use cases.</p>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 hover:shadow-xl transition-shadow duration-300">
+        <div class="card-body">
+          <div class="text-4xl text-primary mb-3"><i class="fas fa-dharmachakra"></i></div>
+          <h3 class="card-title text-lg">Kubernetes &amp; OpenShift</h3>
+          <p class="text-sm text-base-content/70">Build and maintain K8s/OpenShift clusters across cloud and on-prem using Kubespray, NVIDIA GPU Operator, and custom automation modules.</p>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 hover:shadow-xl transition-shadow duration-300">
+        <div class="card-body">
+          <div class="text-4xl text-primary mb-3"><i class="fas fa-cogs"></i></div>
+          <h3 class="card-title text-lg">Infrastructure Automation</h3>
+          <p class="text-sm text-base-content/70">Automate compute provisioning with Terraform, Ansible, and Python — UCS, Fabric Interconnects, and OpenShift clusters at scale.</p>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 hover:shadow-xl transition-shadow duration-300">
+        <div class="card-body">
+          <div class="text-4xl text-primary mb-3"><i class="fas fa-database"></i></div>
+          <h3 class="card-title text-lg">SAP &amp; Enterprise</h3>
+          <p class="text-sm text-base-content/70">End-to-end SAP HANA TDI design, sizing, HA/DR implementations, OS/DB migration, and S/4HANA on Cisco UCS and cloud platforms.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── TECH SKILLS ─────────────────────────────────────────────── -->
+<section class="py-20 bg-base-200" id="techskills">
+  <div class="max-w-5xl mx-auto px-4">
+    <div class="text-center mb-14">
+      <h2 class="text-4xl font-bold mb-3">Technical Skills</h2>
+      <div class="divider max-w-xs mx-auto"></div>
+    </div>
+    <div class="space-y-6">
+
+      <div class="flex flex-wrap items-start gap-3">
+        <span class="font-semibold text-base-content/60 w-36 text-sm pt-1">Cloud</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge badge-primary skill-badge">AWS</span>
+          <span class="badge badge-primary skill-badge">Microsoft Azure</span>
+          <span class="badge badge-primary skill-badge">Google Cloud</span>
+          <span class="badge badge-primary skill-badge">Azure Stack</span>
+        </div>
+      </div>
+      <div class="divider my-1 section-divider"></div>
+
+      <div class="flex flex-wrap items-start gap-3">
+        <span class="font-semibold text-base-content/60 w-36 text-sm pt-1">Orchestration</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge badge-secondary skill-badge">Kubernetes</span>
+          <span class="badge badge-secondary skill-badge">OpenShift</span>
+          <span class="badge badge-secondary skill-badge">Docker Swarm</span>
+          <span class="badge badge-secondary skill-badge">Docker Compose</span>
+        </div>
+      </div>
+      <div class="divider my-1 section-divider"></div>
+
+      <div class="flex flex-wrap items-start gap-3">
+        <span class="font-semibold text-base-content/60 w-36 text-sm pt-1">Automation</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge badge-accent skill-badge">Python</span>
+          <span class="badge badge-accent skill-badge">Ansible</span>
+          <span class="badge badge-accent skill-badge">Terraform</span>
+          <span class="badge badge-accent skill-badge">Bash / PowerShell</span>
+        </div>
+      </div>
+      <div class="divider my-1 section-divider"></div>
+
+      <div class="flex flex-wrap items-start gap-3">
+        <span class="font-semibold text-base-content/60 w-36 text-sm pt-1">AI / GenAI</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge badge-info skill-badge">LangChain</span>
+          <span class="badge badge-info skill-badge">Llama2 Fine-tuning</span>
+          <span class="badge badge-info skill-badge">NVIDIA GPU Operator</span>
+          <span class="badge badge-info skill-badge">RDMA / RoCE</span>
+        </div>
+      </div>
+      <div class="divider my-1 section-divider"></div>
+
+      <div class="flex flex-wrap items-start gap-3">
+        <span class="font-semibold text-base-content/60 w-36 text-sm pt-1">SAP</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge badge-ghost skill-badge">SAP HANA</span>
+          <span class="badge badge-ghost skill-badge">S/4HANA</span>
+          <span class="badge badge-ghost skill-badge">SAP ECC</span>
+          <span class="badge badge-ghost skill-badge">SAP Basis</span>
+          <span class="badge badge-ghost skill-badge">SAP BO</span>
+          <span class="badge badge-ghost skill-badge">GRC</span>
+        </div>
+      </div>
+      <div class="divider my-1 section-divider"></div>
+
+      <div class="flex flex-wrap items-start gap-3">
+        <span class="font-semibold text-base-content/60 w-36 text-sm pt-1">Databases</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge badge-ghost skill-badge">Oracle</span>
+          <span class="badge badge-ghost skill-badge">SAP HANA</span>
+          <span class="badge badge-ghost skill-badge">MySQL</span>
+          <span class="badge badge-ghost skill-badge">MSSQL</span>
+          <span class="badge badge-ghost skill-badge">MongoDB</span>
+        </div>
+      </div>
+      <div class="divider my-1 section-divider"></div>
+
+      <div class="flex flex-wrap items-start gap-3">
+        <span class="font-semibold text-base-content/60 w-36 text-sm pt-1">Networking</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge badge-ghost skill-badge">BGP</span>
+          <span class="badge badge-ghost skill-badge">NSO</span>
+          <span class="badge badge-ghost skill-badge">Cisco UCS</span>
+          <span class="badge badge-ghost skill-badge">Fabric Interconnects</span>
+        </div>
+      </div>
+      <div class="divider my-1 section-divider"></div>
+
+      <div class="flex flex-wrap items-start gap-3">
+        <span class="font-semibold text-base-content/60 w-36 text-sm pt-1">Storage</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge badge-ghost skill-badge">EMC</span>
+          <span class="badge badge-ghost skill-badge">NetApp</span>
+          <span class="badge badge-ghost skill-badge">PURE</span>
+          <span class="badge badge-ghost skill-badge">VAST</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CERTIFICATIONS ─────────────────────────────────────────── -->
+<section class="py-20 bg-base-100" id="certs">
+  <div class="max-w-5xl mx-auto px-4">
+    <div class="text-center mb-14">
+      <h2 class="text-4xl font-bold mb-3">Certifications</h2>
+      <div class="divider max-w-xs mx-auto"></div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div class="card bg-base-200 border border-base-300">
+        <div class="card-body p-4 flex-row items-center gap-3">
+          <div class="text-warning text-2xl"><i class="fab fa-aws"></i></div>
+          <span class="text-sm font-medium">Certified AWS Cloud Architect</span>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 border border-base-300">
+        <div class="card-body p-4 flex-row items-center gap-3">
+          <div class="text-info text-2xl"><i class="fas fa-dharmachakra"></i></div>
+          <span class="text-sm font-medium">Certified Kubernetes Administrator (CKA)</span>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 border border-base-300">
+        <div class="card-body p-4 flex-row items-center gap-3">
+          <div class="text-primary text-2xl"><i class="fab fa-docker"></i></div>
+          <span class="text-sm font-medium">Docker Certified Associate</span>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 border border-base-300">
+        <div class="card-body p-4 flex-row items-center gap-3">
+          <div class="text-info text-2xl"><i class="fab fa-microsoft"></i></div>
+          <span class="text-sm font-medium">Azure Specialty — SAP Workloads</span>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 border border-base-300">
+        <div class="card-body p-4 flex-row items-center gap-3">
+          <div class="text-success text-2xl"><i class="fas fa-network-wired"></i></div>
+          <span class="text-sm font-medium">Cisco Certified DEVNET Associate</span>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 border border-base-300">
+        <div class="card-body p-4 flex-row items-center gap-3">
+          <div class="text-error text-2xl"><i class="fas fa-database"></i></div>
+          <span class="text-sm font-medium">Certified SAP HANA Installation Expert</span>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 border border-base-300">
+        <div class="card-body p-4 flex-row items-center gap-3">
+          <div class="text-warning text-2xl"><i class="fas fa-exchange-alt"></i></div>
+          <span class="text-sm font-medium">Certified SAP OS/DB Migration Expert</span>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 border border-base-300">
+        <div class="card-body p-4 flex-row items-center gap-3">
+          <div class="text-secondary text-2xl"><i class="fas fa-graduation-cap"></i></div>
+          <span class="text-sm font-medium">MBA — Business Administration</span>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 border border-base-300">
+        <div class="card-body p-4 flex-row items-center gap-3">
+          <div class="text-secondary text-2xl"><i class="fas fa-laptop-code"></i></div>
+          <span class="text-sm font-medium">B.Sc. Computer Science</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── LATEST BLOG POSTS ───────────────────────────────────────── -->
+<section class="py-20 bg-base-200" id="blog">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center mb-14">
+      <h2 class="text-4xl font-bold mb-3">Latest Blog Posts</h2>
+      <div class="divider max-w-xs mx-auto"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="latest-posts">
+      <!-- Filled dynamically from posts/index.json -->
+      <div class="card bg-base-100 shadow hover:shadow-xl transition-shadow">
+        <figure><img src="assets/images/blog/blog-post-thumb-card-1.jpg" alt="AI Clusters" class="h-48 w-full object-cover"></figure>
+        <div class="card-body">
+          <h3 class="card-title text-base">Coming Soon: AI Clusters on Cisco UCS</h3>
+          <p class="text-sm text-base-content/70">Deep dive into designing high-performance AI training clusters with NVIDIA GPUs and OpenShift.</p>
+          <div class="card-actions justify-end mt-2">
+            <a href="blog-home.html" class="btn btn-ghost btn-sm">Read more →</a>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-base-100 shadow hover:shadow-xl transition-shadow">
+        <figure><img src="assets/images/blog/blog-post-thumb-card-2.jpg" alt="LangChain" class="h-48 w-full object-cover"></figure>
+        <div class="card-body">
+          <h3 class="card-title text-base">Coming Soon: Building LangChain Agents</h3>
+          <p class="text-sm text-base-content/70">How I built a Webex bot and Python LangChain agents for autonomous Day-2 infrastructure operations.</p>
+          <div class="card-actions justify-end mt-2">
+            <a href="blog-home.html" class="btn btn-ghost btn-sm">Read more →</a>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-base-100 shadow hover:shadow-xl transition-shadow">
+        <figure><img src="assets/images/blog/blog-post-thumb-card-3.jpg" alt="Hybrid Cloud" class="h-48 w-full object-cover"></figure>
+        <div class="card-body">
+          <h3 class="card-title text-base">Coming Soon: SAP on Azure — The Real Picture</h3>
+          <p class="text-sm text-base-content/70">Lessons learned from deploying SAP HANA HA/DR on Azure with ARM templates and Express Routes.</p>
+          <div class="card-actions justify-end mt-2">
+            <a href="blog-home.html" class="btn btn-ghost btn-sm">Read more →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-10">
+      <a href="blog-home.html" class="btn btn-primary">
+        <i class="fas fa-blog mr-2"></i> View All Posts
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer class="footer footer-center p-10 bg-base-300 text-base-content">
+  <nav class="flex flex-wrap gap-4 justify-center">
+    <a href="index.html" class="link link-hover">About</a>
+    <a href="resume.html" class="link link-hover">Resume</a>
+    <a href="blog-home.html" class="link link-hover">Blog</a>
+    <a href="contact.html" class="link link-hover">Contact</a>
+  </nav>
+  <nav class="flex gap-4">
+    <a href="https://linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm">
+      <i class="fab fa-linkedin-in text-lg"></i>
+    </a>
+    <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm">
+      <i class="fab fa-github text-lg"></i>
+    </a>
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-circle btn-sm">
+      <i class="fas fa-envelope text-lg"></i>
+    </a>
+  </nav>
+  <aside>
+    <p class="text-base-content/50 text-sm">© 2026 Mahesh Pabba · AI &amp; Cloud Architect</p>
+  </aside>
+</footer>
+
 </body>
-</html> 
+</html>
 

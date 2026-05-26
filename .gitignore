@@ -1,0 +1,11 @@
+Resume.docx
+
+.DS_Store
+assets/.DS_Store
+env/
+env/*
+
+# Python
+*.pyc
+__pycache__/
+# Keep generate.py tracked — exclude only venv bytecode above

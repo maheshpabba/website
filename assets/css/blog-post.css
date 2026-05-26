@@ -1,0 +1,39 @@
+/* ── Blog post prose styles ─────────────────────────────────────────────────── */
+.prose h1 { font-size: 2rem; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; }
+.prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; border-bottom: 1px solid oklch(var(--bc)/0.15); padding-bottom: 0.5rem; }
+.prose h3 { font-size: 1.2rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+.prose p  { margin-bottom: 1.25rem; line-height: 1.8; color: oklch(var(--bc)/0.8); }
+.prose ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1.25rem; }
+.prose ol { list-style: decimal; padding-left: 1.5rem; margin-bottom: 1.25rem; }
+.prose li { margin-bottom: 0.4rem; line-height: 1.7; color: oklch(var(--bc)/0.8); }
+.prose pre {
+  background: #272822;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+}
+.prose code:not(pre code) {
+  background: oklch(var(--bc)/0.1);
+  border-radius: 0.25rem;
+  padding: 0.15rem 0.4rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875em;
+}
+.prose blockquote {
+  border-left: 4px solid oklch(var(--p));
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: oklch(var(--bc)/0.6);
+  font-style: italic;
+}
+.prose a  { color: oklch(var(--p)); text-decoration: underline; }
+.prose hr { margin: 2rem 0; border-color: oklch(var(--bc)/0.15); }
+.prose table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+.prose th,
+.prose td { border: 1px solid oklch(var(--bc)/0.2); padding: 0.5rem 0.75rem; text-align: left; }
+.prose th  { background: oklch(var(--bc)/0.05); font-weight: 600; }
+.prose strong { font-weight: 600; color: oklch(var(--bc)); }
+.prose img { max-width: 100%; border-radius: 0.5rem; margin: 1.5rem 0; }

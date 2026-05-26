@@ -1,0 +1,12 @@
+# Install with: pip install -r requirements.txt
+# After install, also run: python -m playwright install chromium
+
+# Blog generator (generate.py)
+Markdown==3.10.2
+
+# Diagram generator (gen_diagram.py)
+playwright==1.60.0
+
+# Utilities used during setup (not needed at runtime)
+# python-docx==1.2.0   # used once to read Resume.docx — safe to skip
+# imgkit==1.2.3        # replaced by playwright; kept if wkhtmltopdf ever becomes available

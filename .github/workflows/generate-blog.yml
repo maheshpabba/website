@@ -1,0 +1,32 @@
+name: Generate Blog Posts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "posts/**.md"   # only runs when you push/edit a .md file
+
+permissions:
+  contents: write       # needed to commit the generated HTML back
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest  # GitHub's free hosted runner — Python 3.x pre-installed
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install markdown
+
+      - name: Generate blog post HTML
+        run: python generate.py
+
+      - name: Commit generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add posts/*.html posts/index.json
+          git diff --cached --quiet || git commit -m "chore: regenerate blog posts [skip ci]"
+          git push

@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="solarized-light">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Enterprise AI isn't just about buying H100s. It's a multi-layer architecture problem involving resiliency, redundancy, load balancing, GPU scheduling, and months of decisions that nobody documents. Here's the full stack from the perspective of an enterprise AI architect working with Cisco UCS and OpenShift.">
+  <meta name="author" content="Mahesh Pabba">
+
+  <!-- Open Graph (LinkedIn / Twitter preview) -->
+  <meta property="og:title" content=""Building Enterprise AI Infrastructure: What an Architect Actually Goes Through"">
+  <meta property="og:description" content="Enterprise AI isn't just about buying H100s. It's a multi-layer architecture problem involving resiliency, redundancy, load balancing, GPU scheduling, and months of decisions that nobody documents. Here's the full stack from the perspective of an enterprise AI architect working with Cisco UCS and OpenShift.">
+  <meta property="og:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://maheshpabba.com/posts/2026-05-20-ai-clusters-cisco-ucs.html">
+  <meta property="article:published_time" content="2026-05-20">
+  <meta property="article:author" content="Mahesh Pabba">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content=""Building Enterprise AI Infrastructure: What an Architect Actually Goes Through"">
+  <meta name="twitter:description" content="Enterprise AI isn't just about buying H100s. It's a multi-layer architecture problem involving resiliency, redundancy, load balancing, GPU scheduling, and months of decisions that nobody documents. Here's the full stack from the perspective of an enterprise AI architect working with Cisco UCS and OpenShift.">
+  <meta name="twitter:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script defer src="../assets/fontawesome/js/all.js"></script>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/blog-post.css">
+  <link rel="stylesheet" href="../assets/plugins/highlight/styles/monokai-sublime.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+</head>
+<body class="min-h-screen bg-base-100">
+
+<!-- Navbar — posts/ pages (paths prefixed with ../) -->
+<div class="navbar bg-base-200 shadow-md sticky top-0 z-50 px-4 lg:px-8">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden"><i class="fas fa-bars text-lg"></i></label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+        <li><a href="../index.html">About</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog-home.html" class="font-semibold">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <a href="../index.html" class="btn btn-ghost text-xl font-bold tracking-tight">Mahesh Pabba</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-1">
+      <li><a href="../index.html" class="font-medium rounded-lg">About</a></li>
+      <li><a href="../resume.html" class="font-medium rounded-lg">Resume</a></li>
+      <li><a href="../blog-home.html" class="font-medium rounded-lg bg-base-300">Blog</a></li>
+      <li><a href="../contact.html" class="font-medium rounded-lg">Contact</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-primary btn-sm">
+      <i class="fas fa-paper-plane mr-1"></i> Hire Me
+    </a>
+  </div>
+</div>
+
+
+<!-- Hero banner -->
+<div class="w-full h-64 overflow-hidden relative">
+  <img src="../assets/images/blog/covers/AI-Infrastructure.png" alt=""Building Enterprise AI Infrastructure: What an Architect Actually Goes Through"" class="w-full h-full object-cover opacity-40">
+  <div class="absolute inset-0 bg-gradient-to-t from-base-100 to-transparent"></div>
+</div>
+
+<div class="max-w-3xl mx-auto px-4 pb-20 -mt-12 relative">
+
+  <!-- Post header -->
+  <div class="mb-10">
+    <div class="flex flex-wrap gap-2 mb-4"><span class="badge badge-ghost badge-sm">AI</span> <span class="badge badge-ghost badge-sm">Kubernetes</span> <span class="badge badge-ghost badge-sm">OpenShift</span> <span class="badge badge-ghost badge-sm">Cisco</span> <span class="badge badge-ghost badge-sm">GPU</span> <span class="badge badge-ghost badge-sm">RDMA</span> <span class="badge badge-ghost badge-sm">Resiliency</span> <span class="badge badge-ghost badge-sm">Enterprise</span></div>
+    <h1 class="text-3xl lg:text-4xl font-bold leading-tight mb-4">"Building Enterprise AI Infrastructure: What an Architect Actually Goes Through"</h1>
+    <div class="flex items-center gap-4 text-sm text-base-content/40">
+      <span><i class="fas fa-user mr-1"></i> Mahesh Pabba</span>
+      <span><i class="fas fa-calendar mr-1"></i> 2026-05-20</span>
+      <a href="../blog-home.html" class="link link-hover ml-auto"><i class="fas fa-arrow-left mr-1"></i> All posts</a>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Article body -->
+  <article class="prose max-w-none">
+    <p>Let me start with the honest version.</p>
+<p>When an enterprise leadership team says <em>"we need an AI cluster,"</em> what they're actually asking for is a <strong>mission-critical distributed supercomputer</strong> that must survive hardware failures, network storms, storage bottlenecks, and GPU memory errors — while serving inference traffic at SLA and running model training overnight — all on top of infrastructure built by a team that has never done this before.</p>
+<p>The gap between that ask and the reality of what it takes to deliver it is what this post is about.</p>
+<p>I've spent the past several years designing and deploying AI training and inference clusters for enterprise customers at Cisco. Not the demo clusters. The real ones — the ones that run 24/7, that have SLAs, that serve production inference traffic, and that get called into incident bridges when something goes wrong at 2 AM.</p>
+<p>What follows is the complete architecture picture: every layer, every critical decision, every resiliency and redundancy consideration, and the specific Cisco compute and networking configurations that make it work — including how to properly configure GPU resources on Kubernetes and OpenShift so your AI applications can actually scale to demand.</p>
+<hr />
+<h2 id="the-enterprise-ai-architects-reality">The Enterprise AI Architect's Reality</h2>
+<p>Before we get into the stack, I want to be clear about what the architect role actually looks like on these projects, because it's not what the vendor slides suggest.</p>
+<p><strong>You will be the person who has to answer:</strong>
+- "Why is GPU utilization at 40% when we paid for 100%?" — because the storage fabric can't feed the GPUs
+- "Why did training fail after 18 hours?" — because a single switch port dropped packets and RDMA stalled
+- "Why are inference latencies spiking?" — because you didn't configure the scheduler to isolate inference from batch jobs
+- "Can we add 10 more model serving replicas?" — only if you designed the load balancer and GPU resource quotas correctly from day one</p>
+<p><strong>You will be making decisions across:</strong>
+- Physical server configuration (BIOS settings that affect NUMA topology)
+- Network fabric architecture (non-blocking, lossless, RDMA-ready)<br />
+- Storage system design (parallel, NVMe-native, with dedicated bandwidth)
+- Kubernetes/OpenShift cluster design (node pools, taints/tolerations, priority classes)
+- GPU resource management (MIG, time-slicing, device plugins, operators)
+- Observability and automated remediation</p>
+<p>And you will be making all of these decisions simultaneously, with interdependencies between every layer.</p>
+<hr />
+<h2 id="the-ai-infrastructure-stack">The AI Infrastructure Stack</h2>
+<p>Before we go deep, here's the complete picture of what we're building:</p>
+<pre class="codehilite"><code>┌─────────────────────────────────────────────────────────────────────────────┐
+│  8. Operations Layer                                                        │
+│     Observability · Alerting · Automated Remediation · Runbooks             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  7. Platform Automation &amp; Orchestration                                     │
+│     Terraform · Ansible · Python · Cisco Intersight Automation              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  6. AI Platform Layer                                                       │
+│     NVIDIA GPU Operator · Network Operator · NFD · MIG Manager              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  5. Container Orchestration + Resiliency                                    │
+│     Red Hat OpenShift · GPU-aware Scheduling · Priority · Autoscaling       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  4. Compute Layer                                                           │
+│     Cisco UCS X-Series / C-Series · H100/A100 · NVLink · NVSwitch          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  3. Backend Fabric — GPU-to-GPU                                             │
+│     RoCE v2 · RDMA · PFC · ECN · Cisco Nexus 400G · Lossless Design        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  2. Storage Fabric                                                          │
+│     NVMe-oF · VAST / Pure FlashBlade · Parallel FS · Checkpoint HA         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  1. Frontend Networking + Load Balancing                                    │
+│     Ingress · Service Mesh · Inference LB · TLS · API Gateway               │
+└─────────────────────────────────────────────────────────────────────────────┘
+</code></pre>
+
+<p>Each layer has its own failure modes, performance knobs, and resiliency requirements. Let's go through all of them.</p>
+<hr />
+<h2 id="layer-1-frontend-networking-load-balancing-ingress-and-inference-traffic">Layer 1: Frontend Networking — Load Balancing, Ingress, and Inference Traffic</h2>
+<p>This is how users, APIs, and downstream services reach your AI workloads — model inference endpoints, Jupyter environments, monitoring dashboards, and MLOps pipelines.</p>
+<h3 id="what-lives-here">What lives here</h3>
+<ul>
+<li>Ingress controllers (NGINX, Istio Gateway, OpenShift Routes)</li>
+<li>Load balancers for inference API endpoints</li>
+<li>TLS termination, mTLS, and authentication</li>
+<li>API gateway for rate limiting and token-based access control</li>
+<li>Service mesh for east-west traffic (Istio, Red Hat Service Mesh)</li>
+</ul>
+<h3 id="the-architects-load-balancing-decision">The Architect's Load Balancing Decision</h3>
+<p>Inference traffic is extremely unlike general web traffic. A single GPU inference request for a large language model might hold a connection open for 5–30 seconds as tokens stream back. Standard round-robin load balancing fails here — it piles up sessions on backends regardless of whether they're busy.</p>
+<p><strong>What you actually need:</strong></p>
+<pre class="codehilite"><code>                      ┌─────────────────┐
+          Users/APIs  │  API Gateway    │  ← Rate limiting, auth, quotas
+                      └────────┬────────┘
+                               │
+                      ┌────────▼────────┐
+                      │  Ingress / LB   │  ← Least-connections, session affinity
+                      └──┬──────┬──────┘
+                         │      │
+              ┌──────────▼─┐  ┌─▼──────────┐
+              │  vLLM Pod  │  │  vLLM Pod  │  ← GPU-backed inference replicas
+              │  (GPU: 1)  │  │  (GPU: 1)  │
+              └────────────┘  └────────────┘
+</code></pre>
+
+<ul>
+<li>Use <strong>least-connection</strong> routing, not round-robin</li>
+<li>Enable <strong>session stickiness</strong> for stateful chat workloads</li>
+<li>Set <strong>timeout values</strong> appropriate for inference (60–300s, not the default 30s)</li>
+</ul>
+<h3 id="openshift-route-ingress-configuration-for-inference">OpenShift Route / Ingress configuration for inference</h3>
+<pre class="codehilite"><code class="language-yaml"># OpenShift Route for inference endpoint with timeout settings
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: inference-api
+  namespace: ai-inference
+  annotations:
+    haproxy.router.openshift.io/timeout: 300s
+    haproxy.router.openshift.io/balance: leastconn
+    haproxy.router.openshift.io/disable_cookies: &quot;true&quot;
+spec:
+  to:
+    kind: Service
+    name: vllm-inference-service
+  port:
+    targetPort: 8000
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+</code></pre>
+
+<pre class="codehilite"><code class="language-yaml"># Kubernetes Ingress for inference with NGINX annotations
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: inference-ingress
+  namespace: ai-inference
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: &quot;300&quot;
+    nginx.ingress.kubernetes.io/proxy-send-timeout: &quot;300&quot;
+    nginx.ingress.kubernetes.io/load-balance: &quot;ewma&quot;          # Exponentially Weighted Moving Average
+    nginx.ingress.kubernetes.io/upstream-hash-by: &quot;$remote_addr&quot; # session affinity by client IP
+spec:
+  rules:
+  - host: inference.ai.corp.example.com
+    http:
+      paths:
+      - path: /v1
+        pathType: Prefix
+        backend:
+          service:
+            name: vllm-service
+            port:
+              number: 8000
+</code></pre>
+
+<h3 id="resiliency-what-happens-when-an-inference-pod-crashes">Resiliency: What happens when an inference pod crashes?</h3>
+<ul>
+<li>Deploy inference services with <strong>PodDisruptionBudgets</strong> so rolling upgrades don't take everything offline</li>
+<li>Use <strong>readiness probes</strong> that actually call the model's <code>/health</code> endpoint — don't trust TCP-level readiness for GPU processes</li>
+</ul>
+<pre class="codehilite"><code class="language-yaml"># PodDisruptionBudget for inference deployment
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: vllm-pdb
+  namespace: ai-inference
+spec:
+  minAvailable: 1        # Always keep at least 1 inference replica up
+  selector:
+    matchLabels:
+      app: vllm-inference
+
+---
+# Proper readiness probe for inference pods
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 90   # vLLM takes time to load model weights from storage
+  periodSeconds: 10
+  failureThreshold: 6
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 120
+  periodSeconds: 30
+  failureThreshold: 3
+</code></pre>
+
+<hr />
+<h2 id="layer-2-storage-fabric-the-most-underestimated-layer">Layer 2: Storage Fabric — The Most Underestimated Layer</h2>
+<p>Training a large model means continuously streaming terabytes of data to GPUs. If your storage can't keep up, your GPUs idle — and idle GPUs at $30,000–$40,000 per unit are extraordinarily expensive.</p>
+<h3 id="the-throughput-equation">The Throughput Equation</h3>
+<p>For large-scale training, you need:</p>
+<table>
+<thead>
+<tr>
+<th>Training Scale</th>
+<th>Minimum Storage Throughput</th>
+<th>Recommended</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single node (8x H100)</td>
+<td>80 GB/s</td>
+<td>120 GB/s</td>
+</tr>
+<tr>
+<td>8-node pod (64x H100)</td>
+<td>640 GB/s</td>
+<td>1 TB/s</td>
+</tr>
+<tr>
+<td>32-node cluster (256x H100)</td>
+<td>2.5 TB/s</td>
+<td>4 TB/s+ (distributed)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-we-deploy">What we deploy</h3>
+<ul>
+<li><strong>VAST Data / Pure FlashBlade</strong> — all-NVMe parallel storage, millions of IOPS, single namespace</li>
+<li><strong>NVMe over Fabrics (NVMe-oF)</strong> — extends NVMe locality performance across the network via RDMA</li>
+<li><strong>Parallel file systems</strong> (WekaFS, GPFS/Spectrum Scale, Lustre) for distributed multi-node access</li>
+</ul>
+<h3 id="validate-storage-before-any-gpu-lands-in-the-rack">Validate storage before any GPU lands in the rack</h3>
+<pre class="codehilite"><code class="language-bash"># Validate NVMe-oF fabric throughput before training begins
+# Run from multiple nodes simultaneously for aggregate measurement
+fio --name=parallel-read \
+    --rw=read \
+    --bs=1M \
+    --size=100G \
+    --numjobs=32 \
+    --iodepth=64 \
+    --direct=1 \
+    --group_reporting \
+    --filename=/mnt/training-data/fio-test
+
+# Target: &gt;100 GB/s per node, &gt;1 TB/s aggregate across 16 nodes
+</code></pre>
+
+<h3 id="resiliency-checkpointing-and-fault-tolerance">Resiliency: Checkpointing and Fault Tolerance</h3>
+<p>The single most painful experience in enterprise AI is a training job that fails after 18 hours without a checkpoint. The mitigation is architectural:</p>
+<pre class="codehilite"><code class="language-python"># PyTorch distributed training checkpoint configuration
+# Save checkpoints frequently enough to minimize lost work
+import torch
+import torch.distributed as dist
+
+CHECKPOINT_INTERVAL = 500          # Save every 500 steps
+CHECKPOINT_PATH = &quot;/mnt/checkpoints/run-001/&quot;
+
+def save_checkpoint(model, optimizer, step, loss):
+    # Only rank 0 saves to avoid write contention
+    if dist.get_rank() == 0:
+        checkpoint = {
+            'step': step,
+            'model_state_dict': model.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict(),
+            'loss': loss,
+        }
+        # Write to temp first, then atomic rename — avoids corrupt checkpoints
+        tmp_path = f&quot;{CHECKPOINT_PATH}/checkpoint-{step}.tmp&quot;
+        final_path = f&quot;{CHECKPOINT_PATH}/checkpoint-{step}.pt&quot;
+        torch.save(checkpoint, tmp_path)
+        os.rename(tmp_path, final_path)
+    dist.barrier()    # All ranks wait before continuing
+</code></pre>
+
+<p><strong>Storage resiliency requirements:</strong>
+- <strong>Dual-controller NVMe arrays</strong> — no single controller failures affecting training
+- <strong>Replicated checkpoint volumes</strong> — checkpoints should be on a different failure domain from training data
+- <strong>Separate network paths for training data vs. checkpoints</strong> — don't let checkpoint writes starve training reads</p>
+<h3 id="persistent-volume-setup-on-openshift-for-ai-workloads">Persistent Volume setup on OpenShift for AI workloads</h3>
+<pre class="codehilite"><code class="language-yaml"># StorageClass for high-performance training data (NVMe-oF backed)
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ai-training-nvmeof
+provisioner: csi.trident.netapp.io     # or pure-csi, vast-csi
+parameters:
+  mediaType: &quot;nvme&quot;
+  replication: &quot;2&quot;
+  fsType: &quot;ext4&quot;
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+
+---
+# PVC for training dataset (large, ReadWriteMany for distributed access)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: training-dataset-pvc
+  namespace: ai-training
+spec:
+  accessModes:
+    - ReadWriteMany         # All training pods read simultaneously
+  storageClassName: ai-training-nvmeof
+  resources:
+    requests:
+      storage: 10Ti
+
+---
+# PVC for checkpoints (dedicated, isolated from training data reads)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: checkpoint-pvc
+  namespace: ai-training
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ai-checkpoint-ha
+  resources:
+    requests:
+      storage: 2Ti
+</code></pre>
+
+<hr />
+<h2 id="layer-3-backend-fabric-the-gpu-to-gpu-network-where-ai-jobs-live-or-die">Layer 3: Backend Fabric — The GPU-to-GPU Network (Where AI Jobs Live or Die)</h2>
+<p>This is the most technically demanding layer and the one that separates a functional AI cluster from a high-performance one. It's also the layer where most enterprise teams make their most expensive mistakes.</p>
+<h3 id="the-problem">The Problem</h3>
+<p>During distributed training, GPUs on different nodes exchange gradients continuously — billions of floating-point numbers at microsecond intervals. This is the <strong>AllReduce</strong> collective communication operation at the core of distributed deep learning.</p>
+<p>Standard TCP/IP networking adds CPU overhead and latency that kills throughput by 30–60%. A 100-GPU training job that should take 10 hours takes 25 hours — not because GPUs are slow, but because the network can't keep up.</p>
+<h3 id="the-solution-roce-v2-rdma-over-converged-ethernet">The Solution: RoCE v2 (RDMA over Converged Ethernet)</h3>
+<p>RDMA allows the network adapter to transfer data directly between GPU memory on different nodes — bypassing the CPU and OS networking stack entirely.</p>
+<pre class="codehilite"><code>Node A                                        Node B
+┌──────────────────────────┐                 ┌──────────────────────────┐
+│  GPU 0 HBM (activations) │  RoCE v2 RDMA   │  GPU 0 HBM (gradients)   │
+│                          ├─────────────────►│                          │
+└──────────────────────────┘  400GbE / NIC    └──────────────────────────┘
+      ↑ No CPU, No OS kernel involvement ↑
+</code></pre>
+
+<h3 id="cisco-nexus-switch-configuration-for-roce-v2">Cisco Nexus Switch Configuration for RoCE v2</h3>
+<p>RoCE is unforgiving of ANY packet loss. A single dropped packet causes RDMA to stall and recover — which on a 1000-GPU job means the entire collective communication pauses. The fabric must be <strong>lossless</strong>.</p>
+<pre class="codehilite"><code># ─────────────────────────────────────────────────────────────────
+# Cisco Nexus 9336C-FX2 / 9364C-GX — AI Fabric QoS Configuration
+# ─────────────────────────────────────────────────────────────────
+
+# Step 1: Enable Priority Flow Control (PFC)
+# PFC pauses individual traffic classes instead of dropping packets
+# RoCE traffic must NEVER see packet drops — PFC is not optional
+
+interface Ethernet 1/1-48
+  priority-flow-control mode on
+  priority-flow-control watch-dog-interval off
+
+# Step 2: Enable Explicit Congestion Notification (ECN)
+# ECN marks packets before buffers overflow — enables senders to back off
+# without drops. Works with DCQCN (Data Center Quantized Congestion Notification)
+
+hardware qos ecn
+hardware qos ecn threshold 20 80   # Start marking at 20%, aggressive at 80%
+
+# Step 3: DSCP Class of Service mapping
+# RoCE traffic tagged DSCP 26 gets dedicated COS queue
+class-map type qos match-all RDMA-CLASS
+  match dscp 26
+
+policy-map type qos AI-RDMA-INBOUND
+  class RDMA-CLASS
+    set qos-group 3
+
+# Step 4: Buffer allocation
+# AI fabric needs deep buffers — 32MB+ per port for burst absorption
+hardware profile portmode 
+  buffer-boost
+
+# Step 5: Verify PFC is negotiated end-to-end
+show interface ethernet 1/1-8 priority-flow-control
+show queuing interface ethernet 1/1
+</code></pre>
+
+<h3 id="cisco-nexus-fabric-topology-for-ai-clusters">Cisco Nexus Fabric Topology for AI Clusters</h3>
+<pre class="codehilite"><code>                    ┌────────────────────────────────────────────────────┐
+                    │              SPINE LAYER                           │
+                    │    2x Cisco Nexus 9364C-GX (400GbE, non-blocking) │
+                    │         VPC peer-link for redundancy               │
+                    └──────┬──────────────────┬───────────────────┬──────┘
+                           │                  │                   │
+              ┌────────────▼──────┐  ┌────────▼──────┐  ┌────────▼──────┐
+              │  Leaf ToR 1       │  │  Leaf ToR 2   │  │  Leaf ToR 3   │
+              │  Nexus 9336C-FX2  │  │  9336C-FX2    │  │  9336C-FX2    │
+              │  2x 400G uplinks  │  │  2x 400G up   │  │  2x 400G up   │
+              └──────┬────────────┘  └────────┬──────┘  └────────┬──────┘
+                     │                        │                   │
+              ┌──────▼──────┐         ┌───────▼─────┐    ┌───────▼─────┐
+              │ UCS Servers │         │ UCS Servers │    │ UCS Servers │
+              │ Rack A      │         │ Rack B      │    │ Rack C      │
+              │ 8x H100 ea  │         │ 8x H100 ea  │    │ 8x H100 ea  │
+              │ 400GbE RoCE │         │ 400GbE RoCE │    │ 400GbE RoCE │
+              └─────────────┘         └─────────────┘    └─────────────┘
+</code></pre>
+
+<p><strong>Redundancy decisions you must make:</strong>
+- <strong>Dual spine for redundancy</strong> — single spine is a cluster-wide single point of failure
+- <strong>Dual-home every server</strong> — two 200GbE uplinks bonded with LACP, or two separate 400GbE for RDMA active-active
+- <strong>vPC (Virtual Port Channel)</strong> on leaf switches — eliminates spanning tree from your AI fabric path
+- <strong>ECMP across spine uplinks</strong> — distribute RoCE flows evenly across all spine paths</p>
+<h3 id="sizing-the-fabric">Sizing the Fabric</h3>
+<table>
+<thead>
+<tr>
+<th>Cluster Scale</th>
+<th>Switch Requirement</th>
+<th>Per-Server Bandwidth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8–16 servers</td>
+<td>1x Nexus 9336C-FX2 (leaf only)</td>
+<td>2x 200GbE</td>
+</tr>
+<tr>
+<td>32–64 servers</td>
+<td>2-tier leaf-spine, 9364C-GX spine</td>
+<td>400GbE</td>
+</tr>
+<tr>
+<td>128+ servers</td>
+<td>3-tier, dedicated spine per pod</td>
+<td>400GbE × 2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verify your fabric BEFORE training:</strong></p>
+<pre class="codehilite"><code class="language-bash"># RDMA bandwidth test between two nodes — should reach &gt;350 Gbps on 400GbE
+ib_write_bw --rdma_cm -d mlx5_0 -x 3 --report_gbits &lt;remote_ip&gt;
+
+# Check for PFC pause frames — if these are high, buffer tuning needed
+ethtool -S eth0 | grep -i pause
+show queuing interface ethernet 1/1 | include pause
+</code></pre>
+
+<hr />
+<h2 id="layer-4-cisco-compute-ucs-design-for-ai-workloads">Layer 4: Cisco Compute — UCS Design for AI Workloads</h2>
+<p>The physical compute is where most teams start the conversation, but it's more nuanced than picking a GPU model. The server configuration — BIOS, NUMA topology, PCIe topology, and Fabric Interconnect policies — dramatically affects what the upper layers can achieve.</p>
+<h3 id="cisco-ucs-server-selection">Cisco UCS Server Selection</h3>
+<p><strong>For AI Training:</strong>
+- <strong>Cisco UCS X210c M7 (X-Series blade)</strong> — 2x Intel Xeon Scalable 4th Gen + up to 4x NVIDIA H100 SXM5, managed through UCS X9508 chassis
+- <strong>Cisco UCS C240 M7 (rack server)</strong> — 2x Xeon + 8x PCIe slots, supports 8x A100/H100 PCIe variants
+- <strong>Cisco UCS C245 M8</strong> — 2x AMD EPYC 9004 + 8x NVIDIA H100 NVL — optimal for large memory/GPU ratio</p>
+<p><strong>For AI Inference:</strong>
+- <strong>Cisco UCS C220 M7</strong> — 1–2x GPU inference workloads, cost-optimized
+- <strong>Cisco UCS C245 M8</strong> — high GPU density for inference at scale with MIG slicing</p>
+<h3 id="server-configuration-what-the-bios-settings-actually-do">Server Configuration: What the BIOS Settings Actually Do</h3>
+<p>Most teams take default BIOS settings and wonder why RDMA or NVMe performance is 40% below expectations.</p>
+<pre class="codehilite"><code># Cisco UCS BIOS Policy settings critical for AI workloads
+# Configure via Intersight Server Policy → BIOS Policy
+
+NUMA: Enabled
+  └─ GPUs and NICs must be on same NUMA node as the PCIe bus
+     Crossing NUMA boundaries adds ~200ns latency to every GPU operation
+
+CPU Power Management: Maximum Performance
+  └─ Disables P-states and C-states that throttle CPU during GPU coordination
+
+Hyper-Threading: Disabled (for training workloads)
+  └─ GPU training processes don't benefit from HT; reduces scheduling jitter
+
+Memory: Bandwidth Optimized → All DIMMs populated per channel
+
+Transparent Huge Pages: Always
+  └─ Reduces TLB pressure for GPU DMA memory operations
+
+SR-IOV: Enabled
+  └─ Required for GPU direct RDMA (GDR) and NIC SR-IOV for Kubernetes
+</code></pre>
+
+<h3 id="intersight-server-profile-infrastructure-as-code-approach">Intersight Server Profile — Infrastructure-as-Code Approach</h3>
+<p>Managing UCS server configuration manually doesn't scale past 10 servers. The correct answer is <strong>Intersight Server Profiles</strong> applied consistently via the Intersight API.</p>
+<pre class="codehilite"><code class="language-python"># Python: Create UCS Server Profile for AI node via Intersight API
+import intersight
+from intersight.api import server_api, vnic_api, bios_api
+
+def create_ai_server_profile(api_client, server_moid: str, profile_name: str):
+    &quot;&quot;&quot;Create a complete AI-optimized UCS Server Profile&quot;&quot;&quot;
+
+    server_client = server_api.ServerApi(api_client)
+
+    # 1. Create the server profile
+    profile = {
+        &quot;Name&quot;: profile_name,
+        &quot;Description&quot;: &quot;AI Training/Inference Node — GPU Optimized&quot;,
+        &quot;TargetPlatform&quot;: &quot;FIAttached&quot;,
+        &quot;Tags&quot;: [
+            {&quot;Key&quot;: &quot;Role&quot;, &quot;Value&quot;: &quot;ai-gpu&quot;},
+            {&quot;Key&quot;: &quot;ManagedBy&quot;, &quot;Value&quot;: &quot;intersight-automation&quot;}
+        ]
+    }
+
+    # 2. Attach BIOS policy (pre-created AI BIOS policy)
+    # 3. Attach vNIC policy (RDMA-capable, 2x 100GbE or 400GbE)
+    # 4. Attach storage policy (local NVMe for scratch space)
+    # 5. Assign to physical server and deploy
+
+    print(f&quot;Deployed profile {profile_name} to server {server_moid}&quot;)
+</code></pre>
+
+<h3 id="cisco-ucs-fabric-interconnect-the-control-plane">Cisco UCS Fabric Interconnect — The Control Plane</h3>
+<p>All UCS blade and rack servers connect through <strong>Cisco UCS Fabric Interconnects (FI)</strong>. For AI clusters, this means:</p>
+<ul>
+<li><strong>UCS 6536 Fabric Interconnect</strong> — 36x 100GbE ports, supports 400GbE unified ports</li>
+<li><strong>Pair the FIs for redundancy</strong> — each server gets one path to FI-A and one to FI-B</li>
+<li><strong>Unified ports</strong> — same physical ports carry FCoE (for storage) and Ethernet (for RDMA) without separate adapters</li>
+<li><strong>VIC (Virtual Interface Card)</strong> — Cisco VIC 15425 or 15231 provides SR-IOV capability and hardware-level RoCE support</li>
+</ul>
+<pre class="codehilite"><code>                    ┌─────────────────────────────────────────┐
+                    │         Cisco UCS Fabric Interconnects  │
+                    │   FI-A (active)    │   FI-B (standby)   │
+                    └──────────┬─────────┴───────┬────────────┘
+                               │                 │
+              ┌────────────────▼─────────────────▼──────────────────┐
+              │              UCS X9508 Chassis                       │
+              │  ┌─────────────┐   ┌─────────────┐   ┌──────────┐  │
+              │  │ X210c M7 #1 │   │ X210c M7 #2 │   │  ...     │  │
+              │  │ 4x H100 SXM │   │ 4x H100 SXM │   │          │  │
+              │  │ Cisco VIC   │   │ Cisco VIC   │   │          │  │
+              │  └─────────────┘   └─────────────┘   └──────────┘  │
+              └──────────────────────────────────────────────────────┘
+</code></pre>
+
+<h3 id="training-vs-inference-compute-sizing">Training vs Inference Compute Sizing</h3>
+<table>
+<thead>
+<tr>
+<th>Workload</th>
+<th>Recommended Server</th>
+<th>GPU Config</th>
+<th>Memory</th>
+<th>Backend Network</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM Pre-training</td>
+<td>UCS X210c M7</td>
+<td>4x H100 SXM5 80GB</td>
+<td>2TB+ DRAM</td>
+<td>400GbE RoCE</td>
+</tr>
+<tr>
+<td>LLM Fine-tuning</td>
+<td>UCS C240 M7</td>
+<td>8x A100 PCIe 80GB</td>
+<td>1TB DRAM</td>
+<td>100GbE RoCE</td>
+</tr>
+<tr>
+<td>LLM Inference</td>
+<td>UCS C245 M8</td>
+<td>8x H100 NVL 94GB</td>
+<td>768GB DRAM</td>
+<td>100GbE</td>
+</tr>
+<tr>
+<td>Multi-tenant Inference</td>
+<td>UCS C220 M7</td>
+<td>2x H100 (MIG)</td>
+<td>384GB DRAM</td>
+<td>25GbE</td>
+</tr>
+</tbody>
+</table>
+<h3 id="nvlink-and-nvswitch-within-node-gpu-interconnect">NVLink and NVSwitch — Within-Node GPU Interconnect</h3>
+<p>For within-node GPU-to-GPU data movement, NVLink (H100 SXM version) provides <strong>900 GB/s bidirectional bandwidth</strong> — 9x faster than PCIe Gen5. This matters enormously for model parallelism where layers are split across GPUs in the same node.</p>
+<pre class="codehilite"><code class="language-bash"># Verify NVLink topology and health on each server
+nvidia-smi nvlink --status
+nvidia-smi nvlink --capabilities
+
+# Check NVLink bandwidth (should show ~450 GB/s per direction)
+dcgmi dmon -s nvlink_bw
+</code></pre>
+
+<p><strong>Critical:</strong> H100 SXM5 uses NVSwitch for full all-to-all GPU connectivity within a node. H100 PCIe does not have NVSwitch — GPUs communicate through the CPU PCIe bus, significantly lower performance. This distinction is often missed when procurement happens separately from architecture design.</p>
+<hr />
+<h2 id="layer-5-container-orchestration-kubernetes-openshift-done-right-for-ai">Layer 5: Container Orchestration — Kubernetes &amp; OpenShift Done Right for AI</h2>
+<p>Every enterprise AI cluster we deploy runs on <strong>Red Hat OpenShift</strong> (Kubernetes). It's the layer that ties compute, networking, and storage together and gives you scheduling, multi-tenancy, and lifecycle management at scale.</p>
+<p>This is also the layer where AI-specific configuration is most frequently wrong — and where wrong configuration means your powerful and expensive GPU hardware sits underutilized.</p>
+<h3 id="why-openshift-for-enterprise-ai">Why OpenShift for Enterprise AI</h3>
+<ul>
+<li><strong>Integrated security</strong> — Security Context Constraints (SCC), built-in image scanning, OPA Gatekeeper policies</li>
+<li><strong>Operator framework</strong> — GPU Operator, Network Operator, NFD all deploy cleanly on OCP</li>
+<li><strong>Red Hat AI/ML stack</strong> — OpenShift AI (RHOAI) for MLOps workflows on top</li>
+<li><strong>Enterprise support + SLA</strong> — critical when your production inference cluster has an incident</li>
+<li><strong>Certified GPU node support</strong> — NVIDIA certifies their operators for OpenShift specifically</li>
+</ul>
+<h3 id="cluster-design-for-ai-workloads">Cluster Design for AI Workloads</h3>
+<p>You should never mix AI training and inference workloads on the same node pool as general application workloads. Design three node pools minimum:</p>
+<pre class="codehilite"><code>OpenShift Cluster
+├── Infrastructure Nodes (3x)        # etcd, API server, monitoring, ingress
+│   └── No GPU, standard CPU servers
+├── GPU Training Pool                # Large GPU nodes for training jobs
+│   ├── Node: ucs-gpu-train-01 (8x H100 SXM5)
+│   ├── Node: ucs-gpu-train-02 (8x H100 SXM5)
+│   └── Taints: nvidia.com/gpu=training:NoSchedule
+├── GPU Inference Pool               # MIG-enabled nodes for inference serving
+│   ├── Node: ucs-gpu-inf-01 (MIG 7x 1g.10gb per H100)
+│   ├── Node: ucs-gpu-inf-02 (MIG 7x 1g.10gb per H100)
+│   └── Taints: nvidia.com/gpu=inference:NoSchedule
+└── CPU Worker Pool                  # General workloads, data preprocessing
+    └── Standard CPU-only nodes
+</code></pre>
+
+<p><strong>Defining node taints and labels:</strong></p>
+<pre class="codehilite"><code class="language-bash"># Label GPU training nodes
+oc label node ucs-gpu-train-01 node-role.kubernetes.io/gpu-training=''
+oc label node ucs-gpu-train-01 accelerator=h100-sxm5
+oc label node ucs-gpu-train-01 nvidia.com/gpu.product=NVIDIA-H100-SXM5-80GB
+
+# Taint training nodes — only workloads that explicitly tolerate can schedule here
+oc adm taint node ucs-gpu-train-01 nvidia.com/gpu=training:NoSchedule
+
+# Label inference nodes separately
+oc label node ucs-gpu-inf-01 node-role.kubernetes.io/gpu-inference=''
+oc adm taint node ucs-gpu-inf-01 nvidia.com/gpu=inference:NoSchedule
+</code></pre>
+
+<h3 id="priority-classes-making-workloads-coexist">Priority Classes — Making Workloads Coexist</h3>
+<p>Without priority classes, a low-priority batch preprocessing job can consume resources that your production inference service needs. Define priorities explicitly.</p>
+<pre class="codehilite"><code class="language-yaml"># Priority class definitions — apply at cluster level
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: ai-inference-critical
+value: 1000000
+globalDefault: false
+description: &quot;Production inference serving — never preempted&quot;
+
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: ai-training-high
+value: 500000
+globalDefault: false
+description: &quot;Scheduled training jobs&quot;
+
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: ai-batch-low
+value: 100000
+globalDefault: false
+description: &quot;Data preprocessing and experiment runs — can be preempted&quot;
+</code></pre>
+
+<pre class="codehilite"><code class="language-yaml"># Inference deployment using critical priority
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-inference
+  namespace: ai-inference
+spec:
+  replicas: 4
+  template:
+    spec:
+      priorityClassName: ai-inference-critical   # Cannot be preempted
+      tolerations:
+      - key: &quot;nvidia.com/gpu&quot;
+        operator: &quot;Equal&quot;
+        value: &quot;inference&quot;
+        effect: &quot;NoSchedule&quot;
+      nodeSelector:
+        node-role.kubernetes.io/gpu-inference: ''
+      containers:
+      - name: vllm
+        image: vllm/vllm-openai:latest
+        resources:
+          limits:
+            nvidia.com/mig-1g.10gb: &quot;1&quot;     # One MIG slice per replica
+          requests:
+            nvidia.com/mig-1g.10gb: &quot;1&quot;
+            memory: &quot;32Gi&quot;
+            cpu: &quot;8&quot;
+</code></pre>
+
+<h3 id="resourcequotas-for-gpu-multi-tenancy">ResourceQuotas for GPU Multi-Tenancy</h3>
+<p>When multiple teams share a GPU cluster, you must control how many GPUs each team can consume. Without quotas, one team's batch job can starve another's production inference.</p>
+<pre class="codehilite"><code class="language-yaml"># Namespace-level ResourceQuota for each team
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: team-alpha-gpu-quota
+  namespace: team-alpha
+spec:
+  hard:
+    requests.nvidia.com/gpu: &quot;16&quot;          # Max 16 whole GPUs
+    limits.nvidia.com/gpu: &quot;16&quot;
+    requests.nvidia.com/mig-1g.10gb: &quot;32&quot; # Or 32 MIG slices
+    limits.nvidia.com/mig-1g.10gb: &quot;32&quot;
+    requests.memory: &quot;512Gi&quot;
+    requests.cpu: &quot;128&quot;
+    persistentvolumeclaims: &quot;10&quot;
+    requests.storage: &quot;20Ti&quot;
+
+---
+# LimitRange to prevent individual pods from grabbing too many GPUs
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: gpu-limit-range
+  namespace: team-alpha
+spec:
+  limits:
+  - type: Container
+    max:
+      nvidia.com/gpu: &quot;4&quot;    # No single container gets more than 4 GPUs
+    default:
+      nvidia.com/gpu: &quot;1&quot;
+</code></pre>
+
+<h3 id="horizontal-pod-autoscaler-for-inference">Horizontal Pod Autoscaler for Inference</h3>
+<p>Inference traffic is highly variable. The HPA scales GPU pods based on request queue depth or custom metrics from Prometheus.</p>
+<pre class="codehilite"><code class="language-yaml"># Scale inference pods based on GPU utilization (from DCGM exporter)
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: vllm-inference-hpa
+  namespace: ai-inference
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: vllm-inference
+  minReplicas: 2
+  maxReplicas: 14                        # Bounded by available MIG slices
+  metrics:
+  - type: Pods
+    pods:
+      metric:
+        name: dcgm_fi_dev_gpu_util       # GPU utilization from DCGM
+      target:
+        type: AverageValue
+        averageValue: &quot;70&quot;               # Scale up when avg GPU util &gt; 70%
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60     # Respond quickly to load spikes
+      policies:
+      - type: Pods
+        value: 2
+        periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 300    # Be conservative scaling down
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 120
+</code></pre>
+
+<hr />
+<h2 id="layer-6-configuring-gpu-resources-on-kubernetesopenshift-the-detail-most-teams-get-wrong">Layer 6: Configuring GPU Resources on Kubernetes/OpenShift — The Detail Most Teams Get Wrong</h2>
+<p>This is the layer most teams jump to first and the one that fails most visibly when the layers below it aren't solid. But even when the foundation is right, there is substantial configuration required to make GPUs work correctly and reliably inside Kubernetes.</p>
+<h3 id="step-1-node-feature-discovery-nfd-non-negotiable">Step 1: Node Feature Discovery (NFD) — Non-Negotiable</h3>
+<p>NFD scans every node and creates Kubernetes labels describing the hardware capabilities: GPU model, driver version, RDMA capability, NVMe presence, NUMA topology, and more. The GPU Operator and gpu-aware scheduler depend on these labels. Without NFD, scheduling is blind.</p>
+<pre class="codehilite"><code class="language-bash"># Install NFD via Operator on OpenShift
+oc apply -f - &lt;&lt;EOF
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: nfd
+  namespace: openshift-nfd
+spec:
+  channel: stable
+  name: nfd
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+EOF
+
+# Verify NFD labels applied to GPU nodes
+oc get node ucs-gpu-train-01 -o json | jq '.metadata.labels | to_entries[] | select(.key | startswith(&quot;feature.node.kubernetes.io&quot;))'
+# Should show: gpu model, driver, PCIe topology, RDMA, NVMe, NUMA details
+</code></pre>
+
+<h3 id="step-2-nvidia-gpu-operator-full-configuration">Step 2: NVIDIA GPU Operator — Full Configuration</h3>
+<p>The <strong>GPU Operator</strong> automates driver installation, CUDA toolkit, device plugin, MIG manager, and DCGM metrics — all as containers. No baremetal software installation required.</p>
+<pre class="codehilite"><code class="language-bash"># Install GPU Operator via Helm on OpenShift
+helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
+helm repo update
+
+# Full production configuration
+helm install gpu-operator nvidia/gpu-operator \
+  --namespace gpu-operator \
+  --create-namespace \
+  --set driver.enabled=true \
+  --set driver.version=&quot;550.54.15&quot; \
+  --set toolkit.enabled=true \
+  --set devicePlugin.enabled=true \
+  --set mig.strategy=mixed \          # Support both whole GPUs and MIG slices simultaneously
+  --set dcgmExporter.enabled=true \
+  --set dcgmExporter.serviceMonitor.enabled=true \   # Scrape by Prometheus
+  --set gfd.enabled=true \            # GPU Feature Discovery
+  --set nodeStatusExporter.enabled=true \
+  --set validator.plugin.env[0].name=WITH_WORKLOAD \
+  --set validator.plugin.env[0].value=&quot;true&quot;
+
+# Watch GPU Operator pods come up — this takes 5-10 min on first boot
+kubectl get pods -n gpu-operator -w
+</code></pre>
+
+<p><strong>Expected running pods after installation:</strong></p>
+<pre class="codehilite"><code>NAME                                              READY   STATUS    
+gpu-feature-discovery-&lt;node&gt;                      1/1     Running   # Labels GPU capabilities
+nvidia-container-toolkit-daemonset-&lt;node&gt;         1/1     Running   # Container runtime hookup
+nvidia-dcgm-exporter-&lt;node&gt;                       1/1     Running   # Prometheus metrics
+nvidia-device-plugin-daemonset-&lt;node&gt;             1/1     Running   # Exposes GPUs as K8s resources
+nvidia-driver-daemonset-&lt;node&gt;                    1/1     Running   # NVIDIA kernel driver
+nvidia-mig-manager-&lt;node&gt;                         1/1     Running   # MIG partition management
+nvidia-operator-validator-&lt;node&gt;                  1/1     Running   # Validates GPU access
+</code></pre>
+
+<h3 id="step-3-mig-configuration-gpu-multi-instance-for-inference">Step 3: MIG Configuration — GPU Multi-Instance for Inference</h3>
+<p>A single H100 GPU can be partitioned into up to <strong>7 independent MIG instances</strong>, each with isolated compute, memory bandwidth, and cache. For inference serving, this is the most important GPU resource management tool available.</p>
+<p><strong>MIG Instance Profiles on H100 (80GB):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>GPU Compute</th>
+<th>Memory</th>
+<th>Instances per GPU</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1g.10gb</code></td>
+<td>1/7</td>
+<td>10GB</td>
+<td>7</td>
+<td>Small model inference, batch embed</td>
+</tr>
+<tr>
+<td><code>2g.20gb</code></td>
+<td>2/7</td>
+<td>20GB</td>
+<td>3</td>
+<td>Medium model inference</td>
+</tr>
+<tr>
+<td><code>3g.40gb</code></td>
+<td>3/7</td>
+<td>40GB</td>
+<td>2</td>
+<td>Large model, max 2 per GPU</td>
+</tr>
+<tr>
+<td><code>7g.80gb</code></td>
+<td>7/7</td>
+<td>80GB</td>
+<td>1</td>
+<td>Full GPU (training or huge models)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Configuring MIG via GPU Operator MIG Manager:</strong></p>
+<pre class="codehilite"><code class="language-yaml"># MIG configuration ConfigMap — applied per node via labels
+# This tells MIG Manager what partition scheme to create on each node
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mig-parted-config
+  namespace: gpu-operator
+data:
+  config.yaml: |
+    version: v1
+    mig-configs:
+      # Inference node: 7 small instances per GPU for maximum density
+      inference-dense:
+        - devices: all
+          mig-enabled: true
+          mig-devices:
+            &quot;1g.10gb&quot;: 7            # 7x small inference per H100
+
+      # Mixed node: some training, some inference
+      mixed-workload:
+        - devices: [0,1,2,3]        # First 4 GPUs: full for training
+          mig-enabled: false
+        - devices: [4,5,6,7]        # Last 4 GPUs: MIG for inference
+          mig-enabled: true
+          mig-devices:
+            &quot;2g.20gb&quot;: 3
+            &quot;1g.10gb&quot;: 1
+
+      # Training node: MIG disabled, whole GPUs
+      training-full:
+        - devices: all
+          mig-enabled: false
+</code></pre>
+
+<pre class="codehilite"><code class="language-bash"># Apply MIG config to inference nodes via node label
+oc label node ucs-gpu-inf-01 nvidia.com/mig.config=inference-dense
+
+# Verify MIG instances created
+nvidia-smi -L
+# GPU 0: NVIDIA H100 SXM5 80GB (UUID: GPU-...)
+#   MIG 1g.10gb Device 0: (UUID: MIG-...)
+#   MIG 1g.10gb Device 1: (UUID: MIG-...)
+#   ... (7 total)
+
+# Verify K8s can see MIG resources
+kubectl describe node ucs-gpu-inf-01 | grep -A 20 &quot;Capacity:&quot;
+# nvidia.com/mig-1g.10gb: 7     ← 7 MIG slices available for scheduling
+</code></pre>
+
+<h3 id="step-4-nvidia-network-operator-rdma-for-kubernetes-pods">Step 4: NVIDIA Network Operator — RDMA for Kubernetes Pods</h3>
+<p>For distributed training, Kubernetes pods need direct RDMA access to the RoCE fabric. The <strong>Network Operator</strong> configures SR-IOV virtual functions and Multus CNI so each training pod gets its own dedicated RDMA interface.</p>
+<pre class="codehilite"><code class="language-bash"># Install Network Operator
+helm install network-operator nvidia/network-operator \
+  --namespace nvidia-network-operator \
+  --create-namespace \
+  --set deployCR=true \
+  --set rdmaSharedDevicePlugin.deploy=true \
+  --set sriovDevicePlugin.deploy=true \
+  --set multus.deploy=true \
+  --set whereabouts.deploy=true      # IP address management for secondary interfaces
+</code></pre>
+
+<pre class="codehilite"><code class="language-yaml"># SriovNetworkNodePolicy — creates SR-IOV VFs from the RDMA NIC
+apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovNetworkNodePolicy
+metadata:
+  name: mlx-rdma-policy
+  namespace: sriov-network-operator
+spec:
+  resourceName: mlnx_rdma                    # How pods request this resource
+  nodeSelector:
+    feature.node.kubernetes.io/network-sriov.capable: &quot;true&quot;
+  numVfs: 8                                  # 8 SR-IOV virtual functions per physical port
+  nicSelector:
+    pfNames: [&quot;ens4f0&quot;]                      # The RDMA-capable physical port
+    vendor: &quot;15b3&quot;                           # Mellanox/NVIDIA NIC vendor ID
+  deviceType: netdevice
+  isRdma: true                               # Enable RDMA on VFs
+
+---
+# SriovNetwork — network attachment for pods
+apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovNetwork
+metadata:
+  name: rdma-network
+  namespace: sriov-network-operator
+spec:
+  resourceName: mlnx_rdma
+  networkNamespace: ai-training
+  ipam: |
+    {
+      &quot;type&quot;: &quot;whereabouts&quot;,
+      &quot;range&quot;: &quot;192.168.100.0/24&quot;
+    }
+</code></pre>
+
+<pre class="codehilite"><code class="language-yaml"># Training pod with full GPU + RDMA interface
+apiVersion: v1
+kind: Pod
+metadata:
+  name: training-job-worker-0
+  namespace: ai-training
+  annotations:
+    k8s.v1.cni.cncf.io/networks: rdma-network     # Attach RDMA secondary interface
+spec:
+  priorityClassName: ai-training-high
+  tolerations:
+  - key: &quot;nvidia.com/gpu&quot;
+    operator: &quot;Equal&quot;
+    value: &quot;training&quot;
+    effect: &quot;NoSchedule&quot;
+  nodeSelector:
+    node-role.kubernetes.io/gpu-training: ''
+    nvidia.com/gpu.product: &quot;NVIDIA-H100-SXM5-80GB&quot;
+  containers:
+  - name: trainer
+    image: nvcr.io/nvidia/pytorch:24.01-py3
+    resources:
+      limits:
+        nvidia.com/gpu: &quot;8&quot;              # All 8 GPUs on the node
+        mlnx_rdma: &quot;1&quot;                   # One RDMA SR-IOV VF
+        memory: &quot;1800Gi&quot;
+        cpu: &quot;128&quot;
+      requests:
+        nvidia.com/gpu: &quot;8&quot;
+        mlnx_rdma: &quot;1&quot;
+        memory: &quot;1800Gi&quot;
+        cpu: &quot;128&quot;
+    env:
+    - name: NCCL_P2P_DISABLE
+      value: &quot;0&quot;
+    - name: NCCL_IB_DISABLE
+      value: &quot;0&quot;                        # Enable IB/RoCE (0 = enabled)
+    - name: NCCL_DEBUG
+      value: &quot;WARN&quot;
+    - name: NCCL_IB_HCA
+      value: &quot;^mlx5&quot;                    # Use Mellanox RDMA HCA
+    - name: NCCL_SOCKET_IFNAME
+      value: &quot;eth0&quot;                     # Control plane interface
+    volumeMounts:
+    - name: training-data
+      mountPath: /data
+    - name: checkpoints
+      mountPath: /checkpoints
+    - name: shm                         # Shared memory for NCCL
+      mountPath: /dev/shm
+  volumes:
+  - name: training-data
+    persistentVolumeClaim:
+      claimName: training-dataset-pvc
+  - name: checkpoints
+    persistentVolumeClaim:
+      claimName: checkpoint-pvc
+  - name: shm
+    emptyDir:
+      medium: Memory
+      sizeLimit: &quot;32Gi&quot;                 # Large shared memory for NCCL allreduce
+</code></pre>
+
+<h3 id="step-5-gpu-time-slicing-alternative-to-mig-for-older-gpus">Step 5: GPU Time-Slicing (Alternative to MIG for Older GPUs)</h3>
+<p>For A100 or older GPUs that don't support MIG, time-slicing allows multiple containers to share a GPU — though without memory isolation (all tenants see the same GPU memory space, so this works for smaller models only).</p>
+<pre class="codehilite"><code class="language-yaml"># ConfigMap for GPU time-slicing
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: time-slicing-config
+  namespace: gpu-operator
+data:
+  any: |
+    version: v1
+    flags:
+      migStrategy: none
+    sharing:
+      timeSlicing:
+        renameByDefault: false
+        failRequestsGreaterThanOne: false
+        resources:
+        - name: nvidia.com/gpu
+          replicas: 4        # 4 pods can share each GPU (time-sliced)
+</code></pre>
+
+<pre class="codehilite"><code class="language-bash"># Apply time-slicing to nodes that don't support MIG
+oc label node ucs-gpu-a100-01 nvidia.com/device-plugin.config=time-slicing-config
+</code></pre>
+
+<h3 id="step-6-monitoring-gpu-utilization-on-openshift">Step 6: Monitoring GPU Utilization on OpenShift</h3>
+<p>Install the DCGM metrics stack to have visibility into what every GPU is actually doing.</p>
+<pre class="codehilite"><code class="language-yaml"># ServiceMonitor to scrape DCGM Exporter metrics into Prometheus
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: dcgm-exporter-monitor
+  namespace: gpu-operator
+  labels:
+    app: dcgm-exporter
+spec:
+  selector:
+    matchLabels:
+      app: dcgm-exporter
+  endpoints:
+  - port: metrics
+    interval: 15s
+    path: /metrics
+</code></pre>
+
+<p><strong>Critical DCGM metrics to watch and alert on:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Alert Threshold</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DCGM_FI_DEV_GPU_UTIL</code></td>
+<td>&lt; 70% (sustained)</td>
+<td>GPUs underutilized — likely storage or network bottleneck</td>
+</tr>
+<tr>
+<td><code>DCGM_FI_DEV_FB_USED</code></td>
+<td>&gt; 90%</td>
+<td>Near GPU OOM — risk of training crash</td>
+</tr>
+<tr>
+<td><code>DCGM_FI_DEV_NVLINK_BANDWIDTH_TOTAL</code></td>
+<td>&lt; 50% of peak</td>
+<td>NVLink underutilized — check NCCL configuration</td>
+</tr>
+<tr>
+<td><code>DCGM_FI_DEV_POWER_USAGE</code></td>
+<td>&gt; 700W (H100 TDP)</td>
+<td>Thermal throttling risk</td>
+</tr>
+<tr>
+<td><code>DCGM_FI_DEV_ECC_SBE_VOL_TOTAL</code></td>
+<td>&gt; 0 (growing)</td>
+<td>GPU memory single-bit errors — early hardware warning</td>
+</tr>
+<tr>
+<td><code>DCGM_FI_DEV_ECC_DBE_VOL_TOTAL</code></td>
+<td>&gt; 0</td>
+<td>Double-bit uncorrectable errors — node needs replacement</td>
+</tr>
+</tbody>
+</table>
+<pre class="codehilite"><code class="language-bash"># Quick GPU health check across all cluster nodes
+kubectl exec -n gpu-operator dcgm-exporter-&lt;pod&gt; -- dcgmi diag -r 1
+# Runs hardware diagnostics on all GPUs simultaneously
+</code></pre>
+
+<hr />
+<h2 id="layer-7-platform-automation-orchestration-making-it-repeatable">Layer 7: Platform Automation &amp; Orchestration — Making It Repeatable</h2>
+<p>At 8 servers you can configure things manually. At 80 servers, you cannot. Every configuration decision made in layers 1–6 must be codified so it can be applied consistently, audited, and reproduced.</p>
+<h3 id="cisco-intersight-as-the-control-plane">Cisco Intersight as the Control Plane</h3>
+<p><strong>Intersight</strong> is the cloud-based management platform for all Cisco UCS infrastructure. For AI clusters, it provides:
+- <strong>Server Profile templates</strong> — apply identical BIOS, vNIC, storage policies to 100 nodes at once
+- <strong>Workflow automation</strong> — multi-step provisioning workflows (rack → configure → validate → hand off)
+- <strong>Telemetry and alerting</strong> — server health, fan speed, power, component failures
+- <strong>API-driven</strong> — everything your Intersight engineer can do in the UI, you can do in Python</p>
+<pre class="codehilite"><code class="language-python"># Terraform: Cisco Intersight Server Profile for AI node (abridged)
+# Manages full lifecycle: physical server → configured AI node
+
+resource &quot;intersight_server_profile&quot; &quot;ai_training_node&quot; {
+  name           = &quot;ai-train-${var.node_index}&quot;
+  description    = &quot;AI Training Node - H100 SXM5 Configuration&quot;
+  target_platform = &quot;FIAttached&quot;
+
+  # Attach pre-built policy bundles
+  policy_bucket {
+    moid        = intersight_bios_policy.ai_optimized.moid
+    object_type = &quot;bios.Policy&quot;
+  }
+  policy_bucket {
+    moid        = intersight_vnic_lan_connectivity_policy.rdma_lan.moid
+    object_type = &quot;vnic.LanConnectivityPolicy&quot;
+  }
+  policy_bucket {
+    moid        = intersight_storage_storage_policy.nvme_local.moid
+    object_type = &quot;storage.StoragePolicy&quot;
+  }
+
+  tags = [
+    { key = &quot;ClusterRole&quot;,   value = &quot;gpu-training&quot; },
+    { key = &quot;ManagedBy&quot;,     value = &quot;terraform&quot; },
+    { key = &quot;ClusterName&quot;,   value = var.cluster_name }
+  ]
+}
+</code></pre>
+
+<h3 id="infrastructure-as-code-stack">Infrastructure-as-Code Stack</h3>
+<pre class="codehilite"><code>Automation Stack
+├── Terraform
+│   ├── intersight provider  → UCS server profiles, BIOS, vNIC, storage policies
+│   ├── openshift provider   → cluster install config, machine sets, operator subscriptions
+│   └── helm provider        → GPU Operator, Network Operator, monitoring stack
+├── Ansible
+│   ├── OS baseline          → RHCOS tuning, kernel parameters, hugepages
+│   ├── NVMe-oF initiators   → multipath configuration for storage fabric
+│   ├── Firmware validation  → BIOS, NIC, GPU driver version checks
+│   └── Day-2 runbooks       → node drain, GPU reset, fabric failover procedures
+└── Python
+    ├── Intersight SDK       → custom workflows, telemetry correlation
+    ├── Kubernetes API       → workload placement, quota management
+    └── Monitoring pipelines → GPU health scoring, proactive alerting
+</code></pre>
+
+<h3 id="intelligent-day-2-operations-with-intersight-automation">Intelligent Day-2 Operations with Intersight Automation</h3>
+<p>One of the highest-value automation investments on large clusters is connecting Intersight telemetry to automated remediation. Instead of a human reading a Grafana alert at 2 AM:</p>
+<pre class="codehilite"><code class="language-python"># Python: Automated GPU node health scoring + remediation trigger
+# Runs as a scheduled job, feeds into PagerDuty and auto-remediation
+
+import intersight
+from kubernetes import client as k8s_client
+
+def evaluate_node_health(api_client, k8s_api):
+    &quot;&quot;&quot;Score every GPU node and trigger remediation if score is below threshold&quot;&quot;&quot;
+
+    compute_api = intersight.ComputeApi(api_client)
+    servers = compute_api.get_compute_physical_summary_list(
+        filter=&quot;Tags/any(t:t/Key eq 'ClusterRole' and t/Value eq 'gpu-training')&quot;
+    )
+
+    for server in servers.results:
+        health_score = 100
+
+        # Deduct for thermal issues
+        if server.thermal == &quot;LowerCritical&quot; or server.thermal == &quot;UpperCritical&quot;:
+            health_score -= 50
+
+        # Deduct for memory ECC errors
+        if server.memory_summary.reachable == False:
+            health_score -= 30
+
+        # Deduct for power supply redundancy loss
+        if server.power_summary.input_ac_phase1_voltage &lt; 100:
+            health_score -= 20
+
+        # Trigger automated remediation
+        if health_score &lt; 60:
+            cordon_and_drain_node(k8s_api, server.name)
+            create_intersight_alert(api_client, server.moid, health_score)
+            notify_ops_team(server.name, health_score)
+</code></pre>
+
+<hr />
+<h2 id="layer-8-resiliency-architecture-surviving-failures-at-every-layer">Layer 8: Resiliency Architecture — Surviving Failures at Every Layer</h2>
+<p>Enterprise AI clusters are expected to run training jobs that take days and serve inference with 99.9%+ SLA. That requires deliberate fault tolerance design at every layer.</p>
+<h3 id="resiliency-matrix">Resiliency Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Failure Scenario</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frontend / LB</td>
+<td>Ingress pod crash</td>
+<td>Multiple replicas + PodDisruptionBudget</td>
+</tr>
+<tr>
+<td>Frontend / LB</td>
+<td>Single AZ loss</td>
+<td>Multi-zone Ingress with Anycast or GeoDNS</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Controller failure</td>
+<td>Dual-controller NVMe array, auto-failover</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Training data corruption</td>
+<td>Snapshot policy every 4h, off-array replication</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Checkpoint loss</td>
+<td>Write to two separate PVs (separate arrays)</td>
+</tr>
+<tr>
+<td>Backend Fabric</td>
+<td>Single switch failure</td>
+<td>Dual-spine Nexus vPC, ECMP reroutes in &lt;1s</td>
+</tr>
+<tr>
+<td>Backend Fabric</td>
+<td>Leaf ToR failure</td>
+<td>Servers dual-homed to separate ToRs</td>
+</tr>
+<tr>
+<td>Backend Fabric</td>
+<td>PFC storm / deadlock</td>
+<td>DCQCN rate limiting, watchdog timers</td>
+</tr>
+<tr>
+<td>Compute</td>
+<td>Single GPU failure</td>
+<td>NCCL elastic training, checkpoint/restart</td>
+</tr>
+<tr>
+<td>Compute</td>
+<td>Full node failure</td>
+<td>Kubernetes node drain, reschedule on spare node</td>
+</tr>
+<tr>
+<td>Compute</td>
+<td>Power unit failure</td>
+<td>Dual PSU per server, N+1 PDU per rack</td>
+</tr>
+<tr>
+<td>K8s Control Plane</td>
+<td>etcd node failure</td>
+<td>3-node etcd in separate fault domains</td>
+</tr>
+<tr>
+<td>K8s Control Plane</td>
+<td>API server overload</td>
+<td>Rate limiting, separate infra node pool</td>
+</tr>
+</tbody>
+</table>
+<h3 id="high-availability-design-for-the-openshift-control-plane">High Availability Design for the OpenShift Control Plane</h3>
+<p>The OpenShift control plane must be distributed across three infrastructure nodes — no two on the same physical rack or power domain.</p>
+<pre class="codehilite"><code class="language-yaml"># MachineSet for infrastructure nodes — 3 in different AZs or racks
+# Ensures etcd quorum survives any single infrastructure failure
+apiVersion: machine.openshift.io/v1beta1
+kind: MachineSet
+metadata:
+  name: ai-cluster-infra-az1
+  namespace: openshift-machine-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      machine.openshift.io/cluster-api-machineset: ai-cluster-infra-az1
+  template:
+    spec:
+      taints:
+      - key: node-role.kubernetes.io/infra
+        effect: NoSchedule
+      metadata:
+        labels:
+          node-role.kubernetes.io/infra: ''
+          topology.kubernetes.io/zone: rack-a         # Physical rack label
+      providerSpec:
+        value:
+          # UCS server in rack A
+          serverRef: ucs-infra-rackA-01
+</code></pre>
+
+<h3 id="training-job-resiliency-elastic-fault-tolerance">Training Job Resiliency — Elastic Fault Tolerance</h3>
+<p>A 256-GPU training job that fails because one GPU has an ECC error wastes all accumulated computation. The modern approach is elastic training with automatic checkpoint recovery.</p>
+<pre class="codehilite"><code class="language-python"># PyTorch Elastic Training (torchrun) — tolerates node failures mid-training
+# If a node fails, NCCL detects it and torchrun respawns with remaining nodes
+
+# Launch command on OpenShift (via a Job with indexed completion)
+torchrun \
+  --nproc_per_node=8 \
+  --nnodes=8:32 \              # Min 8 nodes, max 32 — elastic range
+  --max_restarts=3 \           # Allow 3 elastic restarts before job fails
+  --rdzv_backend=c10d \
+  --rdzv_endpoint=$MASTER_ADDR:29500 \
+  train.py \
+  --resume_from_checkpoint /checkpoints/latest
+</code></pre>
+
+<pre class="codehilite"><code class="language-yaml"># Kubernetes Job specification for elastic distributed training
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: llm-training-run-042
+  namespace: ai-training
+spec:
+  completions: 32           # Total workers
+  parallelism: 32
+  completionMode: Indexed
+  backoffLimit: 3           # 3 retries on failure before job is failed
+  template:
+    spec:
+      restartPolicy: OnFailure
+      priorityClassName: ai-training-high
+      tolerations:
+      - key: &quot;nvidia.com/gpu&quot;
+        operator: &quot;Equal&quot;
+        value: &quot;training&quot;
+        effect: &quot;NoSchedule&quot;
+      containers:
+      - name: trainer
+        image: nvcr.io/nvidia/pytorch:24.01-py3
+        command: [&quot;torchrun&quot;, &quot;--nproc_per_node=8&quot;, &quot;train.py&quot;,
+                  &quot;--resume_from_checkpoint&quot;, &quot;/checkpoints/latest&quot;]
+        resources:
+          limits:
+            nvidia.com/gpu: &quot;8&quot;
+            mlnx_rdma: &quot;1&quot;
+        volumeMounts:
+        - name: checkpoints
+          mountPath: /checkpoints
+        - name: shm
+          mountPath: /dev/shm
+      volumes:
+      - name: checkpoints
+        persistentVolumeClaim:
+          claimName: checkpoint-pvc
+      - name: shm
+        emptyDir:
+          medium: Memory
+          sizeLimit: &quot;32Gi&quot;
+</code></pre>
+
+<h3 id="network-resiliency-surviving-fabric-events-during-training">Network Resiliency — Surviving Fabric Events During Training</h3>
+<p>RDMA is sensitive to any network disruption. The design must handle switch failures, link flaps, and congestion events without halting training.</p>
+<pre class="codehilite"><code># On Cisco Nexus — configure RDMA failover behavior:
+# If primary RDMA path fails, secondary NIC takes over in &lt;100ms
+
+# vPC peer-keepalive link (separate from data path — use OOB mgmt)
+vpc domain 10
+  peer-keepalive destination &lt;FI-B-mgmt-ip&gt; source &lt;FI-A-mgmt-ip&gt;
+    vrf management
+  peer-gateway                   # Acts as gateway for both VPC peers' MACs
+  auto-recovery                  # Recovers from split-brain automatically
+
+# BFD (Bidirectional Forwarding Detection) for fast link failure detection
+feature bfd
+interface Ethernet1/1-8
+  bfd interval 100 min_rx 100 multiplier 3  # Detect failure in 300ms
+</code></pre>
+
+<hr />
+<h2 id="the-architects-checklist-decisions-to-make-before-you-procure">The Architect's Checklist — Decisions to Make Before You Procure</h2>
+<p>Here's the real order of operations that enterprise AI architects must follow:</p>
+<pre class="codehilite"><code>Phase 1: Design (Before Any Purchase Order)
+ □ Define training vs inference workload ratio
+ □ Size backend fabric for target GPU count × 400GbE per server
+ □ Choose RoCE v2 vs InfiniBand (Cisco ecosystem = RoCE v2 with Nexus)
+ □ Select storage system and size for aggregate throughput
+ □ Define OpenShift cluster topology (node pools, zones, rack placement)
+ □ Define GPU resource management strategy (MIG vs time-slicing per workload)
+
+Phase 2: Procurement (In This Order)
+ □ Network switches (long lead time — order first)
+ □ Storage arrays
+ □ Cisco UCS servers + VIC adapters
+ □ NVIDIA GPUs (SXM5 vs PCIe based on training/inference split)
+ □ Cables, optics, PDUs, rack space
+
+Phase 3: Infrastructure Deploy
+ □ Rack and cable per physical topology design
+ □ Validate cabling with LLDP/CDP neighbor verification
+ □ Configure Nexus QoS: PFC, ECN, DSCP markings
+ □ Validate RoCE bandwidth: ib_write_bw test node-to-node
+ □ Configure UCS Server Profiles via Intersight (BIOS, vNIC policies)
+
+Phase 4: OpenShift + GPU Stack
+ □ Deploy OpenShift 4.x on GPU node pool
+ □ Apply node taints and labels per pool
+ □ Install Node Feature Discovery (NFD)
+ □ Install NVIDIA GPU Operator (driver, toolkit, device plugin, DCGM)
+ □ Install NVIDIA Network Operator (SR-IOV, RDMA, Multus CNI)
+ □ Configure MIG profiles on inference nodes
+ □ Deploy ResourceQuotas and PriorityClasses per team namespace
+ □ Configure HPA for inference deployments
+
+Phase 5: Observability + Automation
+ □ Deploy Prometheus + Grafana (OpenShift monitoring stack)
+ □ Add DCGM Exporter ServiceMonitor
+ □ Configure Prometheus alerts for GPU health metrics
+ □ Build Intersight telemetry correlation pipeline
+ □ Codify all configuration as Terraform/Ansible (IaC from day one)
+</code></pre>
+
+<hr />
+<h2 id="the-most-common-mistakes-enterprise-teams-make">The Most Common Mistakes Enterprise Teams Make</h2>
+<p>After dozens of enterprise AI deployments at Cisco, these are the patterns that consistently cause pain:</p>
+<ol>
+<li>
+<p><strong>Buying GPUs before designing the network.</strong> RDMA-capable switches have 12–16 week lead times. GPU decisions get made first because they're visible, network decisions come second. It should be the reverse.</p>
+</li>
+<li>
+<p><strong>Treating storage as an afterthought.</strong> "We have a SAN" is not a storage strategy for AI. Enterprise SANs are block storage optimized for random IOPS. AI training needs parallel streaming reads at 1+ TB/s aggregate. These are different systems.</p>
+</li>
+<li>
+<p><strong>Defaulting to the most permissive QoS settings.</strong> Leaving PFC in "auto" or skipping ECN configuration means your RDMA fabric will have occasional packet drops — which cause NCCL to stall and recovers slowly. One packet drop on a 1000-GPU job can waste 30 seconds of compute across the entire cluster.</p>
+</li>
+<li>
+<p><strong>Skipping NFD and running GPU Operator in default mode.</strong> NFD is what tells Kubernetes what hardware lives on which nodes. Without it, GPU-aware scheduling is a coin flip.</p>
+</li>
+<li>
+<p><strong>Not separating inference and training node pools.</strong> A training job that lands on an inference node (or vice versa) disrupts both. Taints and tolerations are not optional in multi-tenant AI clusters.</p>
+</li>
+<li>
+<p><strong>Ignoring MIG for inference.</strong> Running one model replica per full H100 is expensive and wasteful. With MIG 1g.10gb, one H100 runs 7 independent inference services with hard GPU resource isolation. This is a 7x density improvement for inference-optimized deployments.</p>
+</li>
+<li>
+<p><strong>Manual Day-2 operations.</strong> At 100+ GPU nodes, a human checking Grafana dashboards and SSHing to nodes doesn't scale. Automated health scoring, node cordoning, and checkpoint recovery must be built in from day one — not bolted on after the first failure.</p>
+</li>
+<li>
+<p><strong>Not testing checkpoint recovery before production training.</strong> The first time your team discovers that checkpoint recovery doesn't work should not be during a 72-hour training run.</p>
+</li>
+</ol>
+<hr />
+<h2 id="where-to-start">Where to Start</h2>
+<p>If you're beginning your enterprise AI infrastructure journey, this is the sequence that actually works:</p>
+<p><strong>Week 1–2: Design</strong>
+- Define workload types and scale targets
+- Design Cisco Nexus fabric topology (leaf count, spine, uplinks per server)
+- Select storage system and validate throughput numbers with vendor</p>
+<p><strong>Week 3–4: Procurement + Network</strong>
+- Place switch and cable orders immediately
+- Configure Nexus QoS policy and validate with ib_write_bw between test nodes
+- Begin UCS server profile design in Intersight</p>
+<p><strong>Month 2: Platform Deploy</strong>
+- Deploy OpenShift with separate GPU node pools
+- Apply NFD → GPU Operator → Network Operator in that order
+- Configure MIG, SR-IOV, Multus CNI
+- Validate GPU resources visible in <code>kubectl describe node</code></p>
+<p><strong>Month 3: Workloads + Operations</strong>
+- Deploy first training job with checkpoint/recovery enabled
+- Deploy inference services with MIG slices and HPA
+- Stand up Prometheus + DCGM + Grafana + alerts
+- Run full failure simulation: kill a switch, kill a node, kill a storage controller — verify recovery</p>
+<hr />
+<h2 id="whats-coming-next">What's Coming Next</h2>
+<p>In upcoming posts I'll go deep on each layer:
+- <strong>RoCE v2 fabric tuning on Cisco Nexus</strong> — PFC, ECN, DCQCN, and why buffer depth matters more than raw bandwidth
+- <strong>NVIDIA MIG in production</strong> — designing multi-tenant inference capacity plans on shared H100 clusters
+- <strong>Automating Cisco Intersight with Python</strong> — real SDK code from real enterprise deployments
+- <strong>OpenShift AI (RHOAI) for MLOps</strong> — model serving, pipelines, and experiment tracking on top of GPU clusters
+- <strong>Fault injection and chaos testing</strong> — how to validate your AI cluster's resiliency before you need it to matter</p>
+<hr />
+<p><em>Have questions about AI infrastructure design for your organization? I'm always happy to discuss — <a href="../contact.html">get in touch</a> or connect on <a href="https://linkedin.com/in/maheshpabba">LinkedIn</a>.</em></p>
+  </article>
+
+  <!-- Share section -->
+  <div class="divider mt-12"></div>
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div>
+      <p class="font-semibold mb-2">Share this post</p>
+      <div class="flex gap-2">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://maheshpabba.com/posts/2026-05-20-ai-clusters-cisco-ucs.html"
+           target="_blank" rel="noopener"
+           class="btn btn-outline btn-sm gap-2">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://maheshpabba.com/posts/2026-05-20-ai-clusters-cisco-ucs.html&text="Building Enterprise AI Infrastructure: What an Architect Actually Goes Through""
+           target="_blank" rel="noopener"
+           class="btn btn-ghost btn-sm gap-2">
+          <i class="fab fa-twitter"></i> Twitter/X
+        </a>
+      </div>
+    </div>
+    <a href="../blog-home.html" class="btn btn-primary btn-sm">
+      <i class="fas fa-arrow-left mr-1"></i> More posts
+    </a>
+  </div>
+
+  <!-- Author card -->
+  <div class="card bg-base-200 mt-10">
+    <div class="card-body flex-row gap-5 items-center p-6">
+      <div class="w-16 h-16 rounded-full overflow-hidden shrink-0">
+        <img src="../assets/images/profile-lg.jpg" alt="Mahesh Pabba" class="w-full h-full object-cover object-center">
+      </div>
+      <div>
+        <p class="font-bold">Mahesh Pabba</p>
+        <p class="text-sm text-base-content/60">AI &amp; Cloud Architect · Cisco · 22+ years in enterprise infrastructure</p>
+        <div class="flex gap-2 mt-2">
+          <a href="https://linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-github"></i></a>
+          <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-xs"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer — posts/ pages (paths prefixed with ../). Use 2026 as replacement placeholder. -->
+<footer class="footer footer-center p-10 bg-base-300 text-base-content mt-10">
+  <nav class="flex flex-wrap gap-4 justify-center">
+    <a href="../index.html" class="link link-hover">About</a>
+    <a href="../resume.html" class="link link-hover">Resume</a>
+    <a href="../blog-home.html" class="link link-hover">Blog</a>
+    <a href="../contact.html" class="link link-hover">Contact</a>
+  </nav>
+  <nav class="flex gap-4">
+    <a href="https://linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-linkedin-in text-lg"></i></a>
+    <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-github text-lg"></i></a>
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-circle btn-sm"><i class="fas fa-envelope text-lg"></i></a>
+  </nav>
+  <aside><p class="text-base-content/50 text-sm">&#169; 2026 Mahesh Pabba &middot; AI &amp; Cloud Architect</p></aside>
+</footer>
+
+
+<script>hljs.highlightAll();</script>
+</body>
+</html>
