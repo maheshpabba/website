@@ -1439,4 +1439,4 @@ In upcoming posts I'll go deep on each layer:
 
 ---
 
-*Have questions about AI infrastructure design for your organization? I'm always happy to discuss — [get in touch](../contact.html) or connect on [LinkedIn](https://linkedin.com/in/maheshpabba).*
+*Have questions about AI infrastructure design for your organization? I'm always happy to discuss — [get in touch](../contact.html) or connect on [LinkedIn](https://www.linkedin.com/in/maheshpabba).*

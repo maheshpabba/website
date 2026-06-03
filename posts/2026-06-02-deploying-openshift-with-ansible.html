@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="solarized-light">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Deploying OpenShift on bare-metal servers is a multi-step orchestration problem — authentication, cluster creation, static networking, ISO booting via Redfish, host discovery, and post-install operators. Here's a complete walkthrough of an Ansible automation framework that handles all of it, including idempotent state management and Day-2 operations.">
+  <meta name="author" content="Mahesh Pabba">
+
+  <!-- Open Graph (LinkedIn / Twitter preview) -->
+  <meta property="og:title" content=""Deploying OpenShift with Ansible: A Production-Grade Automation Playbook"">
+  <meta property="og:description" content="Deploying OpenShift on bare-metal servers is a multi-step orchestration problem — authentication, cluster creation, static networking, ISO booting via Redfish, host discovery, and post-install operators. Here's a complete walkthrough of an Ansible automation framework that handles all of it, including idempotent state management and Day-2 operations.">
+  <meta property="og:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://maheshpabba.com/posts/2026-06-02-deploying-openshift-with-ansible.html">
+  <meta property="article:published_time" content="2026-06-02">
+  <meta property="article:author" content="Mahesh Pabba">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content=""Deploying OpenShift with Ansible: A Production-Grade Automation Playbook"">
+  <meta name="twitter:description" content="Deploying OpenShift on bare-metal servers is a multi-step orchestration problem — authentication, cluster creation, static networking, ISO booting via Redfish, host discovery, and post-install operators. Here's a complete walkthrough of an Ansible automation framework that handles all of it, including idempotent state management and Day-2 operations.">
+  <meta name="twitter:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script defer src="../assets/fontawesome/js/all.js"></script>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/blog-post.css">
+  <link rel="stylesheet" href="../assets/plugins/highlight/styles/monokai-sublime.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+</head>
+<body class="min-h-screen bg-base-100">
+
+<!-- Navbar — posts/ pages (paths prefixed with ../) -->
+<div class="navbar bg-base-200 shadow-md sticky top-0 z-50 px-4 lg:px-8">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden"><i class="fas fa-bars text-lg"></i></label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+        <li><a href="../index.html">About</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog-home.html" class="font-semibold">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <a href="../index.html" class="btn btn-ghost text-xl font-bold tracking-tight">Mahesh Pabba</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-1">
+      <li><a href="../index.html" class="font-medium rounded-lg">About</a></li>
+      <li><a href="../resume.html" class="font-medium rounded-lg">Resume</a></li>
+      <li><a href="../blog-home.html" class="font-medium rounded-lg bg-base-300">Blog</a></li>
+      <li><a href="../contact.html" class="font-medium rounded-lg">Contact</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-primary btn-sm">
+      <i class="fas fa-paper-plane mr-1"></i> Hire Me
+    </a>
+  </div>
+</div>
+
+
+<!-- Hero banner -->
+<div class="w-full h-64 overflow-hidden relative">
+  <img src="../assets/images/blog/covers/InfrastrucreAsCode.png" alt=""Deploying OpenShift with Ansible: A Production-Grade Automation Playbook"" class="w-full h-full object-cover opacity-40">
+  <div class="absolute inset-0 bg-gradient-to-t from-base-100 to-transparent"></div>
+</div>
+
+<div class="max-w-3xl mx-auto px-4 pb-20 -mt-12 relative">
+
+  <!-- Post header -->
+  <div class="mb-10">
+    <div class="flex flex-wrap gap-2 mb-4"><span class="badge badge-ghost badge-sm">OpenShift</span> <span class="badge badge-ghost badge-sm">Ansible</span> <span class="badge badge-ghost badge-sm">Automation</span> <span class="badge badge-ghost badge-sm">Kubernetes</span> <span class="badge badge-ghost badge-sm">Red Hat</span> <span class="badge badge-ghost badge-sm">Bare Metal</span> <span class="badge badge-ghost badge-sm">DevOps</span> <span class="badge badge-ghost badge-sm">Infrastructure</span></div>
+    <h1 class="text-3xl lg:text-4xl font-bold leading-tight mb-4">"Deploying OpenShift with Ansible: A Production-Grade Automation Playbook"</h1>
+    <div class="flex items-center gap-4 text-sm text-base-content/40">
+      <span><i class="fas fa-user mr-1"></i> Mahesh Pabba</span>
+      <span><i class="fas fa-calendar mr-1"></i> 2026-06-02</span>
+      <a href="../blog-home.html" class="link link-hover ml-auto"><i class="fas fa-arrow-left mr-1"></i> All posts</a>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Article body -->
+  <article class="prose max-w-none">
+    <p>Deploying OpenShift on bare-metal is not a one-click operation.</p>
+<p>When I started writing automation for OpenShift deployments on physical servers — Cisco UCS, standalone rack servers, edge nodes — I quickly discovered that the documentation gives you the ingredients but not the recipe. Authentication, cluster object creation, static network configuration generation, ISO mounting over Redfish BMC, polling for host discovery, role assignment, installation triggering, and post-install operator configuration are all separate concerns that have to be choreographed correctly and in the right order, every single time.</p>
+<p>The result of that work is a public Ansible playbook framework: <a href="https://github.com/maheshpabba/ansible-openshift"><strong>maheshpabba/ansible-openshift</strong></a>.</p>
+<p>This post walks through the architecture, the design decisions behind it, and how to use it.</p>
+<hr />
+<h2 id="the-problem-with-manual-openshift-deployment">The Problem with Manual OpenShift Deployment</h2>
+<p>The Red Hat Assisted Installer makes OpenShift accessible. But "accessible" means you can do it manually through the web console — it doesn't mean you can do it reliably, repeatedly, and at scale.</p>
+<p>The honest picture of a manual deployment looks like this:</p>
+<ul>
+<li><strong>Authentication has a shelf life.</strong> You exchange an offline token for a short-lived access token at the start. Spend too long on any one step and the token expires — silent failure, cryptic 401 errors, and you're back to step one.</li>
+<li><strong>NMState configs are per-server, hand-crafted YAML.</strong> One wrong MAC address or subnet prefix and the discovery ISO boots with no network. You won't know until you're 20 minutes into waiting for a host that will never appear.</li>
+<li><strong>ISO mounting via Redfish is vendor-dependent.</strong> The URL paths differ between Cisco IMC, Dell iDRAC, and HPE iLO. One wrong endpoint and the server boots from its local disk instead of the discovery image. Silent failure again.</li>
+<li><strong>Host discovery is a waiting game with no feedback.</strong> You poll the Assisted Installer API manually — or stare at the web UI — hoping hosts appear. If one doesn't, you have no immediate way to know whether it's a network issue, a boot order issue, or an ISO mount issue.</li>
+<li><strong>Role assignment is stateless.</strong> You assign hostnames, roles, and installation disks through API calls or the UI. None of that is saved anywhere portable. Do a fresh deployment next week and you're re-entering it all.</li>
+<li><strong>Failure at step 8 of 14 means manual triage.</strong> There's no checkpoint system. If installation fails mid-way, you figure out where it broke, clean up orphaned cluster objects, and decide what to redo — from memory.</li>
+</ul>
+<p>Do it once and you've learned the path. Do it wrong halfway through and you've burned hours. Need to stand up a second cluster, or rebuild a failed one three weeks later? You're starting from scratch, relying on notes that are probably already stale.</p>
+<p>Ansible, with proper state management, solves this.</p>
+<hr />
+<h2 id="repository-structure">Repository Structure</h2>
+<p>The <a href="https://github.com/maheshpabba/ansible-openshift">ansible-openshift</a> repository is organized as a single-playbook framework with modular task files:</p>
+<pre class="codehilite"><code>ansible-openshift/
+├── oshift_role.yml              # Main entry point — switch-controlled workflow
+├── oshift_add_role.yml          # Day-2: add worker nodes to existing cluster
+├── config.json                  # Your deployment configuration (not committed)
+├── config.json.example          # Template to copy and fill in
+├── vars/
+│   └── defaults.yml             # Default variable values and API endpoints
+├── tasks/                       # Modular task files — each owns one concern
+│   ├── initialize_state.yml     # Load config, restore saved state
+│   ├── authenticate.yml         # Red Hat SSO token exchange
+│   ├── create_cluster.yml       # Cluster object creation via API
+│   ├── generate_nmstate.yml     # Static NMState config generation per server
+│   ├── create_infrastructure_env.yml  # InfraEnv + ISO creation
+│   ├── get_iso_url.yml          # Resolve discovery ISO download URL
+│   ├── mount_iso.yml            # 3-strategy Redfish ISO mounting
+│   ├── discover_hosts.yml       # Poll until hosts appear in Assisted Installer
+│   ├── configure_hosts.yml      # Assign roles, hostnames, disks
+│   ├── start_installation.yml   # Trigger cluster install
+│   ├── configure_operators.yml  # OLM operator post-install config
+│   ├── deploy_helm_charts.yml   # Helm chart deployment
+│   ├── remove_nodes.yml         # Day-2 node removal
+│   └── approve_csrs.yml         # Certificate signing request approval
+└── inventory/                   # Generated output directory (gitignored)
+    ├── cluster_state.yml        # Saved deployment state for resume
+    ├── nmstate.json             # Generated network config
+    └── discovery.iso            # Downloaded ISO (if local strategy used)
+</code></pre>
+
+<p>Everything that runs is controlled by switches in <code>config.json</code> — boolean flags that tell the playbook which steps to execute or skip. This is the core of what makes the framework resumable and reusable.</p>
+<hr />
+<h2 id="step-1-configuration">Step 1: Configuration</h2>
+<p>The entire deployment is driven by a single <code>config.json</code> file. Copy the example template and fill in your environment:</p>
+<pre class="codehilite"><code class="language-bash">cp config.json.example config.json
+</code></pre>
+
+<p><strong>Minimum required fields:</strong></p>
+<pre class="codehilite"><code class="language-json">{
+  &quot;offline_token&quot;: &quot;YOUR_RED_HAT_SSO_OFFLINE_TOKEN&quot;,
+  &quot;pull_secret&quot;: &quot;YOUR_OPENSHIFT_PULL_SECRET_JSON&quot;,
+  &quot;ssh_public_key&quot;: &quot;ssh-rsa AAAA... your-key&quot;,
+
+  &quot;cluster_name&quot;: &quot;ocp-prod-01&quot;,
+  &quot;openshift_version&quot;: &quot;4.20.16&quot;,
+  &quot;base_dns_domain&quot;: &quot;yourdomain.com&quot;,
+  &quot;cpu_architecture&quot;: &quot;x86_64&quot;,
+  &quot;high_availability_mode&quot;: &quot;Full&quot;,
+  &quot;network_type&quot;: &quot;OVNKubernetes&quot;,
+  &quot;image_type&quot;: &quot;full-iso&quot;,
+
+  &quot;api_vip&quot;: &quot;10.201.9.100&quot;,
+  &quot;ingress_vip&quot;: &quot;10.201.9.101&quot;,
+
+  &quot;machine_networks&quot;: [{&quot;cidr&quot;: &quot;10.201.9.128/25&quot;}],
+  &quot;cluster_networks&quot;: [{&quot;cidr&quot;: &quot;10.128.0.0/14&quot;, &quot;host_prefix&quot;: 23}],
+  &quot;service_networks&quot;: [{&quot;cidr&quot;: &quot;172.30.0.0/16&quot;}],
+  &quot;dns_servers&quot;: [&quot;10.201.0.1&quot;]
+}
+</code></pre>
+
+<p><strong>Server definitions</strong> — one entry per physical node:</p>
+<pre class="codehilite"><code class="language-json">&quot;servers&quot;: [
+  {
+    &quot;name&quot;: &quot;master-0&quot;,
+    &quot;hostname&quot;: &quot;master-0.ocp-prod-01.yourdomain.com&quot;,
+    &quot;role&quot;: &quot;master&quot;,
+    &quot;management_ip&quot;: &quot;10.201.9.152&quot;,
+    &quot;username&quot;: &quot;admin&quot;,
+    &quot;password&quot;: &quot;REDACTED&quot;,
+    &quot;mac_address&quot;: &quot;00:be:75:72:2f:62&quot;,
+    &quot;installation_disk&quot;: &quot;/dev/sda&quot;,
+    &quot;ip_address&quot;: &quot;10.201.9.153&quot;,
+    &quot;subnet_prefix&quot;: 25,
+    &quot;gateway&quot;: &quot;10.201.9.154&quot;,
+    &quot;interface_config&quot;: {
+      &quot;name&quot;: &quot;eno1&quot;,
+      &quot;mac_address&quot;: &quot;00:be:75:72:2f:62&quot;
+    },
+    &quot;redfish&quot;: {
+      &quot;iso_mount_url&quot;: &quot;/redfish/v1/Managers/bmc/VirtualMedia/Slot_2/Actions/VirtualMedia.InsertMedia&quot;,
+      &quot;iso_status_url&quot;: &quot;/redfish/v1/Managers/bmc/VirtualMedia/Slot_2&quot;,
+      &quot;iso_eject_url&quot;: &quot;/redfish/v1/Managers/bmc/VirtualMedia/Slot_2/Actions/VirtualMedia.EjectMedia&quot;,
+      &quot;power_reset_url&quot;: &quot;/redfish/v1/Systems/system/Actions/ComputerSystem.Reset&quot;,
+      &quot;boot_override_url&quot;: &quot;/redfish/v1/Systems/system&quot;
+    }
+  }
+]
+</code></pre>
+
+<p>The <code>redfish</code> block tells the playbook how to reach each server's BMC for virtual media operations. The paths vary by vendor and server model — Cisco UCS, Dell iDRAC, HPE iLO, and Supermicro each use slightly different URL structures.</p>
+<hr />
+<h2 id="step-2-workflow-switches">Step 2: Workflow Switches</h2>
+<p>Every workflow step is individually toggleable. The full switch table from <code>config.json</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Switch</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>authenticate</code></td>
+<td><code>true</code></td>
+<td>Exchange offline token for API access token</td>
+</tr>
+<tr>
+<td><code>calculate_cluster_config</code></td>
+<td><code>false</code></td>
+<td>Auto-derive HA mode from server count</td>
+</tr>
+<tr>
+<td><code>create_cluster</code></td>
+<td><code>true</code></td>
+<td>Create cluster object via Assisted Installer API</td>
+</tr>
+<tr>
+<td><code>patch_operators</code></td>
+<td><code>true</code></td>
+<td>Pre-configure OLM operators during creation</td>
+</tr>
+<tr>
+<td><code>generate_nmstate_config</code></td>
+<td><code>true</code></td>
+<td>Generate static NMState network configs</td>
+</tr>
+<tr>
+<td><code>create_infrastructure_env</code></td>
+<td><code>true</code></td>
+<td>Create InfraEnv and generate discovery ISO</td>
+</tr>
+<tr>
+<td><code>create_manifests</code></td>
+<td><code>true</code></td>
+<td>Apply MachineConfigPool and MachineConfig manifests</td>
+</tr>
+<tr>
+<td><code>prepare_iso</code></td>
+<td><code>true</code></td>
+<td>Resolve ISO download URL</td>
+</tr>
+<tr>
+<td><code>mount_iso</code></td>
+<td><code>true</code></td>
+<td>Mount ISO via Redfish on each server</td>
+</tr>
+<tr>
+<td><code>discover_hosts</code></td>
+<td><code>true</code></td>
+<td>Poll until all hosts appear in Assisted Installer</td>
+</tr>
+<tr>
+<td><code>configure_hosts</code></td>
+<td><code>true</code></td>
+<td>Assign roles, hostnames, installation disks</td>
+</tr>
+<tr>
+<td><code>install_cluster</code></td>
+<td><code>true</code></td>
+<td>Trigger installation</td>
+</tr>
+<tr>
+<td><code>post_install_operations</code></td>
+<td><code>false</code></td>
+<td>Post-install cleanup and operator config</td>
+</tr>
+<tr>
+<td><code>save_state</code></td>
+<td><code>true</code></td>
+<td>Write state to <code>inventory/cluster_state.yml</code></td>
+</tr>
+</tbody>
+</table>
+<p>This design means you can run the playbook repeatedly without side effects. Already have a cluster created? Set <code>create_cluster: false</code>. ISO already mounted? Set <code>mount_iso: false</code>. The playbook only runs what you tell it to.</p>
+<hr />
+<h2 id="step-3-authentication-the-foundation">Step 3: Authentication — The Foundation</h2>
+<p>Every API call to the Red Hat Assisted Installer requires a short-lived bearer token. The <code>authenticate.yml</code> task handles the SSO token exchange:</p>
+<pre class="codehilite"><code class="language-yaml">- name: &quot;Authenticate with Red Hat SSO&quot;
+  uri:
+    url: &quot;https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token&quot;
+    method: POST
+    body_format: form-urlencoded
+    body:
+      grant_type: refresh_token
+      client_id: cloud-services
+      refresh_token: &quot;{{ cluster_config.offline_token }}&quot;
+    timeout: 300
+  register: auth_response
+</code></pre>
+
+<p>The <code>offline_token</code> from console.redhat.com is long-lived. The access token returned here is valid for ~15 minutes and is passed to every subsequent API call as <code>Authorization: Bearer {{ access_token }}</code>.</p>
+<p><strong>Where to get your offline token:</strong> Log in to <a href="https://console.redhat.com">console.redhat.com</a>, go to your profile → Offline Tokens → Generate Token.</p>
+<hr />
+<h2 id="step-4-cluster-creation">Step 4: Cluster Creation</h2>
+<p><code>create_cluster.yml</code> calls the Assisted Installer API to create the cluster object. Before doing so, it handles a subtle but important concern: if a cluster with the same name already exists, should it be deleted first?</p>
+<pre class="codehilite"><code class="language-json">&quot;delete_existing_cluster&quot;: true
+</code></pre>
+
+<p>This is controlled by the <code>delete_existing_cluster</code> switch. During development and testing you almost always want this set to <code>true</code> — otherwise re-runs pile up orphan cluster objects. In production, you likely want it set to <code>false</code> so a misconfigured re-run doesn't destroy a running cluster.</p>
+<p>The HA mode calculation is also smart. Instead of hardcoding <code>"Full"</code> or <code>"None"</code> (SNO), you can set <code>calculate_cluster_config: true</code> and the playbook derives the mode from your server count:</p>
+<ul>
+<li>1 server → Single Node OpenShift (<code>None</code>)</li>
+<li>3+ masters → Full HA (<code>Full</code>)</li>
+</ul>
+<hr />
+<h2 id="step-5-machineconfigpool-and-machineconfig-manifests">Step 5: MachineConfigPool and MachineConfig Manifests</h2>
+<p>This is a step that most OpenShift deployment guides skip entirely — and then you spend two days figuring out why your GPU nodes are behaving differently from your CPU workers, or why hugepages aren't configured after install.</p>
+<p>The <code>create_manifests.yml</code> task generates and uploads <code>MachineConfigPool</code> (MCP) and <code>MachineConfig</code> (MC) manifests to the cluster <em>before installation begins</em>, via the Assisted Installer manifests API. Doing this pre-install means the configuration is baked in from first boot — no post-install Day-2 machineconfig rollouts, no node reboots after the fact.</p>
+<h3 id="machineconfigpool-node-type-grouping">MachineConfigPool — Node Type Grouping</h3>
+<p>The playbook reads the <code>node_labels</code> from each server in your config and looks for a label key called <code>aipod.server.profile</code>. If your servers have different profiles (e.g., <code>gpu-worker</code>, <code>storage-worker</code>, <code>standard-worker</code>), the task generates a separate MCP for each unique type:</p>
+<pre class="codehilite"><code class="language-yaml">apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfigPool
+metadata:
+  name: gpu-worker
+  labels:
+    aipod.generated: &quot;true&quot;
+    worker.type: &quot;gpu-worker&quot;
+spec:
+  machineConfigSelector:
+    matchExpressions:
+      - key: machineconfiguration.openshift.io/role
+        operator: In
+        values: [worker, gpu-worker]
+  nodeSelector:
+    matchLabels:
+      node-role.kubernetes.io/gpu-worker: &quot;&quot;
+  paused: false
+  maxUnavailable: 1
+</code></pre>
+
+<p>This lets you apply different <code>MachineConfig</code> objects to different node classes independently — rolling kernel config changes to GPU workers without touching storage nodes, for example.</p>
+<h3 id="machineconfig-kernel-arguments-for-ai-workloads">MachineConfig — Kernel Arguments for AI Workloads</h3>
+<p>For each worker type, the task generates a <code>MachineConfig</code> that sets kernel arguments at boot time:</p>
+<pre class="codehilite"><code class="language-yaml">apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 99-gpu-worker-kernel-args
+  labels:
+    machineconfiguration.openshift.io/role: gpu-worker
+spec:
+  kernelArguments:
+    - module_blacklist=irdma
+    - intel_iommu=off
+    - amd_iommu=off
+    - iommu=off
+    - default_hugepagesz=1G
+    - hugepagesz=1G
+    - hugepages=16
+</code></pre>
+
+<p>Each of these arguments matters for AI and high-performance workloads:</p>
+<ul>
+<li><strong><code>module_blacklist=irdma</code></strong> — The iRDMA kernel module conflicts with NVIDIA's RDMA stack on some hardware. Blacklisting it prevents driver conflicts on GPU nodes that use RoCE or InfiniBand for GPU-to-GPU communication.</li>
+<li><strong><code>intel_iommu=off</code> / <code>amd_iommu=off</code> / <code>iommu=off</code></strong> — IOMMU can introduce latency on memory-intensive operations and cause issues with certain GPU direct memory access paths. Disabling it is standard practice for bare-metal GPU nodes where the security tradeoff is acceptable.</li>
+<li><strong><code>hugepages=16</code> at <code>1G</code> size</strong> — Reserves 16 GiB of 1G hugepages at boot. Large language model inference engines and high-throughput data pipelines benefit significantly from hugepages — they reduce TLB pressure and eliminate the overhead of managing thousands of 4K pages for large tensor buffers.</li>
+</ul>
+<h3 id="pre-install-upload-via-assisted-installer-api">Pre-Install Upload via Assisted Installer API</h3>
+<p>Both the MCP and MC manifests are uploaded to the Assisted Installer before installation is triggered, base64-encoded via the cluster manifests API:</p>
+<pre class="codehilite"><code class="language-http">POST /api/assisted-install/v2/clusters/{cluster_id}/manifests
+{
+  &quot;file_name&quot;: &quot;machine-config-pool-gpu-worker.yaml&quot;,
+  &quot;content&quot;: &quot;&lt;base64-encoded YAML&gt;&quot;
+}
+</code></pre>
+
+<p>The Assisted Installer applies these manifests during bootstrap, so by the time worker nodes complete installation and join the cluster, their MCPs and kernel arguments are already in place. No reboot cycle required after install.</p>
+<p>If you don't need differentiated worker pools, the task falls back gracefully — if no servers have an <code>aipod.server.profile</code> label, it generates a single MC targeting the default <code>worker</code> MCP.</p>
+<hr />
+<h2 id="step-6-static-networking-with-nmstate">Step 6: Static Networking with NMState</h2>
+<p>This is where most bare-metal deployments hit their first wall: the discovery ISO boots with DHCP by default, but enterprise environments almost always require static IPs.</p>
+<p>The <code>generate_nmstate.yml</code> task builds an NMState configuration for each server in your <code>servers</code> array and serializes it into the format expected by the Assisted Installer InfraEnv API:</p>
+<pre class="codehilite"><code class="language-json">{
+  &quot;mac_interface_map&quot;: [
+    {
+      &quot;logical_nic_name&quot;: &quot;eth0&quot;,
+      &quot;mac_address&quot;: &quot;00:be:75:72:2f:62&quot;
+    }
+  ],
+  &quot;network_yaml&quot;: &quot;interfaces:\n- name: eth0\n  type: ethernet\n  state: up\n  mac-address: 00:be:75:72:2f:62\n  ipv4:\n    enabled: true\n    dhcp: false\n    address:\n    - ip: 10.201.9.153\n      prefix-length: 25\nroutes:\n  config:\n  - destination: 0.0.0.0/0\n    next-hop-address: 10.201.9.154\n    next-hop-interface: eth0\ndns-resolver:\n  config:\n    server:\n    - 10.201.0.1\n&quot;
+}
+</code></pre>
+
+<p>This gets embedded into the InfraEnv when it's created, so the discovery ISO that boots on each server already has the correct static IP configuration for that specific machine.</p>
+<p>Set <code>use_static_network: false</code> in <code>config.json</code> to fall back to DHCP if your environment allows it.</p>
+<hr />
+<h2 id="step-7-iso-mounting-via-redfish-3-strategy-approach">Step 7: ISO Mounting via Redfish — 3-Strategy Approach</h2>
+<p>This is the most operationally interesting part of the playbook. Mounting a virtual media ISO via Redfish is theoretically standardized, but in practice every vendor implements the endpoint slightly differently, and network constraints (proxies, firewalls) can block direct access to Red Hat's CDN URLs.</p>
+<p>The <code>mount_iso.yml</code> task implements <strong>three progressive strategies</strong>:</p>
+<h3 id="strategy-1-direct-red-hat-url">Strategy 1: Direct Red Hat URL</h3>
+<p>Try mounting the Red Hat-hosted ISO URL directly to the server's BMC virtual media slot. This is the fastest path — no local download required:</p>
+<pre class="codehilite"><code class="language-yaml">- name: &quot;Try mounting ISO from Red Hat direct URL&quot;
+  uri:
+    url: &quot;https://{{ item.management_ip }}{{ item.redfish.iso_mount_url }}&quot;
+    method: POST
+    body:
+      Image: &quot;{{ iso_url }}&quot;
+      Inserted: true
+    body_format: json
+    validate_certs: no
+    status_code: [200, 204, 202]
+</code></pre>
+
+<h3 id="strategy-2-locally-hosted-iso">Strategy 2: Locally Hosted ISO</h3>
+<p>If Strategy 1 fails (BMC can't reach the Red Hat CDN — common in air-gapped or proxy-restricted environments), the playbook falls back to downloading the ISO locally and serving it from a temporary HTTP server that the BMC can reach.</p>
+<h3 id="strategy-3-pre-downloaded-iso">Strategy 3: Pre-downloaded ISO</h3>
+<p>If both remote strategies fail, the playbook looks for a locally cached ISO file (<code>inventory/discovery.iso</code>) and uses that.</p>
+<p>The playbook tracks mount successes and failures per-server and only moves on when all servers (or a configurable minimum) have successfully mounted the ISO.</p>
+<p>After mounting, servers are power-cycled via Redfish:</p>
+<pre class="codehilite"><code class="language-yaml">- name: &quot;Power cycle server to boot from ISO&quot;
+  uri:
+    url: &quot;https://{{ item.management_ip }}{{ item.redfish.power_reset_url }}&quot;
+    method: POST
+    body:
+      ResetType: &quot;GracefulRestart&quot;
+    body_format: json
+    validate_certs: no
+</code></pre>
+
+<hr />
+<h2 id="step-8-host-discovery">Step 8: Host Discovery</h2>
+<p>Once servers boot from the discovery ISO, they register themselves with the Assisted Installer API. The <code>discover_hosts.yml</code> task polls the API, checking for hosts reaching the <code>known</code> state:</p>
+<pre class="codehilite"><code>Polling discovery status...
+  master-0 (10.201.9.153): known ✅
+  master-1 (10.201.9.155): discovering...
+  master-2 (10.201.9.157): discovering...
+  worker-0 (10.201.9.159): known ✅
+</code></pre>
+
+<p>The discovery timeout is configurable (<code>discovery_timeout: 30</code> minutes by default). The playbook also implements smart auto-prerequisite detection — if you resume a deployment and the InfraEnv is missing from saved state, it automatically re-enables <code>create_infrastructure_env</code> before proceeding to discovery.</p>
+<hr />
+<h2 id="step-9-host-configuration">Step 9: Host Configuration</h2>
+<p>Once all hosts are discovered, <code>configure_hosts.yml</code> assigns:</p>
+<ul>
+<li><strong>Hostnames</strong> — from the <code>hostname</code> field in your server config</li>
+<li><strong>Roles</strong> — <code>master</code> or <code>worker</code></li>
+<li><strong>Installation disk</strong> — the device path (<code>/dev/sda</code>, <code>/dev/nvme0n1</code>, etc.)</li>
+<li><strong>Node labels</strong> — arbitrary Kubernetes labels applied at install time</li>
+</ul>
+<pre class="codehilite"><code class="language-json">&quot;node_labels&quot;: {
+  &quot;node-type&quot;: &quot;master&quot;,
+  &quot;storage-node&quot;: &quot;true&quot;
+}
+</code></pre>
+
+<p>The API calls patch each discovered host object with the correct assignments before installation is triggered.</p>
+<hr />
+<h2 id="step-10-cluster-installation">Step 10: Cluster Installation</h2>
+<p><code>install_cluster.yml</code> sends the <code>POST /clusters/{cluster_id}/actions/install</code> request, which kicks off the actual OpenShift installation. At this point the Assisted Installer coordinates bootstrapping across all nodes — the bootstrap node comes up first, the control plane forms, workers join, and operators initialize.</p>
+<p>The playbook monitors installation progress via the cluster and host status APIs, logging per-host progress until the cluster reaches <code>installed</code> state (typically 60–90 minutes).</p>
+<hr />
+<h2 id="state-management-the-resume-architecture">State Management — The Resume Architecture</h2>
+<p>The most operationally significant feature of this framework is <strong>state-aware resume</strong>. Every major step writes its output to <code>inventory/cluster_state.yml</code>:</p>
+<pre class="codehilite"><code class="language-yaml">cluster_id: &quot;abc123-def456-...&quot;
+infra_env_id: &quot;ghi789-jkl012-...&quot;
+iso_download_url: &quot;https://api.openshift.com/api/assisted-images/...&quot;
+install_status: &quot;installing&quot;
+workflow_phase: &quot;installation&quot;
+timestamp: &quot;2026-06-02T14:32:00+00:00&quot;
+</code></pre>
+
+<p>When you re-run the playbook, <code>initialize_state.yml</code> loads this file first. If <code>cluster_id</code> is already set, <code>create_cluster.yml</code> skips creation. If <code>infra_env_id</code> is set, <code>create_infrastructure_env.yml</code> skips. The playbook automatically picks up from where it left off.</p>
+<p><strong>Full retry (state-aware):</strong></p>
+<pre class="codehilite"><code class="language-bash">ansible-playbook oshift_role.yml
+</code></pre>
+
+<p><strong>Force fresh start:</strong></p>
+<pre class="codehilite"><code class="language-bash">rm inventory/cluster_state.yml inventory/*.json inventory/*.iso
+ansible-playbook oshift_role.yml
+</code></pre>
+
+<p>This resume capability is what makes the automation production-viable. A network glitch during host discovery at minute 45 doesn't mean starting over — re-run the playbook and it continues from the discovery polling phase.</p>
+<hr />
+<h2 id="day-2-operations">Day-2 Operations</h2>
+<p>The framework includes full Day-2 support for adding and removing worker nodes.</p>
+<h3 id="adding-worker-nodes">Adding Worker Nodes</h3>
+<p>Set <code>add_nodes: true</code> in <code>config.json</code> and add new server entries with <code>"operation": "add"</code>:</p>
+<pre class="codehilite"><code class="language-json">{
+  &quot;add_nodes&quot;: true,
+  &quot;servers&quot;: [
+    {
+      &quot;name&quot;: &quot;worker-3&quot;,
+      &quot;operation&quot;: &quot;add&quot;,
+      &quot;hostname&quot;: &quot;worker-3.ocp-prod-01.yourdomain.com&quot;,
+      &quot;role&quot;: &quot;worker&quot;,
+      ...
+    }
+  ]
+}
+</code></pre>
+
+<p>Then run the add-nodes playbook:</p>
+<pre class="codehilite"><code class="language-bash">ansible-playbook oshift_add_role.yml
+</code></pre>
+
+<p>This creates a new InfraEnv for the add-nodes operation, mounts the ISO on the new servers, waits for them to be discovered, configures them, and joins them to the existing cluster. The existing cluster is untouched.</p>
+<h3 id="removing-worker-nodes">Removing Worker Nodes</h3>
+<p>Set <code>remove_nodes: true</code> and mark servers with <code>"operation": "remove"</code>. The <code>remove_nodes.yml</code> task gracefully cordons, drains, and deletes the node before removing it from the Assisted Installer.</p>
+<h3 id="csr-approval">CSR Approval</h3>
+<p>When new nodes join the cluster, Kubernetes issues certificate signing requests that need to be approved. The <code>approve_csrs.yml</code> task polls for pending CSRs and approves them automatically:</p>
+<pre class="codehilite"><code class="language-yaml">- name: &quot;Approve pending certificate signing requests&quot;
+  command: &gt;
+    oc adm certificate approve {{ item.metadata.name }}
+  loop: &quot;{{ pending_csrs.stdout_lines }}&quot;
+</code></pre>
+
+<h3 id="helm-chart-deployment">Helm Chart Deployment</h3>
+<p>Set <code>helm_deploy: true</code> to trigger post-install Helm chart deployment. Define your charts in <code>config.json</code> under <code>helm_charts</code> and the <code>deploy_helm_charts.yml</code> task handles namespace creation, values templating, and chart installation.</p>
+<hr />
+<h2 id="olm-operator-configuration">OLM Operator Configuration</h2>
+<p>The <code>patch_operators</code> switch, when enabled during cluster creation, configures which OpenShift Lifecycle Manager operators are installed as part of the cluster installation process:</p>
+<pre class="codehilite"><code class="language-json">&quot;olm_operators&quot;: [
+  {&quot;name&quot;: &quot;node-feature-discovery&quot;},
+  {&quot;name&quot;: &quot;nvidia-gpu&quot;},
+  {&quot;name&quot;: &quot;lvm&quot;}
+]
+</code></pre>
+
+<p>These are passed to the Assisted Installer cluster creation API so the operators are available from day one — no post-install <code>oc apply</code> required.</p>
+<p>For GPU-bearing clusters (NVIDIA H100, A100), <code>node-feature-discovery</code> and <code>nvidia-gpu</code> together give you the full GPU Operator stack: device plugin, driver containers, DCGM exporter, and MIG management.</p>
+<hr />
+<h2 id="proxy-support">Proxy Support</h2>
+<p>Enterprise environments often require all external API traffic to go through a corporate proxy. The framework handles this at the variable level:</p>
+<pre class="codehilite"><code class="language-json">&quot;proxy&quot;: {
+  &quot;http_proxy&quot;: &quot;http://proxy.company.com:8080&quot;,
+  &quot;https_proxy&quot;: &quot;http://proxy.company.com:8080&quot;,
+  &quot;no_proxy&quot;: &quot;localhost,127.0.0.1,.cluster.local,10.0.0.0/8&quot;
+}
+</code></pre>
+
+<p>The playbook uses separate <code>api_environment</code> and <code>redfish_environment</code> variable dictionaries — proxy is applied to Red Hat API calls but explicitly cleared for Redfish BMC calls, since BMC management IPs are typically on isolated management networks that should not go through the proxy.</p>
+<hr />
+<h2 id="requirements">Requirements</h2>
+<h3 id="control-node">Control Node</h3>
+<ul>
+<li>Ansible 2.9+</li>
+<li>Python <code>requests</code> library</li>
+</ul>
+<pre class="codehilite"><code class="language-bash">pip install ansible requests
+</code></pre>
+
+<h3 id="red-hat-account">Red Hat Account</h3>
+<ul>
+<li>Valid Red Hat subscription</li>
+<li>Offline token from <a href="https://console.redhat.com/openshift/token">console.redhat.com</a></li>
+<li>OpenShift pull secret from <a href="https://console.redhat.com/openshift/install/pull-secret">console.redhat.com/openshift/install/pull-secret</a></li>
+</ul>
+<h3 id="physical-servers">Physical Servers</h3>
+<ul>
+<li>BMC with Redfish API support (Cisco IMC, Dell iDRAC, HPE iLO, Supermicro IPMI with Redfish)</li>
+<li>Management network access from the Ansible control node to BMC IPs</li>
+<li>Connectivity from BMC network to Red Hat API endpoints (or local ISO hosting)</li>
+</ul>
+<h3 id="network">Network</h3>
+<ul>
+<li>DNS resolution for cluster VIPs and node hostnames</li>
+<li><code>api_vip</code> and <code>ingress_vip</code> addresses reserved (not in DHCP pool)</li>
+</ul>
+<hr />
+<h2 id="running-it">Running It</h2>
+<pre class="codehilite"><code class="language-bash"># Clone the repo
+git clone https://github.com/maheshpabba/ansible-openshift.git
+cd ansible-openshift
+
+# Create your config
+cp config.json.example config.json
+# Edit config.json with your environment details
+
+# Deploy
+ansible-playbook oshift_role.yml
+</code></pre>
+
+<p>The playbook runs entirely on <code>localhost</code> — there's no Ansible inventory of hosts to manage. All server interaction goes through the Red Hat Assisted Installer API and direct Redfish calls.</p>
+<hr />
+<h2 id="what-this-looks-like-in-practice">What This Looks Like in Practice</h2>
+<p>A typical fresh deployment run produces output like:</p>
+<pre class="codehilite"><code>TASK [Authenticate with Red Hat SSO]
+ok: [localhost] =&gt; Red Hat SSO Authentication: SUCCESS
+
+TASK [Create cluster]
+ok: [localhost] =&gt; Cluster created: ocp-prod-01 (id: abc123...)
+
+TASK [Generate NMState configuration]
+ok: [localhost] =&gt; Generated static network config for 5 servers
+
+TASK [Create infrastructure environment]
+ok: [localhost] =&gt; InfraEnv created: ocp-prod-01-infraenv (id: def456...)
+
+TASK [Mount ISO on servers]
+ok: [localhost] =&gt;
+  STRATEGY 1 - Direct Red Hat URL Results:
+  ✅ Successful mounts: 5/5
+
+TASK [Wait for host discovery]
+ok: [localhost] =&gt;
+  master-0: known ✅
+  master-1: known ✅
+  master-2: known ✅
+  worker-0: known ✅
+  worker-1: known ✅
+
+TASK [Configure hosts]
+ok: [localhost] =&gt; Assigned roles and hostnames to 5 hosts
+
+TASK [Install cluster]
+ok: [localhost] =&gt; Installation triggered. Monitoring progress...
+  [60 minutes later]
+  Cluster status: installed ✅
+</code></pre>
+
+<hr />
+<h2 id="source">Source</h2>
+<p>The complete playbook framework is open source:</p>
+<p><strong>GitHub:</strong> <a href="https://github.com/maheshpabba/ansible-openshift">maheshpabba/ansible-openshift</a></p>
+<p>The repo includes <code>config.json.example</code> with all fields documented, and the <code>vars/defaults.yml</code> file has the full set of tunable parameters (timeouts, retry counts, API endpoints) with their defaults.</p>
+<p>If you're deploying OpenShift on Cisco UCS, the Redfish URL patterns in the server config match Cisco IMC's virtual media implementation. For other vendors, adjust the <code>redfish</code> block paths for your BMC's specific URL structure.</p>
+  </article>
+
+  <!-- Share section -->
+  <div class="divider mt-12"></div>
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div>
+      <p class="font-semibold mb-2">Share this post</p>
+      <div class="flex gap-2">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://maheshpabba.com/posts/2026-06-02-deploying-openshift-with-ansible.html"
+           target="_blank" rel="noopener"
+           class="btn btn-outline btn-sm gap-2">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://maheshpabba.com/posts/2026-06-02-deploying-openshift-with-ansible.html&text="Deploying OpenShift with Ansible: A Production-Grade Automation Playbook""
+           target="_blank" rel="noopener"
+           class="btn btn-ghost btn-sm gap-2">
+          <i class="fab fa-twitter"></i> Twitter/X
+        </a>
+      </div>
+    </div>
+    <a href="../blog-home.html" class="btn btn-primary btn-sm">
+      <i class="fas fa-arrow-left mr-1"></i> More posts
+    </a>
+  </div>
+
+  <!-- Author card -->
+  <div class="card bg-base-200 mt-10">
+    <div class="card-body flex-row gap-5 items-center p-6">
+      <div class="w-16 h-16 rounded-full overflow-hidden shrink-0">
+        <img src="../assets/images/profile-lg.jpg" alt="Mahesh Pabba" class="w-full h-full object-cover object-center">
+      </div>
+      <div>
+        <p class="font-bold">Mahesh Pabba</p>
+        <p class="text-sm text-base-content/60">AI &amp; Cloud Architect · Cisco · 22+ years in enterprise infrastructure</p>
+        <div class="flex gap-2 mt-2">
+          <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-github"></i></a>
+          <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-xs"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer — posts/ pages (paths prefixed with ../). Use 2026 as replacement placeholder. -->
+<footer class="footer footer-center p-10 bg-base-300 text-base-content mt-10">
+  <nav class="flex flex-wrap gap-4 justify-center">
+    <a href="../index.html" class="link link-hover">About</a>
+    <a href="../resume.html" class="link link-hover">Resume</a>
+    <a href="../blog-home.html" class="link link-hover">Blog</a>
+    <a href="../contact.html" class="link link-hover">Contact</a>
+  </nav>
+  <nav class="flex gap-4">
+    <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-linkedin-in text-lg"></i></a>
+    <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-github text-lg"></i></a>
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-circle btn-sm"><i class="fas fa-envelope text-lg"></i></a>
+  </nav>
+  <aside><p class="text-base-content/50 text-sm">&#169; 2026 Mahesh Pabba &middot; AI &amp; Cloud Architect</p></aside>
+</footer>
+
+
+<script>hljs.highlightAll();</script>
+</body>
+</html>

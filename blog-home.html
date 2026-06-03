@@ -61,14 +61,22 @@
 <div class="max-w-5xl mx-auto px-4 pt-10">
   <div class="flex flex-wrap gap-2" id="tag-filters">
     <button class="btn btn-primary btn-sm tag-btn" data-tag="all">All</button>
-    <button class="btn btn-outline btn-sm tag-btn" data-tag="AI">AI</button>
-    <button class="btn btn-outline btn-sm tag-btn" data-tag="Kubernetes">Kubernetes</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="OpenShift">OpenShift</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Ansible">Ansible</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Automation">Automation</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Kubernetes">Kubernetes</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Red Hat">Red Hat</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Bare Metal">Bare Metal</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="DevOps">DevOps</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Infrastructure">Infrastructure</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="AI">AI</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="Cisco">Cisco</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="GPU">GPU</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="RDMA">RDMA</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="Resiliency">Resiliency</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="Enterprise">Enterprise</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="SAP">SAP</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Cloud">Cloud</button>
   </div>
 </div>
 
@@ -76,6 +84,26 @@
 <div class="max-w-5xl mx-auto px-4 py-10 pb-20">
   <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     
+    <div class="card bg-base-200 shadow hover:shadow-lg transition-shadow" data-tags="OpenShift,Ansible,Automation,Kubernetes,Red Hat,Bare Metal,DevOps,Infrastructure">
+      <a href="posts/2026-06-02-deploying-openshift-with-ansible.html" class="block">
+        <figure class="h-44 overflow-hidden bg-base-300">
+          <img src="assets/images/blog/covers/InfrastructureAsCode.png" alt=""Deploying OpenShift with Ansible: A Production-Grade Automation Playbook""
+               class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity">
+        </figure>
+      </a>
+      <div class="card-body p-5">
+        <div class="flex flex-wrap gap-1 mb-2"><span class="badge badge-sm badge-ghost">OpenShift</span> <span class="badge badge-sm badge-ghost">Ansible</span> <span class="badge badge-sm badge-warning">Automation</span> <span class="badge badge-sm badge-secondary">Kubernetes</span> <span class="badge badge-sm badge-ghost">Red Hat</span> <span class="badge badge-sm badge-ghost">Bare Metal</span> <span class="badge badge-sm badge-ghost">DevOps</span> <span class="badge badge-sm badge-ghost">Infrastructure</span></div>
+        <h2 class="card-title text-base leading-snug">
+          <a href="posts/2026-06-02-deploying-openshift-with-ansible.html" class="hover:text-primary transition-colors">"Deploying OpenShift with Ansible: A Production-Grade Automation Playbook"</a>
+        </h2>
+        <p class="text-sm text-base-content/60 line-clamp-3">Deploying OpenShift on bare-metal servers is a multi-step orchestration problem — authentication, cluster creation, static networking, ISO booting via Redfish, host discovery, and post-install operators. Here's a complete walkthrough of an Ansible automation framework that handles all of it, including idempotent state management and Day-2 operations.</p>
+        <div class="card-actions justify-between items-center mt-3">
+          <span class="text-xs text-base-content/40"><i class="fas fa-calendar mr-1"></i>2026-06-02</span>
+          <a href="posts/2026-06-02-deploying-openshift-with-ansible.html" class="btn btn-primary btn-xs">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
     <div class="card bg-base-200 shadow hover:shadow-lg transition-shadow" data-tags="AI,Kubernetes,OpenShift,Cisco,GPU,RDMA,Resiliency,Enterprise">
       <a href="posts/2026-05-20-ai-clusters-cisco-ucs.html" class="block">
         <figure class="h-44 overflow-hidden bg-base-300">
@@ -108,7 +136,7 @@
     <a href="contact.html" class="link link-hover">Contact</a>
   </nav>
   <nav class="flex gap-4">
-    <a href="https://linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-linkedin-in text-lg"></i></a>
+    <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-linkedin-in text-lg"></i></a>
     <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-github text-lg"></i></a>
     <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-circle btn-sm"><i class="fas fa-envelope text-lg"></i></a>
   </nav>

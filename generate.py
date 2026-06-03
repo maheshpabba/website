@@ -224,7 +224,7 @@ def generate_html(md_path: Path, index_entry: dict | None = None) -> dict:
         <p class="font-bold">Mahesh Pabba</p>
         <p class="text-sm text-base-content/60">AI &amp; Cloud Architect · Cisco · 22+ years in enterprise infrastructure</p>
         <div class="flex gap-2 mt-2">
-          <a href="https://linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-linkedin-in"></i></a>
           <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-github"></i></a>
           <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-xs"><i class="fas fa-envelope"></i></a>
         </div>
@@ -283,7 +283,7 @@ def _post_card(post: dict) -> str:
       <a href="posts/{post["slug"]}.html" class="block">
         <figure class="h-44 overflow-hidden bg-base-300">
           <img src="{img}" alt="{post["title"]}"
-               class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity">
+               class="w-full h-full object-cover transition-opacity">
         </figure>
       </a>
       <div class="card-body p-5">
