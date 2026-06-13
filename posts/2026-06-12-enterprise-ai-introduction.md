@@ -204,6 +204,10 @@ Three key namespaces, each doing exactly one job: single-use HMAC token enforcem
 
 [Getraind](https://www.getraind.com) runs all of this on old model servers with VMs — not on Cisco UCS clusters. That's intentional. The software architecture is the part that matters. When I work with enterprise customers buying UCS clusters and H100s, the same stack runs on that hardware with NVAIE serving models locally. The infrastructure post covers the hardware side. This series covers the platform. Together they're the complete picture.
 
+If you want to go deeper on the raw ML mechanics — building a transformer architecture from scratch, generating synthetic instruction datasets (JSONL for LLM fine-tuning), LoRA fine-tuning on domain-specific data, or unsupervised fine-tuning approaches — that work is documented in my open-source **[AI Lab training repository](https://github.com/maheshpabba/aitraining)** on GitHub. It's a separate track from the platform architecture, but it proves the hands-on ML skills that inform every design decision in this series.
+
+The platform itself is also open source: **[DCAF (DataCenter AI Frameworks)](https://github.com/maheshpabba/genaistack)** is a fully containerized GenAI stack — FastAPI + LangChain/LangGraph backend, React frontend, Ollama local inference, MongoDB Atlas for vector search, NATS for decoupled GGUF inference, OpenVINO INT4/INT8 for CPU-only environments, and NVIDIA NIM integration for Cisco UCS X AI Pod. The architecture patterns covered in this blog series are the same patterns running in that codebase.
+
 The benchmark I hold enterprise AI to: fast to deploy, safe with your data, economical to operate, and so useful that adoption is not a change management problem — it's a capacity management problem.
 
 ---

@@ -301,6 +301,7 @@ spec:
 <p>Getraind doesn't run any of this. I use NVIDIA NIM cloud APIs and Anthropic Claude APIs because I don't have H100 hardware available to me personally. That's not a compromise I apologize for — it's the pragmatic starting point that lets you build and validate the entire software stack before committing to hardware spend.</p>
 <p>The tiered model strategy still applies in Getraind — different roles call different NIM models via the cloud API. The cost savings are real even at cloud API pricing. But for a production enterprise deployment where data sovereignty and latency SLAs matter, on-prem NVAIE is the path.</p>
 <p>The architecture you build during the cloud API phase is identical to what you'd run on-prem. When you're ready to bring it local, you change the base URL in the LLM Gateway configuration. That's it.</p>
+<p>For the <strong>training and fine-tuning side</strong> — LoRA adapters on domain-specific data, full parameter fine-tuning, synthetic dataset generation — the GPU sizing math is different (training is memory-bandwidth bound in ways inference is not). My open-source <strong><a href="https://github.com/maheshpabba/aitraining">AI Lab training notebooks</a></strong> cover this hands-on: LoRA fine-tuning on Intersight domain data, GPT-2 full fine-tune, and building a transformer from scratch. Good starting point before you commit to training hardware spend.</p>
 <hr />
 <h2 id="summary-hardware-sizing-checklist">Summary: Hardware Sizing Checklist</h2>
 <p>Before you order a single GPU:</p>

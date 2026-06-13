@@ -332,6 +332,9 @@ vectors = await gateway.embed([&quot;doc1&quot;, &quot;doc2&quot;], input_type=&
 </code></pre>
 
 <p>Every node in every agent goes through these four methods. The gateway is the only place in the codebase that knows which model is serving which request.</p>
+<blockquote>
+<p><strong>Open-source reference implementation</strong>: The full LLM Gateway pattern described in this post — config-driven backend selection, role-based routing, fallback logic, embeddings, and streaming — is implemented in <strong><a href="https://github.com/maheshpabba/genaistack">DCAF (DataCenter AI Frameworks)</a></strong>. DCAF supports four inference backends behind the same FastAPI interface: Ollama (local), OpenVINO INT4/INT8 (CPU-only), llama.cpp/GGUF over NATS, and NVIDIA NIM on Cisco UCS X AI Pod. Switching backends is a single config value — no code changes.</p>
+</blockquote>
 <hr />
 <h2 id="what-comes-after-this-post">What Comes After This Post</h2>
 <p>The LLM Gateway is the economic engine of the platform — it's what makes enterprise-scale AI affordable without sacrificing capability where it matters. But it's only valuable if the hardware underneath it can serve models fast enough to meet latency SLAs.</p>

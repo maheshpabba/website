@@ -183,6 +183,8 @@
           <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Led end-to-end AI infrastructure implementations using NVIDIA GPU Operator, Network Operator, and Node Feature Discovery (NFD) managed through Cisco Intersight.</span></li>
           <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Automated compute provisioning for UCS, Fabric Interconnects, and OpenShift clusters using Terraform, Ansible, and Python — significantly reducing deployment time.</span></li>
           <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Developed Python + LangChain agents and a Webex bot for autonomous Day-2 operations; fine-tuned Llama2 on Intersight operational data for domain-specific inference.</span></li>
+          <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Published open-source <a href="https://github.com/maheshpabba/aitraining" target="_blank" rel="noopener" class="link link-primary">AI Lab training notebooks</a> — hands-on Jupyter notebooks covering ML fundamentals, synthetic instruction dataset generation (JSONL for LLM fine-tuning), LoRA fine-tuning on domain-specific Intersight data, and building a transformer model from scratch.</span></li>
+          <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Designed and built <a href="https://github.com/maheshpabba/genaistack" target="_blank" rel="noopener" class="link link-primary">DCAF (DataCenter AI Frameworks)</a> — open-source, containerized GenAI platform: FastAPI + LangChain/LangGraph backend, React 18 frontend, Ollama local LLM inference, MongoDB Atlas Vector Store for multi-modal RAG (PDF/DOCX/PPTX/images/YouTube), NATS message queue for decoupled GGUF inference, OpenVINO CPU-optimized INT4/INT8 for GPU-free environments, Vosk offline speech-to-text, and NVIDIA NIM integration for Cisco UCS X AI Pod.</span></li>
           <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Built and maintained Kubernetes/OpenShift clusters across AWS, Azure, and on-prem with Kubespray; supported real customer AI training and inference workloads.</span></li>
           <li class="flex gap-2"><span class="text-primary shrink-0">▸</span><span>Co-authored Cisco Validated Design (CVD): <a href="https://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/UCS_CVDs/flashstack_rag_nim.html" target="_blank" rel="noopener" class="link link-primary">FlashStack for Enterprise RAG Pipeline with NVIDIA NIM, NIM Operator, and RAG Blueprint</a> — validated enterprise RAG architecture on Cisco UCS X-Series with Pure Storage and NVAIE. (Published May 2025)</span></li>
         </ul>
@@ -354,10 +356,10 @@
     </section>
   </div>
 
-  <!-- ── PUBLICATIONS & CVDs ──────────────────────────────────── -->
+  <!-- ── PUBLICATIONS, CVDs & PROJECTS ──────────────────────── -->
   <section class="mb-8">
     <h2 class="text-xs font-bold tracking-widest text-primary uppercase mb-4 flex items-center gap-2">
-      <span class="w-6 h-0.5 bg-primary inline-block"></span> Publications &amp; CVDs
+      <span class="w-6 h-0.5 bg-primary inline-block"></span> Publications, CVDs &amp; Projects
     </h2>
     <div class="card bg-base-200">
       <div class="card-body p-5">
@@ -367,6 +369,24 @@
             <a href="https://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/UCS_CVDs/flashstack_rag_nim.html" target="_blank" rel="noopener" class="font-semibold text-primary link link-hover">FlashStack for Enterprise RAG Pipeline with NVIDIA NIM, NIM Operator, and RAG Blueprint</a>
             <p class="text-base-content/60 text-xs mt-1">Cisco Validated Design (CVD) &middot; Co-Author &middot; Published May 2025</p>
             <p class="text-base-content/75 text-xs mt-1">Validated architecture for enterprise-grade Retrieval Augmented Generation pipelines on Cisco UCS X-Series with Pure Storage FlashArray/FlashBlade, NVIDIA AI Enterprise (NVAIE), NIM microservices, NIM Operator, and Red Hat OpenShift — jointly engineered by Cisco, Pure Storage, and NVIDIA.</p>
+          </div>
+        </div>
+        <div class="divider my-3"></div>
+        <div class="flex gap-3 items-start text-sm">
+          <i class="fab fa-github text-base-content/60 w-4 shrink-0 mt-0.5"></i>
+          <div>
+            <a href="https://github.com/maheshpabba/aitraining" target="_blank" rel="noopener" class="font-semibold text-primary link link-hover">AI Lab: Learning Repository</a>
+            <p class="text-base-content/60 text-xs mt-1">Open-Source GitHub Project &middot; Jupyter Notebooks &middot; Active</p>
+            <p class="text-base-content/75 text-xs mt-1">Hands-on AI/ML notebooks organized in three tracks: <strong>ML Basics</strong> (supervised/unsupervised learning, transformer from scratch), <strong>Datasets</strong> (synthetic instruction dataset generation, Intersight API dataset, PDF extraction, web scraping for LLM fine-tuning), and <strong>Fine Tuning</strong> (LoRA fine-tuning on domain-specific data, GPT-2 full fine-tune, unsupervised fine-tuning, end-to-end model creation).</p>
+          </div>
+        </div>
+        <div class="divider my-3"></div>
+        <div class="flex gap-3 items-start text-sm">
+          <i class="fab fa-github text-base-content/60 w-4 shrink-0 mt-0.5"></i>
+          <div>
+            <a href="https://github.com/maheshpabba/genaistack" target="_blank" rel="noopener" class="font-semibold text-primary link link-hover">DCAF — DataCenter AI Frameworks</a>
+            <p class="text-base-content/60 text-xs mt-1">Open-Source GitHub Project &middot; Full-Stack GenAI Platform &middot; Containerized</p>
+            <p class="text-base-content/75 text-xs mt-1">Production-grade GenAI platform for datacenter use cases. Stack: <strong>React 18 + Vite</strong> frontend, <strong>FastAPI + LangChain + LangGraph</strong> backend, <strong>MongoDB Atlas</strong> vector store, <strong>NATS JetStream</strong> message queue. Inference backends: Ollama (local LLMs), OpenVINO INT4/INT8 (CPU-only), llama.cpp/GGUF over NATS, and <strong>NVIDIA NIM</strong> on Cisco UCS X AI Pod (remote mode). Features include multi-modal RAG (PDF, DOCX, PPTX, images, YouTube), semantic caching, OIDC auth (Cisco SSO + Duo Security), LangGraph ReAct agent orchestration, visual workflow builder, and custom Python tool authoring.</p>
           </div>
         </div>
       </div>

@@ -184,6 +184,8 @@ The tiered model strategy still applies in Getraind — different roles call dif
 
 The architecture you build during the cloud API phase is identical to what you'd run on-prem. When you're ready to bring it local, you change the base URL in the LLM Gateway configuration. That's it.
 
+For the **training and fine-tuning side** — LoRA adapters on domain-specific data, full parameter fine-tuning, synthetic dataset generation — the GPU sizing math is different (training is memory-bandwidth bound in ways inference is not). My open-source **[AI Lab training notebooks](https://github.com/maheshpabba/aitraining)** cover this hands-on: LoRA fine-tuning on Intersight domain data, GPT-2 full fine-tune, and building a transformer from scratch. Good starting point before you commit to training hardware spend.
+
 ---
 
 ## Summary: Hardware Sizing Checklist
