@@ -1,5 +1,150 @@
 [
   {
+    "slug": "2026-06-20-redis-enterprise-ai",
+    "title": "\"Redis in Enterprise AI: Rate Limiting, Token Security, and Session Management\"",
+    "date": "2026-06-20",
+    "excerpt": "Redis doesn't get conference-talk glory, but without it, real-time multi-user AI systems fall apart. Single-use HMAC tokens, sliding-window rate limiting, session registry — here's the full implementation with production configuration and graceful degradation patterns.",
+    "tags": [
+      "Enterprise AI",
+      "Redis",
+      "Rate Limiting",
+      "WebSocket",
+      "Security",
+      "HMAC",
+      "Getraind",
+      "Docker"
+    ],
+    "image": "assets/images/blog/covers/AI-Infrastructure.png"
+  },
+  {
+    "slug": "2026-06-19-cache-memory-architecture",
+    "title": "\"Cache and Memory Architecture: How Enterprise AI Gets Faster and Smarter Over Time\"",
+    "date": "2026-06-19",
+    "excerpt": "Cache answers \"have I computed this before?\" Memory answers \"what do I know that helps me now?\" They're different systems with different lifecycles — and combining them is what makes an enterprise AI platform dramatically more capable and economical than a stateless chatbot.",
+    "tags": [
+      "Enterprise AI",
+      "Cache",
+      "Memory",
+      "Episodic Memory",
+      "Semantic Cache",
+      "LangGraph",
+      "MongoDB",
+      "Getraind"
+    ],
+    "image": "assets/images/blog/covers/AI-Infrastructure.png"
+  },
+  {
+    "slug": "2026-06-18-agent-chat-runtime",
+    "title": "\"The Agent Chat Runtime: From WebSocket to Streamed Response\"",
+    "date": "2026-06-18",
+    "excerpt": "What actually happens between the moment a user sends a message in AI Studio and the moment the first token appears on screen? Eight steps, HMAC token security, LangGraph graph execution, Redis rate limiting, memory injection, and real-time streaming — all in under 200ms to first token.",
+    "tags": [
+      "Enterprise AI",
+      "Agent Runtime",
+      "WebSocket",
+      "LangGraph",
+      "HMAC",
+      "Security",
+      "Getraind"
+    ],
+    "image": "assets/images/blog/covers/AI-Infrastructure.png"
+  },
+  {
+    "slug": "2026-06-17-agent-builder-runtime",
+    "title": "\"The Agent Builder Runtime: The AI That Designs AI\"",
+    "date": "2026-06-17",
+    "excerpt": "The Agent Builder Studio is a meta-agent — an AI whose job is to design other AI agents. A 7-stage methodology, a multi-node LangGraph topology, and an evaluator that checks every artifact before it's written to disk. Here's how it works end to end.",
+    "tags": [
+      "Enterprise AI",
+      "Agent Builder",
+      "LangGraph",
+      "Meta-Agent",
+      "Getraind",
+      "AI Studio",
+      "Methodology"
+    ],
+    "image": "assets/images/blog/covers/AI-Infrastructure.png"
+  },
+  {
+    "slug": "2026-06-16-agent-factory-declarative-primitives",
+    "title": "\"The Agent Factory: How Declarative Primitives Become Running Agents\"",
+    "date": "2026-06-16",
+    "excerpt": "Building a new AI agent shouldn't require an engineer and a two-week sprint. In Getraind, an agent is a markdown file — topology, prompts, and metadata — that the Agent Factory compiles into a running LangGraph graph on demand. Zero code, hot reload, no redeployment.",
+    "tags": [
+      "Enterprise AI",
+      "Agent Factory",
+      "LangGraph",
+      "Declarative AI",
+      "Getraind",
+      "AI Studio",
+      "Primitives"
+    ],
+    "image": "assets/images/blog/covers/AI-Infrastructure.png"
+  },
+  {
+    "slug": "2026-06-15-enterprise-ai-design",
+    "title": "\"Designing Enterprise AI: From Business Problem to Agent Architecture\"",
+    "date": "2026-06-15",
+    "excerpt": "Before you buy a GPU or write a line of agent code, there are four questions that determine whether your enterprise AI succeeds or fails. Most teams skip them. Here's how I think through the design process — from identifying the right problems to mapping them to agent topologies.",
+    "tags": [
+      "Enterprise AI",
+      "AI Design",
+      "Agent Architecture",
+      "Business Problems",
+      "Getraind",
+      "AI Studio"
+    ],
+    "image": "assets/images/blog/covers/AI-Infrastructure.png"
+  },
+  {
+    "slug": "2026-06-14-gpu-hardware-model-selection",
+    "title": "\"GPU Hardware and Model Selection for Enterprise AI: The Math Nobody Shows You\"",
+    "date": "2026-06-14",
+    "excerpt": "How many GPUs do you actually need? The vendor answer is \"buy more.\" The honest answer requires math — model memory requirements, concurrent user throughput, latency SLAs, and a tiered model strategy that can cut your GPU footprint by 60–70% compared to the naive approach.",
+    "tags": [
+      "Enterprise AI",
+      "GPU",
+      "NVIDIA",
+      "NVAIE",
+      "Model Selection",
+      "Hardware",
+      "Distributed Inference",
+      "H100"
+    ],
+    "image": "assets/images/blog/covers/AI-Infrastructure.png"
+  },
+  {
+    "slug": "2026-06-13-llm-gateway-enterprise-ai",
+    "title": "\"The LLM Gateway: How to Route AI Requests Intelligently and Cut Costs by 60–80%\"",
+    "date": "2026-06-13",
+    "excerpt": "Every enterprise AI request doesn't need the same model. A routing decision costs microseconds on a 7B model. A deep reasoning chain needs your most capable. The LLM Gateway is the component that enforces this — and the difference in monthly cost is not 10%. It's 60–80%.",
+    "tags": [
+      "Enterprise AI",
+      "LLM Gateway",
+      "NVIDIA NIM",
+      "NVAIE",
+      "Anthropic",
+      "Cost Optimization",
+      "AI Architecture"
+    ],
+    "image": "assets/images/blog/covers/AI-Infrastructure.png"
+  },
+  {
+    "slug": "2026-06-12-enterprise-ai-introduction",
+    "title": "\"The Enterprise AI Reckoning: Why Cloud AI Is a Trap and What to Build Instead\"",
+    "date": "2026-06-12",
+    "excerpt": "Every enterprise is racing toward AI. Most are doing it wrong — paying cloud providers a fortune, leaking sensitive data, and building nothing they own. Here's what I've learned building a complete enterprise AI platform from scratch, and why the real work has nothing to do with ChatGPT.",
+    "tags": [
+      "Enterprise AI",
+      "LLM Gateway",
+      "AI Architecture",
+      "Data Security",
+      "Agent Runtime",
+      "Cost Optimization"
+    ],
+    "image": "assets/images/blog/covers/AI-Infrastructure.png"
+  },
+  {
     "slug": "2026-06-02-deploying-openshift-with-ansible",
     "title": "\"Deploying OpenShift with Ansible: A Production-Grade Automation Playbook\"",
     "date": "2026-06-02",
@@ -14,7 +159,7 @@
       "DevOps",
       "Infrastructure"
     ],
-    "image": "assets/images/blog/covers/AI-Infrastructure.png"
+    "image": "assets/images/blog/covers/InfrastrucreAsCode.png"
   },
   {
     "slug": "2026-05-20-ai-clusters-cisco-ucs",

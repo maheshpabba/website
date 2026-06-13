@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="solarized-light">
+<html lang="en" data-theme="night">
 <head>
   <title>Blog — Mahesh Pabba</title>
   <meta charset="utf-8">
@@ -61,6 +61,44 @@
 <div class="max-w-5xl mx-auto px-4 pt-10">
   <div class="flex flex-wrap gap-2" id="tag-filters">
     <button class="btn btn-primary btn-sm tag-btn" data-tag="all">All</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Enterprise AI">Enterprise AI</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Redis">Redis</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Rate Limiting">Rate Limiting</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="WebSocket">WebSocket</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Security">Security</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="HMAC">HMAC</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Getraind">Getraind</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Docker">Docker</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Cache">Cache</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Memory">Memory</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Episodic Memory">Episodic Memory</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Semantic Cache">Semantic Cache</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="LangGraph">LangGraph</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="MongoDB">MongoDB</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Agent Runtime">Agent Runtime</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Agent Builder">Agent Builder</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Meta-Agent">Meta-Agent</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="AI Studio">AI Studio</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Methodology">Methodology</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Agent Factory">Agent Factory</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Declarative AI">Declarative AI</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Primitives">Primitives</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="AI Design">AI Design</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Agent Architecture">Agent Architecture</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Business Problems">Business Problems</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="GPU">GPU</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="NVIDIA">NVIDIA</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="NVAIE">NVAIE</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Model Selection">Model Selection</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Hardware">Hardware</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Distributed Inference">Distributed Inference</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="H100">H100</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="LLM Gateway">LLM Gateway</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="NVIDIA NIM">NVIDIA NIM</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Anthropic">Anthropic</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Cost Optimization">Cost Optimization</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="AI Architecture">AI Architecture</button>
+    <button class="btn btn-outline btn-sm tag-btn" data-tag="Data Security">Data Security</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="OpenShift">OpenShift</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="Ansible">Ansible</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="Automation">Automation</button>
@@ -71,12 +109,9 @@
     <button class="btn btn-outline btn-sm tag-btn" data-tag="Infrastructure">Infrastructure</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="AI">AI</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="Cisco">Cisco</button>
-    <button class="btn btn-outline btn-sm tag-btn" data-tag="GPU">GPU</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="RDMA">RDMA</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="Resiliency">Resiliency</button>
     <button class="btn btn-outline btn-sm tag-btn" data-tag="Enterprise">Enterprise</button>
-    <button class="btn btn-outline btn-sm tag-btn" data-tag="SAP">SAP</button>
-    <button class="btn btn-outline btn-sm tag-btn" data-tag="Cloud">Cloud</button>
   </div>
 </div>
 
@@ -84,11 +119,191 @@
 <div class="max-w-5xl mx-auto px-4 py-10 pb-20">
   <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     
+    <div class="card bg-base-200 shadow hover:shadow-lg transition-shadow" data-tags="Enterprise AI,Redis,Rate Limiting,WebSocket,Security,HMAC,Getraind,Docker">
+      <a href="posts/2026-06-20-redis-enterprise-ai.html" class="block">
+        <figure class="h-44 overflow-hidden bg-base-300">
+          <img src="assets/images/blog/covers/AI-Infrastructure.png" alt=""Redis in Enterprise AI: Rate Limiting, Token Security, and Session Management""
+               class="w-full h-full object-cover transition-opacity">
+        </figure>
+      </a>
+      <div class="card-body p-5">
+        <div class="flex flex-wrap gap-1 mb-2"><span class="badge badge-sm badge-ghost">Enterprise AI</span> <span class="badge badge-sm badge-ghost">Redis</span> <span class="badge badge-sm badge-ghost">Rate Limiting</span> <span class="badge badge-sm badge-ghost">WebSocket</span> <span class="badge badge-sm badge-ghost">Security</span> <span class="badge badge-sm badge-ghost">HMAC</span> <span class="badge badge-sm badge-ghost">Getraind</span> <span class="badge badge-sm badge-ghost">Docker</span></div>
+        <h2 class="card-title text-base leading-snug">
+          <a href="posts/2026-06-20-redis-enterprise-ai.html" class="hover:text-primary transition-colors">"Redis in Enterprise AI: Rate Limiting, Token Security, and Session Management"</a>
+        </h2>
+        <p class="text-sm text-base-content/60 line-clamp-3">Redis doesn't get conference-talk glory, but without it, real-time multi-user AI systems fall apart. Single-use HMAC tokens, sliding-window rate limiting, session registry — here's the full implementation with production configuration and graceful degradation patterns.</p>
+        <div class="card-actions justify-between items-center mt-3">
+          <span class="text-xs text-base-content/40"><i class="fas fa-calendar mr-1"></i>2026-06-20</span>
+          <a href="posts/2026-06-20-redis-enterprise-ai.html" class="btn btn-primary btn-xs">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow hover:shadow-lg transition-shadow" data-tags="Enterprise AI,Cache,Memory,Episodic Memory,Semantic Cache,LangGraph,MongoDB,Getraind">
+      <a href="posts/2026-06-19-cache-memory-architecture.html" class="block">
+        <figure class="h-44 overflow-hidden bg-base-300">
+          <img src="assets/images/blog/covers/AI-Infrastructure.png" alt=""Cache and Memory Architecture: How Enterprise AI Gets Faster and Smarter Over Time""
+               class="w-full h-full object-cover transition-opacity">
+        </figure>
+      </a>
+      <div class="card-body p-5">
+        <div class="flex flex-wrap gap-1 mb-2"><span class="badge badge-sm badge-ghost">Enterprise AI</span> <span class="badge badge-sm badge-ghost">Cache</span> <span class="badge badge-sm badge-ghost">Memory</span> <span class="badge badge-sm badge-ghost">Episodic Memory</span> <span class="badge badge-sm badge-ghost">Semantic Cache</span> <span class="badge badge-sm badge-ghost">LangGraph</span> <span class="badge badge-sm badge-ghost">MongoDB</span> <span class="badge badge-sm badge-ghost">Getraind</span></div>
+        <h2 class="card-title text-base leading-snug">
+          <a href="posts/2026-06-19-cache-memory-architecture.html" class="hover:text-primary transition-colors">"Cache and Memory Architecture: How Enterprise AI Gets Faster and Smarter Over Time"</a>
+        </h2>
+        <p class="text-sm text-base-content/60 line-clamp-3">Cache answers "have I computed this before?" Memory answers "what do I know that helps me now?" They're different systems with different lifecycles — and combining them is what makes an enterprise AI platform dramatically more capable and economical than a stateless chatbot.</p>
+        <div class="card-actions justify-between items-center mt-3">
+          <span class="text-xs text-base-content/40"><i class="fas fa-calendar mr-1"></i>2026-06-19</span>
+          <a href="posts/2026-06-19-cache-memory-architecture.html" class="btn btn-primary btn-xs">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow hover:shadow-lg transition-shadow" data-tags="Enterprise AI,Agent Runtime,WebSocket,LangGraph,HMAC,Security,Getraind">
+      <a href="posts/2026-06-18-agent-chat-runtime.html" class="block">
+        <figure class="h-44 overflow-hidden bg-base-300">
+          <img src="assets/images/blog/covers/AI-Infrastructure.png" alt=""The Agent Chat Runtime: From WebSocket to Streamed Response""
+               class="w-full h-full object-cover transition-opacity">
+        </figure>
+      </a>
+      <div class="card-body p-5">
+        <div class="flex flex-wrap gap-1 mb-2"><span class="badge badge-sm badge-ghost">Enterprise AI</span> <span class="badge badge-sm badge-ghost">Agent Runtime</span> <span class="badge badge-sm badge-ghost">WebSocket</span> <span class="badge badge-sm badge-ghost">LangGraph</span> <span class="badge badge-sm badge-ghost">HMAC</span> <span class="badge badge-sm badge-ghost">Security</span> <span class="badge badge-sm badge-ghost">Getraind</span></div>
+        <h2 class="card-title text-base leading-snug">
+          <a href="posts/2026-06-18-agent-chat-runtime.html" class="hover:text-primary transition-colors">"The Agent Chat Runtime: From WebSocket to Streamed Response"</a>
+        </h2>
+        <p class="text-sm text-base-content/60 line-clamp-3">What actually happens between the moment a user sends a message in AI Studio and the moment the first token appears on screen? Eight steps, HMAC token security, LangGraph graph execution, Redis rate limiting, memory injection, and real-time streaming — all in under 200ms to first token.</p>
+        <div class="card-actions justify-between items-center mt-3">
+          <span class="text-xs text-base-content/40"><i class="fas fa-calendar mr-1"></i>2026-06-18</span>
+          <a href="posts/2026-06-18-agent-chat-runtime.html" class="btn btn-primary btn-xs">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow hover:shadow-lg transition-shadow" data-tags="Enterprise AI,Agent Builder,LangGraph,Meta-Agent,Getraind,AI Studio,Methodology">
+      <a href="posts/2026-06-17-agent-builder-runtime.html" class="block">
+        <figure class="h-44 overflow-hidden bg-base-300">
+          <img src="assets/images/blog/covers/AI-Infrastructure.png" alt=""The Agent Builder Runtime: The AI That Designs AI""
+               class="w-full h-full object-cover transition-opacity">
+        </figure>
+      </a>
+      <div class="card-body p-5">
+        <div class="flex flex-wrap gap-1 mb-2"><span class="badge badge-sm badge-ghost">Enterprise AI</span> <span class="badge badge-sm badge-ghost">Agent Builder</span> <span class="badge badge-sm badge-ghost">LangGraph</span> <span class="badge badge-sm badge-ghost">Meta-Agent</span> <span class="badge badge-sm badge-ghost">Getraind</span> <span class="badge badge-sm badge-ghost">AI Studio</span> <span class="badge badge-sm badge-ghost">Methodology</span></div>
+        <h2 class="card-title text-base leading-snug">
+          <a href="posts/2026-06-17-agent-builder-runtime.html" class="hover:text-primary transition-colors">"The Agent Builder Runtime: The AI That Designs AI"</a>
+        </h2>
+        <p class="text-sm text-base-content/60 line-clamp-3">The Agent Builder Studio is a meta-agent — an AI whose job is to design other AI agents. A 7-stage methodology, a multi-node LangGraph topology, and an evaluator that checks every artifact before it's written to disk. Here's how it works end to end.</p>
+        <div class="card-actions justify-between items-center mt-3">
+          <span class="text-xs text-base-content/40"><i class="fas fa-calendar mr-1"></i>2026-06-17</span>
+          <a href="posts/2026-06-17-agent-builder-runtime.html" class="btn btn-primary btn-xs">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow hover:shadow-lg transition-shadow" data-tags="Enterprise AI,Agent Factory,LangGraph,Declarative AI,Getraind,AI Studio,Primitives">
+      <a href="posts/2026-06-16-agent-factory-declarative-primitives.html" class="block">
+        <figure class="h-44 overflow-hidden bg-base-300">
+          <img src="assets/images/blog/covers/AI-Infrastructure.png" alt=""The Agent Factory: How Declarative Primitives Become Running Agents""
+               class="w-full h-full object-cover transition-opacity">
+        </figure>
+      </a>
+      <div class="card-body p-5">
+        <div class="flex flex-wrap gap-1 mb-2"><span class="badge badge-sm badge-ghost">Enterprise AI</span> <span class="badge badge-sm badge-ghost">Agent Factory</span> <span class="badge badge-sm badge-ghost">LangGraph</span> <span class="badge badge-sm badge-ghost">Declarative AI</span> <span class="badge badge-sm badge-ghost">Getraind</span> <span class="badge badge-sm badge-ghost">AI Studio</span> <span class="badge badge-sm badge-ghost">Primitives</span></div>
+        <h2 class="card-title text-base leading-snug">
+          <a href="posts/2026-06-16-agent-factory-declarative-primitives.html" class="hover:text-primary transition-colors">"The Agent Factory: How Declarative Primitives Become Running Agents"</a>
+        </h2>
+        <p class="text-sm text-base-content/60 line-clamp-3">Building a new AI agent shouldn't require an engineer and a two-week sprint. In Getraind, an agent is a markdown file — topology, prompts, and metadata — that the Agent Factory compiles into a running LangGraph graph on demand. Zero code, hot reload, no redeployment.</p>
+        <div class="card-actions justify-between items-center mt-3">
+          <span class="text-xs text-base-content/40"><i class="fas fa-calendar mr-1"></i>2026-06-16</span>
+          <a href="posts/2026-06-16-agent-factory-declarative-primitives.html" class="btn btn-primary btn-xs">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow hover:shadow-lg transition-shadow" data-tags="Enterprise AI,AI Design,Agent Architecture,Business Problems,Getraind,AI Studio">
+      <a href="posts/2026-06-15-enterprise-ai-design.html" class="block">
+        <figure class="h-44 overflow-hidden bg-base-300">
+          <img src="assets/images/blog/covers/AI-Infrastructure.png" alt=""Designing Enterprise AI: From Business Problem to Agent Architecture""
+               class="w-full h-full object-cover transition-opacity">
+        </figure>
+      </a>
+      <div class="card-body p-5">
+        <div class="flex flex-wrap gap-1 mb-2"><span class="badge badge-sm badge-ghost">Enterprise AI</span> <span class="badge badge-sm badge-ghost">AI Design</span> <span class="badge badge-sm badge-ghost">Agent Architecture</span> <span class="badge badge-sm badge-ghost">Business Problems</span> <span class="badge badge-sm badge-ghost">Getraind</span> <span class="badge badge-sm badge-ghost">AI Studio</span></div>
+        <h2 class="card-title text-base leading-snug">
+          <a href="posts/2026-06-15-enterprise-ai-design.html" class="hover:text-primary transition-colors">"Designing Enterprise AI: From Business Problem to Agent Architecture"</a>
+        </h2>
+        <p class="text-sm text-base-content/60 line-clamp-3">Before you buy a GPU or write a line of agent code, there are four questions that determine whether your enterprise AI succeeds or fails. Most teams skip them. Here's how I think through the design process — from identifying the right problems to mapping them to agent topologies.</p>
+        <div class="card-actions justify-between items-center mt-3">
+          <span class="text-xs text-base-content/40"><i class="fas fa-calendar mr-1"></i>2026-06-15</span>
+          <a href="posts/2026-06-15-enterprise-ai-design.html" class="btn btn-primary btn-xs">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow hover:shadow-lg transition-shadow" data-tags="Enterprise AI,GPU,NVIDIA,NVAIE,Model Selection,Hardware,Distributed Inference,H100">
+      <a href="posts/2026-06-14-gpu-hardware-model-selection.html" class="block">
+        <figure class="h-44 overflow-hidden bg-base-300">
+          <img src="assets/images/blog/covers/AI-Infrastructure.png" alt=""GPU Hardware and Model Selection for Enterprise AI: The Math Nobody Shows You""
+               class="w-full h-full object-cover transition-opacity">
+        </figure>
+      </a>
+      <div class="card-body p-5">
+        <div class="flex flex-wrap gap-1 mb-2"><span class="badge badge-sm badge-ghost">Enterprise AI</span> <span class="badge badge-sm badge-ghost">GPU</span> <span class="badge badge-sm badge-ghost">NVIDIA</span> <span class="badge badge-sm badge-ghost">NVAIE</span> <span class="badge badge-sm badge-ghost">Model Selection</span> <span class="badge badge-sm badge-ghost">Hardware</span> <span class="badge badge-sm badge-ghost">Distributed Inference</span> <span class="badge badge-sm badge-ghost">H100</span></div>
+        <h2 class="card-title text-base leading-snug">
+          <a href="posts/2026-06-14-gpu-hardware-model-selection.html" class="hover:text-primary transition-colors">"GPU Hardware and Model Selection for Enterprise AI: The Math Nobody Shows You"</a>
+        </h2>
+        <p class="text-sm text-base-content/60 line-clamp-3">How many GPUs do you actually need? The vendor answer is "buy more." The honest answer requires math — model memory requirements, concurrent user throughput, latency SLAs, and a tiered model strategy that can cut your GPU footprint by 60–70% compared to the naive approach.</p>
+        <div class="card-actions justify-between items-center mt-3">
+          <span class="text-xs text-base-content/40"><i class="fas fa-calendar mr-1"></i>2026-06-14</span>
+          <a href="posts/2026-06-14-gpu-hardware-model-selection.html" class="btn btn-primary btn-xs">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow hover:shadow-lg transition-shadow" data-tags="Enterprise AI,LLM Gateway,NVIDIA NIM,NVAIE,Anthropic,Cost Optimization,AI Architecture">
+      <a href="posts/2026-06-13-llm-gateway-enterprise-ai.html" class="block">
+        <figure class="h-44 overflow-hidden bg-base-300">
+          <img src="assets/images/blog/covers/AI-Infrastructure.png" alt=""The LLM Gateway: How to Route AI Requests Intelligently and Cut Costs by 60–80%""
+               class="w-full h-full object-cover transition-opacity">
+        </figure>
+      </a>
+      <div class="card-body p-5">
+        <div class="flex flex-wrap gap-1 mb-2"><span class="badge badge-sm badge-ghost">Enterprise AI</span> <span class="badge badge-sm badge-ghost">LLM Gateway</span> <span class="badge badge-sm badge-ghost">NVIDIA NIM</span> <span class="badge badge-sm badge-ghost">NVAIE</span> <span class="badge badge-sm badge-ghost">Anthropic</span> <span class="badge badge-sm badge-ghost">Cost Optimization</span> <span class="badge badge-sm badge-ghost">AI Architecture</span></div>
+        <h2 class="card-title text-base leading-snug">
+          <a href="posts/2026-06-13-llm-gateway-enterprise-ai.html" class="hover:text-primary transition-colors">"The LLM Gateway: How to Route AI Requests Intelligently and Cut Costs by 60–80%"</a>
+        </h2>
+        <p class="text-sm text-base-content/60 line-clamp-3">Every enterprise AI request doesn't need the same model. A routing decision costs microseconds on a 7B model. A deep reasoning chain needs your most capable. The LLM Gateway is the component that enforces this — and the difference in monthly cost is not 10%. It's 60–80%.</p>
+        <div class="card-actions justify-between items-center mt-3">
+          <span class="text-xs text-base-content/40"><i class="fas fa-calendar mr-1"></i>2026-06-13</span>
+          <a href="posts/2026-06-13-llm-gateway-enterprise-ai.html" class="btn btn-primary btn-xs">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow hover:shadow-lg transition-shadow" data-tags="Enterprise AI,LLM Gateway,AI Architecture,Data Security,Agent Runtime,Cost Optimization">
+      <a href="posts/2026-06-12-enterprise-ai-introduction.html" class="block">
+        <figure class="h-44 overflow-hidden bg-base-300">
+          <img src="assets/images/blog/covers/AI-Infrastructure.png" alt=""The Enterprise AI Reckoning: Why Cloud AI Is a Trap and What to Build Instead""
+               class="w-full h-full object-cover transition-opacity">
+        </figure>
+      </a>
+      <div class="card-body p-5">
+        <div class="flex flex-wrap gap-1 mb-2"><span class="badge badge-sm badge-ghost">Enterprise AI</span> <span class="badge badge-sm badge-ghost">LLM Gateway</span> <span class="badge badge-sm badge-ghost">AI Architecture</span> <span class="badge badge-sm badge-ghost">Data Security</span> <span class="badge badge-sm badge-ghost">Agent Runtime</span> <span class="badge badge-sm badge-ghost">Cost Optimization</span></div>
+        <h2 class="card-title text-base leading-snug">
+          <a href="posts/2026-06-12-enterprise-ai-introduction.html" class="hover:text-primary transition-colors">"The Enterprise AI Reckoning: Why Cloud AI Is a Trap and What to Build Instead"</a>
+        </h2>
+        <p class="text-sm text-base-content/60 line-clamp-3">Every enterprise is racing toward AI. Most are doing it wrong — paying cloud providers a fortune, leaking sensitive data, and building nothing they own. Here's what I've learned building a complete enterprise AI platform from scratch, and why the real work has nothing to do with ChatGPT.</p>
+        <div class="card-actions justify-between items-center mt-3">
+          <span class="text-xs text-base-content/40"><i class="fas fa-calendar mr-1"></i>2026-06-12</span>
+          <a href="posts/2026-06-12-enterprise-ai-introduction.html" class="btn btn-primary btn-xs">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
     <div class="card bg-base-200 shadow hover:shadow-lg transition-shadow" data-tags="OpenShift,Ansible,Automation,Kubernetes,Red Hat,Bare Metal,DevOps,Infrastructure">
       <a href="posts/2026-06-02-deploying-openshift-with-ansible.html" class="block">
         <figure class="h-44 overflow-hidden bg-base-300">
-          <img src="assets/images/blog/covers/InfrastructureAsCode.png" alt=""Deploying OpenShift with Ansible: A Production-Grade Automation Playbook""
-               class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity">
+          <img src="assets/images/blog/covers/InfrastrucreAsCode.png" alt=""Deploying OpenShift with Ansible: A Production-Grade Automation Playbook""
+               class="w-full h-full object-cover transition-opacity">
         </figure>
       </a>
       <div class="card-body p-5">
@@ -108,7 +323,7 @@
       <a href="posts/2026-05-20-ai-clusters-cisco-ucs.html" class="block">
         <figure class="h-44 overflow-hidden bg-base-300">
           <img src="assets/images/blog/covers/AI-Infrastructure.png" alt=""Building Enterprise AI Infrastructure: What an Architect Actually Goes Through""
-               class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity">
+               class="w-full h-full object-cover transition-opacity">
         </figure>
       </a>
       <div class="card-body p-5">

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="solarized-light">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Agent Builder Studio is a meta-agent — an AI whose job is to design other AI agents. A 7-stage methodology, a multi-node LangGraph topology, and an evaluator that checks every artifact before it's written to disk. Here's how it works end to end.">
+  <meta name="author" content="Mahesh Pabba">
+
+  <!-- Open Graph (LinkedIn / Twitter preview) -->
+  <meta property="og:title" content=""The Agent Builder Runtime: The AI That Designs AI"">
+  <meta property="og:description" content="The Agent Builder Studio is a meta-agent — an AI whose job is to design other AI agents. A 7-stage methodology, a multi-node LangGraph topology, and an evaluator that checks every artifact before it's written to disk. Here's how it works end to end.">
+  <meta property="og:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://maheshpabba.com/posts/2026-06-17-agent-builder-runtime.html">
+  <meta property="article:published_time" content="2026-06-17">
+  <meta property="article:author" content="Mahesh Pabba">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content=""The Agent Builder Runtime: The AI That Designs AI"">
+  <meta name="twitter:description" content="The Agent Builder Studio is a meta-agent — an AI whose job is to design other AI agents. A 7-stage methodology, a multi-node LangGraph topology, and an evaluator that checks every artifact before it's written to disk. Here's how it works end to end.">
+  <meta name="twitter:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script defer src="../assets/fontawesome/js/all.js"></script>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/blog-post.css">
+  <link rel="stylesheet" href="../assets/plugins/highlight/styles/monokai-sublime.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+</head>
+<body class="min-h-screen bg-base-100">
+
+<!-- Navbar — posts/ pages (paths prefixed with ../) -->
+<div class="navbar bg-base-200 shadow-md sticky top-0 z-50 px-4 lg:px-8">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden"><i class="fas fa-bars text-lg"></i></label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+        <li><a href="../index.html">About</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog-home.html" class="font-semibold">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <a href="../index.html" class="btn btn-ghost text-xl font-bold tracking-tight">Mahesh Pabba</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-1">
+      <li><a href="../index.html" class="font-medium rounded-lg">About</a></li>
+      <li><a href="../resume.html" class="font-medium rounded-lg">Resume</a></li>
+      <li><a href="../blog-home.html" class="font-medium rounded-lg bg-base-300">Blog</a></li>
+      <li><a href="../contact.html" class="font-medium rounded-lg">Contact</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-primary btn-sm">
+      <i class="fas fa-paper-plane mr-1"></i> Hire Me
+    </a>
+  </div>
+</div>
+
+
+<!-- Hero banner -->
+<div class="w-full h-64 overflow-hidden relative">
+  <img src="../assets/images/blog/covers/AI-Infrastructure.png" alt=""The Agent Builder Runtime: The AI That Designs AI"" class="w-full h-full object-cover opacity-40">
+  <div class="absolute inset-0 bg-gradient-to-t from-base-100 to-transparent"></div>
+</div>
+
+<div class="max-w-3xl mx-auto px-4 pb-20 -mt-12 relative">
+
+  <!-- Post header -->
+  <div class="mb-10">
+    <div class="flex flex-wrap gap-2 mb-4"><span class="badge badge-ghost badge-sm">Enterprise AI</span> <span class="badge badge-ghost badge-sm">Agent Builder</span> <span class="badge badge-ghost badge-sm">LangGraph</span> <span class="badge badge-ghost badge-sm">Meta-Agent</span> <span class="badge badge-ghost badge-sm">Getraind</span> <span class="badge badge-ghost badge-sm">AI Studio</span> <span class="badge badge-ghost badge-sm">Methodology</span></div>
+    <h1 class="text-3xl lg:text-4xl font-bold leading-tight mb-4">"The Agent Builder Runtime: The AI That Designs AI"</h1>
+    <div class="flex items-center gap-4 text-sm text-base-content/40">
+      <span><i class="fas fa-user mr-1"></i> Mahesh Pabba</span>
+      <span><i class="fas fa-calendar mr-1"></i> 2026-06-17</span>
+      <a href="../blog-home.html" class="link link-hover ml-auto"><i class="fas fa-arrow-left mr-1"></i> All posts</a>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Article body -->
+  <article class="prose max-w-none">
+    <p>This is the component that still surprises me when I watch it run.</p>
+<p>The Agent Builder Studio is a meta-agent — an AI whose sole purpose is to design other AI agents. A user describes what they need in plain conversation. The builder asks clarifying questions across seven stages. When all requirements are confirmed, it generates a complete, production-ready primitive file and writes it to the filesystem. The Agent Factory picks it up within seconds.</p>
+<p>No templates to fill in. No drag-and-drop boxes. A conversation, followed by a working agent.</p>
+<hr />
+<h2 id="why-a-meta-agent">Why a Meta-Agent?</h2>
+<p>The naive alternative is a form-based UI — users fill in fields for "node name," "system prompt," "routing options." This works for engineers who already understand agent topology concepts. It fails for everyone else, which is most of the organization.</p>
+<p>A meta-agent inverts this. Instead of the user learning to speak the system's language, the system learns to speak the user's language. The builder asks: <em>"What does the person you're trying to help actually need to accomplish?"</em> and <em>"What information do they have available when they need help?"</em> It figures out the node topology, the routing logic, and the model assignments itself.</p>
+<p>The practical result: a procurement analyst who has never heard of LangGraph can design a capable agent in a 20-minute conversation.</p>
+<hr />
+<h2 id="architecture-overview">Architecture Overview</h2>
+<p>The Agent Builder Studio is itself defined as a primitive — <code>agent-builder-studio.md</code> — and compiled by the Agent Factory like any other agent. What makes it different is its topology:</p>
+<pre class="codehilite"><code>User message
+     │
+     ▼
+  architect  ←────────────────────────────────────────────────┐
+  (executor)      Conversational node. Guides the user through │
+     │            7 stages. Embeds JSON spec when file read    │
+     │            needed. Signals readiness with phrase.       │
+     │ static edge (always)                                    │
+     ▼                                                         │
+   router                                                      │
+  (router)    Classifies architect's output into one keyword   │
+     │                                                         │
+     ├─ continue ──→ END          (wait for next user message) │
+     │                                                         │
+     ├─ read ──────→ reader ──────────────────────────────────→┘
+     │               (portal_task: filesystem.read)
+     │
+     ├─ think ─────→ thinker         (ReAct: design the artifact)
+     │               (thinker node)
+     │                   │
+     │                   ├─ tool_call → thinker_tool → thinker
+     │                   ├─ continue  → thinker (loop)
+     │                   └─ done      → evaluator
+     │                                     │
+     │                                     ├─ approved → writer → architect
+     │                                     └─ retry    → architect
+     │
+     ├─ done ──────→ END
+     └─ end ───────→ END
+</code></pre>
+
+<p><strong>Why a dedicated router node?</strong> The architect is an executor-role model (large, temperature 0.3) — it produces natural conversational prose. A separate tiny router (temperature 0.0, 32 tokens max) reads that prose and classifies it into one routing keyword. Without this separation, you'd need the architect to simultaneously produce natural language AND output a bare routing keyword as its first word — incompatible temperature and token constraints. Splitting the roles solves it cleanly.</p>
+<hr />
+<h2 id="the-seven-stage-methodology">The Seven-Stage Methodology</h2>
+<p>The architect node follows a structured 7-stage methodology. It doesn't advance to the next stage until the current stage is confirmed by the user.</p>
+<p><strong>Stage 1: Problem Definition</strong>
+What is the user trying to accomplish? What does success look like? The architect asks questions until it can state the problem in one clear sentence that the user confirms.</p>
+<p><strong>Stage 2: User and Workflow Context</strong>
+Who are the end users? What does their current workflow look like? Where does this agent fit in — what triggers it, what does it replace, what does it hand off to?</p>
+<p><strong>Stage 3: Data and Tool Inventory</strong>
+What data sources does the agent need to read? What systems does it need to write to or call? What is explicitly off-limits? This stage produces the <code>spec.tools[]</code> list and memory scope restrictions.</p>
+<p><strong>Stage 4: Topology Selection</strong>
+Based on stages 1–3, the architect proposes an agent pattern: router+executor, planner+executor, ReAct thinker, or orchestrator+sub-agents. It explains the tradeoffs and confirms the selection with the user.</p>
+<p><strong>Stage 5: Node Specification</strong>
+For each node in the topology: what is its role, what does its system prompt need to accomplish, what model tier should it use, what are its routing outputs?</p>
+<p><strong>Stage 6: Security and Governance</strong>
+Does any node require human-in-the-loop approval before acting? Are there guardrails needed (prompt injection protection, output filters)? Are there compliance requirements that affect the design?</p>
+<p><strong>Stage 7: Confirmation</strong>
+The architect summarizes the complete design. User confirms. The architect signals readiness: <em>"All requirements are confirmed. I am ready to generate the artifact."</em> The router detects this phrase and routes to the thinker.</p>
+<hr />
+<h2 id="the-thinker-where-the-artifact-is-actually-designed">The Thinker: Where the Artifact Is Actually Designed</h2>
+<p>When the router detects the readiness signal, it routes to the <code>thinker</code> node — a ReAct reasoning agent running on a high-capability model (NVIDIA nemotron or similar). The thinker has access to the full conversation history and uses it to design the complete primitive.</p>
+<p>Its ReAct loop:</p>
+<pre class="codehilite"><code>thinker reasons about the design requirements
+  → needs to inspect an existing primitive for reference?
+      → tool_call (filesystem.read) → thinker_tool → back to thinker
+  → design complete?
+      → output the artifact → done → evaluator
+  → design blocked (missing information)?
+      → retry → architect (requests clarification from user)
+</code></pre>
+
+<p>The thinker produces its output in a structured format:</p>
+<pre class="codehilite"><code class="language-xml">&lt;reasoning&gt;
+Step 1: Template chosen — router+thinker because investigation requires iterative reasoning
+Step 2: Nodes defined — router (classifier), thinker (investigator), synthesizer (reporter)
+Step 3: Routing validated — &quot;investigate&quot;, &quot;synthesize&quot;, &quot;done&quot; all covered in conditional_edges
+Step 4: Tools declared — getraind-sap (read-only), getraind-documents
+Step 5: Guardrails — prompt-injection-shield, human_approval before write operations
+&lt;/reasoning&gt;
+
+ARTIFACT_START
+---
+metadata:
+  type: agent
+  slug: procurement-investigator
+  name: Procurement Investigator
+  ...
+[complete YAML frontmatter + node prompts]
+---
+ARTIFACT_END
+</code></pre>
+
+<p>The <code>ARTIFACT_START</code> / <code>ARTIFACT_END</code> markers allow the writer node to extract precisely the primitive content without including the reasoning trace.</p>
+<hr />
+<h2 id="the-evaluator-8-point-quality-gate">The Evaluator: 8-Point Quality Gate</h2>
+<p>Before any artifact reaches the filesystem, the evaluator node checks it against an 8-point rubric. If any check fails, the artifact goes back to the architect — not directly to the thinker — so the user can clarify the requirement that caused the failure.</p>
+<p><strong>The 8 checks:</strong></p>
+<ol>
+<li><strong>YAML structure</strong> — <code>metadata</code>, <code>spec</code>, and <code>topology</code> sections all present and valid YAML</li>
+<li><strong>Tool declaration completeness</strong> — every tool referenced in any node's system prompt is declared in <code>spec.tools[]</code></li>
+<li><strong>Security</strong> — <code>prompt-injection-shield</code> guardrail is present</li>
+<li><strong>Governance</strong> — any node that executes destructive operations (write, delete, execute) has a corresponding <code>human_approval</code> node in <code>interrupt_before[]</code></li>
+<li><strong>Prompt completeness</strong> — every <code>llm_agent</code>, <code>thinker</code>, and <code>evaluator</code> node has a <code># Node: {id}</code> section with a non-empty system prompt</li>
+<li><strong>Routing coverage</strong> — every keyword that any node can emit as a route is listed in a <code>conditional_edges</code> target</li>
+<li><strong>Iteration limits</strong> — every <code>llm_agent</code> and <code>thinker</code> node has <code>max_iterations</code> set (prevents infinite loops in production)</li>
+<li><strong>ReAct correctness</strong> — thinker nodes have <code>tool_call → portal_task</code> edge (thinkers without tool access are not thinkers)</li>
+</ol>
+<p>In my experience building agents, checks 6 and 7 catch the most failures. Routing coverage gaps mean the graph hits a node with an unknown route keyword and crashes at runtime. Missing iteration limits mean production agents can spin indefinitely on edge-case inputs.</p>
+<p>The evaluator's existence means <strong>no agent with a structural defect reaches production</strong>. This is what makes it safe to give non-engineers the ability to design agents — the evaluator is the professional review that happens automatically.</p>
+<hr />
+<h2 id="the-writer-from-artifact-to-filesystem">The Writer: From Artifact to Filesystem</h2>
+<p>When the evaluator approves, the <code>writer</code> node extracts the content between <code>ARTIFACT_START</code> and <code>ARTIFACT_END</code> and writes it to the primitives directory:</p>
+<pre class="codehilite"><code>GENAI_PRIMITIVES/{username}/Agents/{slug}.md
+</code></pre>
+
+<p>The path structure scopes the agent to the designing user — it appears in their AI Studio library and is resolved by the registry from their personal scope. If they want to share it across the organization, a platform administrator can promote it to platform scope.</p>
+<p>The writer sends a confirmation back to the architect, which tells the user that the agent is ready and where to find it. The architect routes to <code>done</code>, the conversation ends, and the user can open their newly designed agent immediately.</p>
+<hr />
+<h2 id="session-restoration">Session Restoration</h2>
+<p>Agent design is rarely completed in one sitting. The architect's conversation state — current stage, confirmed requirements, notes from previous turns — is stored in working memory and restored when the user returns.</p>
+<pre class="codehilite"><code class="language-python">snapshot = await memory.working.restore(username, &quot;agent-builder-studio&quot;)
+if snapshot:
+    initial_state[&quot;notes&quot;]         = snapshot[&quot;notes&quot;]
+    initial_state[&quot;builder_stage&quot;] = snapshot[&quot;builder_stage&quot;]
+    initial_state[&quot;plan&quot;]          = snapshot[&quot;plan&quot;]
+</code></pre>
+
+<p>The user opens AI Studio the next day and the architect resumes from stage 4, not stage 1. The requirements confirmed in previous sessions are already in the notes. Design sessions can span days without losing progress.</p>
+<hr />
+<h2 id="what-this-enables">What This Enables</h2>
+<p>The Agent Builder Runtime changes what's possible for enterprise AI adoption.</p>
+<p>Without it: a new agent requires an engineer, 2–4 weeks of sprint time, a deployment, and feedback cycle before it's right. Total time from "we need this" to "it's working" — often 6–8 weeks.</p>
+<p>With it: a business analyst or domain expert can design and iterate on an agent themselves. The methodology ensures the design is structurally sound. The evaluator ensures it's safe to run. Total time from "we need this" to "it's running" — measured in hours for simple agents, a day or two for complex ones.</p>
+<p>The bottleneck moves from engineering capacity to user imagination. That's a fundamentally different constraint — and a much better one.</p>
+<p><em>Next: <a href="/posts/2026-06-18-agent-chat-runtime.html">The Agent Chat Runtime: From WebSocket to Streamed Response</a></em></p>
+  </article>
+
+  <!-- Share section -->
+  <div class="divider mt-12"></div>
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div>
+      <p class="font-semibold mb-2">Share this post</p>
+      <div class="flex gap-2">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://maheshpabba.com/posts/2026-06-17-agent-builder-runtime.html"
+           target="_blank" rel="noopener"
+           class="btn btn-outline btn-sm gap-2">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://maheshpabba.com/posts/2026-06-17-agent-builder-runtime.html&text="The Agent Builder Runtime: The AI That Designs AI""
+           target="_blank" rel="noopener"
+           class="btn btn-ghost btn-sm gap-2">
+          <i class="fab fa-twitter"></i> Twitter/X
+        </a>
+      </div>
+    </div>
+    <a href="../blog-home.html" class="btn btn-primary btn-sm">
+      <i class="fas fa-arrow-left mr-1"></i> More posts
+    </a>
+  </div>
+
+  <!-- Author card -->
+  <div class="card bg-base-200 mt-10">
+    <div class="card-body flex-row gap-5 items-center p-6">
+      <div class="w-16 h-16 rounded-full overflow-hidden shrink-0">
+        <img src="../assets/images/profile-lg.jpg" alt="Mahesh Pabba" class="w-full h-full object-cover object-center">
+      </div>
+      <div>
+        <p class="font-bold">Mahesh Pabba</p>
+        <p class="text-sm text-base-content/60">AI &amp; Cloud Architect · Cisco · 22+ years in enterprise infrastructure</p>
+        <div class="flex gap-2 mt-2">
+          <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-github"></i></a>
+          <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-xs"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer — posts/ pages (paths prefixed with ../). Use 2026 as replacement placeholder. -->
+<footer class="footer footer-center p-10 bg-base-300 text-base-content mt-10">
+  <nav class="flex flex-wrap gap-4 justify-center">
+    <a href="../index.html" class="link link-hover">About</a>
+    <a href="../resume.html" class="link link-hover">Resume</a>
+    <a href="../blog-home.html" class="link link-hover">Blog</a>
+    <a href="../contact.html" class="link link-hover">Contact</a>
+  </nav>
+  <nav class="flex gap-4">
+    <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-linkedin-in text-lg"></i></a>
+    <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-github text-lg"></i></a>
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-circle btn-sm"><i class="fas fa-envelope text-lg"></i></a>
+  </nav>
+  <aside><p class="text-base-content/50 text-sm">&#169; 2026 Mahesh Pabba &middot; AI &amp; Cloud Architect</p></aside>
+</footer>
+
+
+<script>hljs.highlightAll();</script>
+</body>
+</html>

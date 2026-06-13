@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="solarized-light">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Building a new AI agent shouldn't require an engineer and a two-week sprint. In Getraind, an agent is a markdown file — topology, prompts, and metadata — that the Agent Factory compiles into a running LangGraph graph on demand. Zero code, hot reload, no redeployment.">
+  <meta name="author" content="Mahesh Pabba">
+
+  <!-- Open Graph (LinkedIn / Twitter preview) -->
+  <meta property="og:title" content=""The Agent Factory: How Declarative Primitives Become Running Agents"">
+  <meta property="og:description" content="Building a new AI agent shouldn't require an engineer and a two-week sprint. In Getraind, an agent is a markdown file — topology, prompts, and metadata — that the Agent Factory compiles into a running LangGraph graph on demand. Zero code, hot reload, no redeployment.">
+  <meta property="og:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://maheshpabba.com/posts/2026-06-16-agent-factory-declarative-primitives.html">
+  <meta property="article:published_time" content="2026-06-16">
+  <meta property="article:author" content="Mahesh Pabba">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content=""The Agent Factory: How Declarative Primitives Become Running Agents"">
+  <meta name="twitter:description" content="Building a new AI agent shouldn't require an engineer and a two-week sprint. In Getraind, an agent is a markdown file — topology, prompts, and metadata — that the Agent Factory compiles into a running LangGraph graph on demand. Zero code, hot reload, no redeployment.">
+  <meta name="twitter:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script defer src="../assets/fontawesome/js/all.js"></script>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/blog-post.css">
+  <link rel="stylesheet" href="../assets/plugins/highlight/styles/monokai-sublime.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+</head>
+<body class="min-h-screen bg-base-100">
+
+<!-- Navbar — posts/ pages (paths prefixed with ../) -->
+<div class="navbar bg-base-200 shadow-md sticky top-0 z-50 px-4 lg:px-8">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden"><i class="fas fa-bars text-lg"></i></label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+        <li><a href="../index.html">About</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog-home.html" class="font-semibold">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <a href="../index.html" class="btn btn-ghost text-xl font-bold tracking-tight">Mahesh Pabba</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-1">
+      <li><a href="../index.html" class="font-medium rounded-lg">About</a></li>
+      <li><a href="../resume.html" class="font-medium rounded-lg">Resume</a></li>
+      <li><a href="../blog-home.html" class="font-medium rounded-lg bg-base-300">Blog</a></li>
+      <li><a href="../contact.html" class="font-medium rounded-lg">Contact</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-primary btn-sm">
+      <i class="fas fa-paper-plane mr-1"></i> Hire Me
+    </a>
+  </div>
+</div>
+
+
+<!-- Hero banner -->
+<div class="w-full h-64 overflow-hidden relative">
+  <img src="../assets/images/blog/covers/AI-Infrastructure.png" alt=""The Agent Factory: How Declarative Primitives Become Running Agents"" class="w-full h-full object-cover opacity-40">
+  <div class="absolute inset-0 bg-gradient-to-t from-base-100 to-transparent"></div>
+</div>
+
+<div class="max-w-3xl mx-auto px-4 pb-20 -mt-12 relative">
+
+  <!-- Post header -->
+  <div class="mb-10">
+    <div class="flex flex-wrap gap-2 mb-4"><span class="badge badge-ghost badge-sm">Enterprise AI</span> <span class="badge badge-ghost badge-sm">Agent Factory</span> <span class="badge badge-ghost badge-sm">LangGraph</span> <span class="badge badge-ghost badge-sm">Declarative AI</span> <span class="badge badge-ghost badge-sm">Getraind</span> <span class="badge badge-ghost badge-sm">AI Studio</span> <span class="badge badge-ghost badge-sm">Primitives</span></div>
+    <h1 class="text-3xl lg:text-4xl font-bold leading-tight mb-4">"The Agent Factory: How Declarative Primitives Become Running Agents"</h1>
+    <div class="flex items-center gap-4 text-sm text-base-content/40">
+      <span><i class="fas fa-user mr-1"></i> Mahesh Pabba</span>
+      <span><i class="fas fa-calendar mr-1"></i> 2026-06-16</span>
+      <a href="../blog-home.html" class="link link-hover ml-auto"><i class="fas fa-arrow-left mr-1"></i> All posts</a>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Article body -->
+  <article class="prose max-w-none">
+    <p>The most expensive bottleneck in enterprise AI adoption isn't hardware. It's the engineering queue.</p>
+<p>A business team identifies a workflow that AI could improve. They write a requirements document. It goes into the backlog. An engineer picks it up two weeks later, interprets the requirements, builds something, deploys it, hands it back. By this point the requirements have changed, the original person has moved on, and the agent that gets deployed doesn't quite fit what was actually needed.</p>
+<p>This cycle repeats. Adoption stays low. The business team stops asking.</p>
+<p>The Agent Factory is my answer to this problem. Its design premise is simple: <strong>an agent should be describable in a plain text file, and that description should be sufficient to run the agent in production — without an engineer in the loop.</strong></p>
+<hr />
+<h2 id="the-primitive-file-format">The Primitive File Format</h2>
+<p>Every agent in Getraind is defined in a Markdown file with YAML frontmatter. These files are called <strong>primitives</strong>, and they live in a version-controlled directory on disk.</p>
+<p>A complete primitive looks like this:</p>
+<pre class="codehilite"><code class="language-markdown">---
+metadata:
+  type: agent
+  slug: contract-reviewer
+  name: Contract Reviewer
+  version: 1.0.0
+
+spec:
+  tools:
+    - getraind-documents
+    - getraind-legal
+  memory:
+    episodic: true
+    semantic: true
+    scope: legal-team
+  guardrails:
+    - prompt-injection-shield
+
+topology:
+  start_node: router
+
+  nodes:
+    - id: router
+      type: llm_agent
+      sets_route: true
+      max_iterations: 20
+
+    - id: reviewer
+      type: thinker
+      max_iterations: 10
+
+    - id: summarizer
+      type: llm_agent
+
+  edges:
+    - from: reviewer
+      to: router
+
+    - from: summarizer
+      to: END
+
+  conditional_edges:
+    - from: router
+      routes:
+        review: reviewer
+        summarize: summarizer
+        done: END
+---
+
+# Node: router
+You are a contract review assistant router. Read the user's message and decide:
+- If they need a detailed clause-by-clause review, respond with &quot;review&quot;.
+- If they want a plain-language summary of an already-reviewed contract, respond with &quot;summarize&quot;.
+- If the task is complete, respond with &quot;done&quot;.
+
+# Node: reviewer
+You are an expert legal contract reviewer...
+[detailed system prompt for the reviewer node]
+
+# Node: summarizer
+You are a plain-language contract summarizer...
+[detailed system prompt for the summarizer node]
+</code></pre>
+
+<p>That's the entire agent definition. No Python, no Kubernetes manifests, no CI/CD pipeline. Just a markdown file.</p>
+<hr />
+<h2 id="what-the-factory-does-with-it">What the Factory Does With It</h2>
+<p>When a user opens this agent in AI Studio, the Agent Factory goes through the following pipeline:</p>
+<pre class="codehilite"><code>Primitive file on disk (contract-reviewer.md)
+         │
+         ▼
+  1. PrimitivesRegistry.get(&quot;agent&quot;, &quot;contract-reviewer&quot;, username)
+     → Parses YAML frontmatter → ParsedPrimitive object
+     → Extracts node prompts from # Node: sections
+     → User scope checked first, falls back to platform scope
+         │
+         ▼
+  2. AgentFactory._compile(primitive, checkpointer)
+     a. StateGraph(AgentState) initialized
+     b. For each node in topology.nodes:
+          builder = NODE_BUILDERS[node.type]
+          graph.add_node(node.id, builder(node_config, node_prompt))
+     c. set_entry_point(topology.start_node)
+     d. For each edge: graph.add_edge(from, to)
+     e. For each conditional_edge:
+          graph.add_conditional_edges(from, router_fn, {route: target, ...})
+     f. graph.compile(checkpointer=checkpointer, interrupt_before=hitl_nodes)
+         │
+         ▼
+  3. Compiled CompiledStateGraph cached in memory
+     key: (username, slug)
+     lock: threading.RLock (thread-safe for concurrent WebSocket connections)
+         │
+         ▼
+  4. On next request: cache hit → return immediately (O(1))
+</code></pre>
+
+<p>The cache is the key to performance. The first request for an agent triggers compilation — which takes a few hundred milliseconds. Every subsequent request for the same agent, by the same user, returns the cached graph instantly.</p>
+<hr />
+<h2 id="hot-reload-no-redeployment-ever">Hot Reload: No Redeployment Ever</h2>
+<p>When someone updates a primitive file — changing a system prompt, adding a new node, adjusting routing logic — the change is live on the next request with no redeployment.</p>
+<p>The factory compares the file's modification timestamp against the cache entry's timestamp. If the file is newer, the cache entry is invalidated and the agent is recompiled. The old graph is replaced atomically under the <code>RLock</code> — concurrent requests either get the old graph (if they started before invalidation) or the new one (if they start after). No request fails.</p>
+<p>This is what enables Getraind's AI Studio design loop: a business analyst edits an agent prompt in the Studio's editor, saves, and the next message to that agent uses the updated prompt. The feedback loop is immediate.</p>
+<hr />
+<h2 id="node-types-and-their-behaviors">Node Types and Their Behaviors</h2>
+<p>The YAML <code>type</code> field in each node maps to a builder function that creates the LangGraph node:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Builder</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>llm_agent</code></td>
+<td><code>build_llm_agent_node()</code></td>
+<td>Single LLM call. Optionally sets <code>state["route"]</code> as first word of response.</td>
+</tr>
+<tr>
+<td><code>thinker</code></td>
+<td><code>build_thinker_node()</code></td>
+<td>ReAct loop: reason → tool call → reason → ... → done. Writes to <code>state["reasoning_steps"]</code>.</td>
+</tr>
+<tr>
+<td><code>evaluator</code></td>
+<td><code>build_evaluator_node()</code></td>
+<td>Scores output against a rubric. Routes <code>approved</code>, <code>retry</code>, or <code>done</code>.</td>
+</tr>
+<tr>
+<td><code>portal_task</code></td>
+<td><code>build_portal_task_node()</code></td>
+<td>Calls an external system (SAP, filesystem, HTTP). Reads tool spec from <code>state["extra"]</code>.</td>
+</tr>
+<tr>
+<td><code>tool_call</code></td>
+<td><code>build_tool_call_node()</code></td>
+<td>Web search (Tavily → SerpAPI → DuckDuckGo fallback chain). Cached via NodeOutputCache.</td>
+</tr>
+<tr>
+<td><code>rag_retriever</code></td>
+<td><code>build_rag_retriever_node()</code></td>
+<td>Vector search from DocumentStore. Fills <code>state["context"]</code>.</td>
+</tr>
+<tr>
+<td><code>human_approval</code></td>
+<td><code>build_human_approval_node()</code></td>
+<td>LangGraph <code>interrupt()</code> — suspends the graph until a human approves via WebSocket.</td>
+</tr>
+<tr>
+<td><code>handoff</code></td>
+<td><code>build_handoff_node()</code></td>
+<td>Delegates to a sub-agent. Runs it stateless, returns result to orchestrator.</td>
+</tr>
+</tbody>
+</table>
+<p>Every <code>llm_agent</code> node injects memory context before the LLM call — episodic memory of past interactions, semantic memory of domain facts, procedural memory of how things work in this organization. This happens automatically; the node prompt author doesn't need to write memory retrieval logic.</p>
+<hr />
+<h2 id="memory-injection-is-automatic">Memory Injection Is Automatic</h2>
+<p>Before every LLM call in an <code>llm_agent</code> node, the factory injects relevant memory context into the system prompt:</p>
+<pre class="codehilite"><code class="language-python">if memory_store:
+    memory_context = await memory_store.inject_into_context(
+        username   = state[&quot;username&quot;],
+        agent_slug = state[&quot;agent_slug&quot;],
+        query      = last_human_message,
+    )
+    full_system_prompt = f&quot;### Relevant Memory\n{memory_context}\n\n---\n\n{node_prompt}&quot;
+</code></pre>
+
+<p>The memory system retrieves the most relevant episodic events, semantic facts, and procedural knowledge for this user, this agent, and this query — and prepends it to the system prompt. The node prompt author writes their agent logic; the memory layer handles personalization transparently.</p>
+<p>This is why Getraind agents feel like colleagues rather than generic chatbots. The agent already knows that you were working on a specific SAP issue last Tuesday, that you prefer bullet-point summaries over prose, and that your organization's procurement process requires VP approval above $50K. None of that needs to be re-stated in every message.</p>
+<hr />
+<h2 id="multi-agent-handoffs">Multi-Agent Handoffs</h2>
+<p>When an orchestrator agent needs to delegate a subtask to a specialist, it uses a <code>handoff</code> node. The orchestrator writes its decision to <code>state["extra"]</code>:</p>
+<pre class="codehilite"><code class="language-json">{
+  &quot;tool_call&quot;: {
+    &quot;agent_slug&quot;: &quot;sap-assistant&quot;,
+    &quot;task&quot;: &quot;Find all open purchase orders for vendor 1000 from the last 30 days&quot;
+  }
+}
+</code></pre>
+
+<p>The handoff node calls <code>factory.get_or_build("sap-assistant")</code>, runs the sub-agent stateless (<code>checkpointer=None</code>), and writes the result back to <code>state["handoff_result"]</code>. The orchestrator's next turn sees the sub-agent's answer in context and continues.</p>
+<p>Sub-agents run isolated and single-shot — they don't inherit the orchestrator's conversation history or memory scope. This is intentional: it enforces clean interfaces between agents and prevents context contamination.</p>
+<p>The handoff pattern enables a critical architectural decision: <strong>you don't have to design one agent that knows everything</strong>. An orchestrator that's good at understanding intent + sub-agents that are experts in their domain is both more capable and easier to maintain than a monolithic agent trying to do it all.</p>
+<hr />
+<h2 id="the-primitive-registry-user-scope-vs-platform-scope">The Primitive Registry: User Scope vs. Platform Scope</h2>
+<p>Primitives are organized into two scopes:</p>
+<ul>
+<li><strong>Platform scope</strong> — shared across all users. System-provided agents like the Agent Builder Studio. Managed by the platform team.</li>
+<li><strong>User scope</strong> — owned by a specific user. Agents they've designed in AI Studio. Takes precedence over platform scope when slugs conflict.</li>
+</ul>
+<p>When the factory resolves <code>get_or_build("sap-assistant", username="mpabba")</code>, it checks mpabba's personal primitives directory first. If a custom <code>sap-assistant.md</code> exists there, that version runs. If not, it falls back to the platform-provided version.</p>
+<p>This means users can fork and customize any platform agent without affecting other users — and platform updates to the base agent don't override user customizations.</p>
+<hr />
+<h2 id="from-primitive-file-to-production-agent-full-timeline">From Primitive File to Production Agent: Full Timeline</h2>
+<ol>
+<li>Business analyst opens AI Studio and describes what they need</li>
+<li>Agent Builder Studio guides them through the 7-stage design methodology</li>
+<li>Agent Builder generates the <code>.md</code> primitive file and writes it to disk</li>
+<li>Next request for that agent → Agent Factory compiles it → running in seconds</li>
+<li>Analyst tests the agent in AI Studio, provides feedback</li>
+<li>Agent Builder updates the primitive on disk</li>
+<li>Next request → hot reload → updated agent running immediately</li>
+<li>Repeat until the agent fits the workflow</li>
+</ol>
+<p>No Jira tickets. No engineering sprint. No deployment pipeline. The cycle from "I want a new agent" to "it's working" is measured in minutes, not weeks.</p>
+<p>That's the goal the Agent Factory was built to achieve.</p>
+<p><em>Next: <a href="/posts/2026-06-17-agent-builder-runtime.html">The Agent Builder Runtime: The AI That Designs AI</a></em></p>
+  </article>
+
+  <!-- Share section -->
+  <div class="divider mt-12"></div>
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div>
+      <p class="font-semibold mb-2">Share this post</p>
+      <div class="flex gap-2">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://maheshpabba.com/posts/2026-06-16-agent-factory-declarative-primitives.html"
+           target="_blank" rel="noopener"
+           class="btn btn-outline btn-sm gap-2">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://maheshpabba.com/posts/2026-06-16-agent-factory-declarative-primitives.html&text="The Agent Factory: How Declarative Primitives Become Running Agents""
+           target="_blank" rel="noopener"
+           class="btn btn-ghost btn-sm gap-2">
+          <i class="fab fa-twitter"></i> Twitter/X
+        </a>
+      </div>
+    </div>
+    <a href="../blog-home.html" class="btn btn-primary btn-sm">
+      <i class="fas fa-arrow-left mr-1"></i> More posts
+    </a>
+  </div>
+
+  <!-- Author card -->
+  <div class="card bg-base-200 mt-10">
+    <div class="card-body flex-row gap-5 items-center p-6">
+      <div class="w-16 h-16 rounded-full overflow-hidden shrink-0">
+        <img src="../assets/images/profile-lg.jpg" alt="Mahesh Pabba" class="w-full h-full object-cover object-center">
+      </div>
+      <div>
+        <p class="font-bold">Mahesh Pabba</p>
+        <p class="text-sm text-base-content/60">AI &amp; Cloud Architect · Cisco · 22+ years in enterprise infrastructure</p>
+        <div class="flex gap-2 mt-2">
+          <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-github"></i></a>
+          <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-xs"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer — posts/ pages (paths prefixed with ../). Use 2026 as replacement placeholder. -->
+<footer class="footer footer-center p-10 bg-base-300 text-base-content mt-10">
+  <nav class="flex flex-wrap gap-4 justify-center">
+    <a href="../index.html" class="link link-hover">About</a>
+    <a href="../resume.html" class="link link-hover">Resume</a>
+    <a href="../blog-home.html" class="link link-hover">Blog</a>
+    <a href="../contact.html" class="link link-hover">Contact</a>
+  </nav>
+  <nav class="flex gap-4">
+    <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-linkedin-in text-lg"></i></a>
+    <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-github text-lg"></i></a>
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-circle btn-sm"><i class="fas fa-envelope text-lg"></i></a>
+  </nav>
+  <aside><p class="text-base-content/50 text-sm">&#169; 2026 Mahesh Pabba &middot; AI &amp; Cloud Architect</p></aside>
+</footer>
+
+
+<script>hljs.highlightAll();</script>
+</body>
+</html>

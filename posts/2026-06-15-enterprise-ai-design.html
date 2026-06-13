@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="solarized-light">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Before you buy a GPU or write a line of agent code, there are four questions that determine whether your enterprise AI succeeds or fails. Most teams skip them. Here's how I think through the design process — from identifying the right problems to mapping them to agent topologies.">
+  <meta name="author" content="Mahesh Pabba">
+
+  <!-- Open Graph (LinkedIn / Twitter preview) -->
+  <meta property="og:title" content=""Designing Enterprise AI: From Business Problem to Agent Architecture"">
+  <meta property="og:description" content="Before you buy a GPU or write a line of agent code, there are four questions that determine whether your enterprise AI succeeds or fails. Most teams skip them. Here's how I think through the design process — from identifying the right problems to mapping them to agent topologies.">
+  <meta property="og:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://maheshpabba.com/posts/2026-06-15-enterprise-ai-design.html">
+  <meta property="article:published_time" content="2026-06-15">
+  <meta property="article:author" content="Mahesh Pabba">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content=""Designing Enterprise AI: From Business Problem to Agent Architecture"">
+  <meta name="twitter:description" content="Before you buy a GPU or write a line of agent code, there are four questions that determine whether your enterprise AI succeeds or fails. Most teams skip them. Here's how I think through the design process — from identifying the right problems to mapping them to agent topologies.">
+  <meta name="twitter:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script defer src="../assets/fontawesome/js/all.js"></script>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/blog-post.css">
+  <link rel="stylesheet" href="../assets/plugins/highlight/styles/monokai-sublime.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+</head>
+<body class="min-h-screen bg-base-100">
+
+<!-- Navbar — posts/ pages (paths prefixed with ../) -->
+<div class="navbar bg-base-200 shadow-md sticky top-0 z-50 px-4 lg:px-8">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden"><i class="fas fa-bars text-lg"></i></label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+        <li><a href="../index.html">About</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog-home.html" class="font-semibold">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <a href="../index.html" class="btn btn-ghost text-xl font-bold tracking-tight">Mahesh Pabba</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-1">
+      <li><a href="../index.html" class="font-medium rounded-lg">About</a></li>
+      <li><a href="../resume.html" class="font-medium rounded-lg">Resume</a></li>
+      <li><a href="../blog-home.html" class="font-medium rounded-lg bg-base-300">Blog</a></li>
+      <li><a href="../contact.html" class="font-medium rounded-lg">Contact</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-primary btn-sm">
+      <i class="fas fa-paper-plane mr-1"></i> Hire Me
+    </a>
+  </div>
+</div>
+
+
+<!-- Hero banner -->
+<div class="w-full h-64 overflow-hidden relative">
+  <img src="../assets/images/blog/covers/AI-Infrastructure.png" alt=""Designing Enterprise AI: From Business Problem to Agent Architecture"" class="w-full h-full object-cover opacity-40">
+  <div class="absolute inset-0 bg-gradient-to-t from-base-100 to-transparent"></div>
+</div>
+
+<div class="max-w-3xl mx-auto px-4 pb-20 -mt-12 relative">
+
+  <!-- Post header -->
+  <div class="mb-10">
+    <div class="flex flex-wrap gap-2 mb-4"><span class="badge badge-ghost badge-sm">Enterprise AI</span> <span class="badge badge-ghost badge-sm">AI Design</span> <span class="badge badge-ghost badge-sm">Agent Architecture</span> <span class="badge badge-ghost badge-sm">Business Problems</span> <span class="badge badge-ghost badge-sm">Getraind</span> <span class="badge badge-ghost badge-sm">AI Studio</span></div>
+    <h1 class="text-3xl lg:text-4xl font-bold leading-tight mb-4">"Designing Enterprise AI: From Business Problem to Agent Architecture"</h1>
+    <div class="flex items-center gap-4 text-sm text-base-content/40">
+      <span><i class="fas fa-user mr-1"></i> Mahesh Pabba</span>
+      <span><i class="fas fa-calendar mr-1"></i> 2026-06-15</span>
+      <a href="../blog-home.html" class="link link-hover ml-auto"><i class="fas fa-arrow-left mr-1"></i> All posts</a>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Article body -->
+  <article class="prose max-w-none">
+    <p>The most common failure mode I see in enterprise AI isn't a technology failure. It's a design failure. Teams stand up infrastructure, build agents, deploy them to users — and then watch adoption stall at 10% because the agents don't actually fit the workflows they were meant to help with.</p>
+<p>The root cause is almost always the same: the design process started with the technology and worked backward to the problem, instead of the other way around.</p>
+<p>This post is about doing it the right way — starting with business problems, mapping them to the right agent patterns, and designing a system that users actually need.</p>
+<hr />
+<h2 id="the-four-questions-that-must-come-first">The Four Questions That Must Come First</h2>
+<p>Before any infrastructure decision, any model selection, any agent code — four questions:</p>
+<h3 id="1-what-specific-business-problem-are-we-solving">1. What specific business problem are we solving?</h3>
+<p>Not "we want AI." Specific. Measurable. With a before/after you can actually observe.</p>
+<p>Good examples:
+- "Support engineers spend 35 minutes per ticket searching for similar past issues. We want that to be 5 minutes."
+- "Contract review takes legal 3 days per contract. We want first-pass review in under 2 hours."
+- "Procurement classification is done manually by two FTEs. 80% of it follows rules that could be automated."</p>
+<p>Bad examples:
+- "We want to leverage AI across the organization."
+- "We need an AI assistant for our teams."
+- "We want to be an AI-first company."</p>
+<p>The specific version tells you what data the agent needs, what the latency requirement is, what success looks like, and who the users are. The vague version gives you none of that.</p>
+<h3 id="2-who-are-the-users-and-what-does-their-workflow-actually-look-like">2. Who are the users and what does their workflow actually look like?</h3>
+<p>An enterprise AI agent is not a general chatbot. It's a tool shaped to a specific role, embedded in a specific workflow.</p>
+<p>A support engineer's workflow: gets a ticket, searches the knowledge base, checks Slack history, maybe asks a colleague, writes a response. The AI fits at the search and draft-response steps — not as a general assistant that also answers questions about the weather.</p>
+<p>A procurement analyst's workflow: receives a purchase request, validates it against policy, classifies it by category, routes it for approval. The AI fits at classification and policy validation — probably not at routing, which follows deterministic business rules.</p>
+<p>The design question is not "what can AI do?" It's "where in this specific workflow does AI reduce friction without introducing new friction?"</p>
+<h3 id="3-what-data-does-the-agent-need-and-what-must-it-never-see">3. What data does the agent need — and what must it never see?</h3>
+<p>Data access is the hardest problem in enterprise AI. Get it wrong and you have two failure modes, both bad:</p>
+<ul>
+<li><strong>Too restrictive</strong>: The agent can't answer questions that would obviously help users, because it doesn't have access to the relevant data. Adoption dies.</li>
+<li><strong>Too permissive</strong>: The agent reveals information across organizational boundaries — an HR query that returns another employee's performance review, a finance query that exposes data the requester isn't authorized to see. Trust collapses.</li>
+</ul>
+<p>For every agent design, I map this explicitly:</p>
+<table>
+<thead>
+<tr>
+<th>Data source</th>
+<th>Read access</th>
+<th>Write access</th>
+<th>Scope restriction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ticket history</td>
+<td>Yes</td>
+<td>No</td>
+<td>User's team only</td>
+</tr>
+<tr>
+<td>Knowledge base</td>
+<td>Yes</td>
+<td>No</td>
+<td>All users</td>
+</tr>
+<tr>
+<td>Employee records</td>
+<td>No</td>
+<td>No</td>
+<td>HR agents only</td>
+</tr>
+<tr>
+<td>Contract database</td>
+<td>Yes</td>
+<td>No</td>
+<td>Legal + authorized roles</td>
+</tr>
+</tbody>
+</table>
+<p>This table isn't just documentation. It becomes the access control configuration for the agent's tool definitions and the memory permission boundaries.</p>
+<h3 id="4-how-many-users-at-what-concurrency">4. How many users, at what concurrency?</h3>
+<p>This is infrastructure sizing input. But it also tells you something about the agent design.</p>
+<p>An agent designed for 5 power users can use long-running deep reasoning chains and tolerate 30-second response times. An agent deployed to 5,000 users needs sub-5-second response time for the most common interactions, which usually means the common path should use Tier 1 or Tier 2 models, with Tier 3 reserved for genuinely complex requests.</p>
+<p>Concurrency drives both hardware sizing (covered in the <a href="/posts/2026-06-14-gpu-hardware-model-selection.html">GPU hardware post</a>) and agent topology design.</p>
+<hr />
+<h2 id="matching-problems-to-agent-topologies">Matching Problems to Agent Topologies</h2>
+<p>Once you've answered the four questions, you're ready to choose an agent topology — the pattern of nodes and edges that defines how the agent thinks and acts.</p>
+<p>In Getraind's Agent Factory, every agent is defined as a primitive — a declarative markdown file with a YAML topology section. The topology describes nodes (what roles exist), edges (how they connect), and conditional edges (how routing decisions work).</p>
+<p>Here are the patterns I use most frequently:</p>
+<h3 id="pattern-1-router-executor-simple-task-agent">Pattern 1: Router + Executor (Simple Task Agent)</h3>
+<p><strong>Best for</strong>: Agents with a small number of well-defined actions. Support triage, procurement classification, document routing.</p>
+<pre class="codehilite"><code>User message
+     │
+     ▼
+  router          ← classifies intent into one of N actions
+     │
+     ├─ action_a → executor_a → router (loop)
+     ├─ action_b → executor_b → router (loop)
+     └─ done     → END
+</code></pre>
+
+<p>The router (tiny model, temperature 0.0, 32 tokens max) reads the user's message and outputs one keyword. The executor for that action runs, returns a result, and routes back to the router for follow-up or completion.</p>
+<p><strong>When it fails</strong>: When the action space is too large or ambiguous for a tiny router model. If you have more than 7–8 distinct actions, consider splitting into sub-agents with a higher-level orchestrator.</p>
+<h3 id="pattern-2-planner-executor-multi-step-task-agent">Pattern 2: Planner + Executor (Multi-Step Task Agent)</h3>
+<p><strong>Best for</strong>: Tasks that require breaking a goal into sequential steps before executing. Research workflows, data gathering pipelines, report generation.</p>
+<pre class="codehilite"><code>User message
+     │
+     ▼
+  planner         ← generates ordered step list, writes to state[&quot;plan&quot;]
+     │
+     ▼
+  executor        ← runs current step, advances state[&quot;current_step&quot;]
+     │
+     ├─ more steps → executor (loop until plan complete)
+     └─ done       → synthesizer → END
+</code></pre>
+
+<p>The planner runs once per user request. The executor loops through steps. A synthesizer (optional) combines results into a final response.</p>
+<p><strong>Key design decision</strong>: Should the planner generate the full plan upfront, or one step at a time? Full plans work better for deterministic pipelines (report generation). One-step-at-a-time works better for exploratory tasks where each result changes what to do next.</p>
+<h3 id="pattern-3-react-thinker-complex-reasoning-agent">Pattern 3: ReAct Thinker (Complex Reasoning Agent)</h3>
+<p><strong>Best for</strong>: Problems that require iterative reasoning with tool use — data investigation, code debugging, research with web search and document retrieval.</p>
+<pre class="codehilite"><code>User message
+     │
+     ▼
+  thinker         ← reasons about the problem, decides on next action
+     │
+     ├─ tool_call → tool_runner → thinker (loop with result in context)
+     ├─ continue  → thinker (more thinking needed)
+     └─ done      → evaluator → END
+</code></pre>
+
+<p>The thinker uses a high-capability model (Tier 3) in a ReAct loop — reasoning about what to do, calling tools to get information, reasoning about the results. This is the most expensive topology per request. Reserve it for tasks that genuinely require it.</p>
+<p><strong>Iteration limit is mandatory</strong>: Without a <code>max_iterations</code> bound, a thinker loop can run indefinitely. Set it at 10–20 depending on task complexity.</p>
+<h3 id="pattern-4-orchestrator-sub-agents-multi-domain-agent">Pattern 4: Orchestrator + Sub-Agents (Multi-Domain Agent)</h3>
+<p><strong>Best for</strong>: Tasks that span multiple enterprise systems or domains, where each domain is complex enough to warrant a specialized sub-agent.</p>
+<pre class="codehilite"><code>User message
+     │
+     ▼
+  orchestrator    ← determines which domain this task belongs to
+     │
+     ├─ → sap_agent        (SAP data and transactions)
+     ├─ → hr_agent         (HR policy and employee data)
+     ├─ → legal_agent      (contract review and compliance)
+     └─ done → END
+</code></pre>
+
+<p>Each sub-agent is itself a complete primitive — it has its own topology, its own tool access, its own memory scope. The orchestrator delegates and receives results. Sub-agents run stateless and single-shot (no checkpoint), which means the orchestrator waits for completion before continuing.</p>
+<p><strong>When to use this vs. a single large agent</strong>: Use sub-agents when different domains require fundamentally different tool access, security contexts, or model requirements. Don't use them just to break up a complex prompt — a single well-designed agent is usually simpler and more debuggable.</p>
+<hr />
+<h2 id="the-agent-design-process-in-getraind-ai-studio">The Agent Design Process in Getraind AI Studio</h2>
+<p>In Getraind, agents are designed through the <strong>Agent Builder Studio</strong> — a meta-agent that guides you through a 7-stage methodology before generating the primitive file. I'll cover this in depth in the <a href="/posts/2026-06-17-agent-builder-runtime.html">Agent Builder Runtime post</a>.</p>
+<p>But the methodology itself mirrors the process described in this post:</p>
+<ol>
+<li><strong>Problem definition</strong> — what are we solving, for whom?</li>
+<li><strong>Workflow mapping</strong> — where does AI fit in the current workflow?</li>
+<li><strong>Data inventory</strong> — what does the agent need to access, what is off-limits?</li>
+<li><strong>Topology selection</strong> — which pattern fits the problem?</li>
+<li><strong>Node specification</strong> — what does each node do, what model role does it use?</li>
+<li><strong>Tool declaration</strong> — what external systems does the agent call?</li>
+<li><strong>Security review</strong> — guardrails, human-in-the-loop requirements, scope restrictions</li>
+</ol>
+<p>The Agent Builder walks through all seven stages in conversation. When all stages are confirmed, it generates the primitive file automatically. The Agent Factory picks it up and the agent is running within minutes.</p>
+<hr />
+<h2 id="what-good-agent-design-produces">What Good Agent Design Produces</h2>
+<p>A well-designed enterprise agent has three properties that you can test:</p>
+<p><strong>It fails gracefully.</strong> When the agent can't answer a question — because the data isn't available, because the request is out of scope, because a tool call failed — it says so clearly and suggests what the user should do instead. It does not hallucinate an answer to avoid saying "I don't know."</p>
+<p><strong>It respects boundaries.</strong> The agent cannot access data its user isn't authorized to see, regardless of how the question is framed. This is enforced at the tool permission layer, not by prompting alone. Prompts can be manipulated; access controls cannot.</p>
+<p><strong>It gets faster over time.</strong> The cache and memory layers mean repeated or similar queries return faster than new ones. An agent that handles 100 similar support tickets has the common answers cached and the relevant domain knowledge in semantic memory. The 101st ticket is answered faster and better than the 1st.</p>
+<hr />
+<h2 id="before-the-next-post">Before the Next Post</h2>
+<p>The design methodology produces a primitive specification — a description of topology, node roles, tool access, and prompts. Turning that specification into a running agent is the job of the Agent Factory.</p>
+<p><em>Next: <a href="/posts/2026-06-16-agent-factory-declarative-primitives.html">The Agent Factory: How Declarative Primitives Become Running Agents</a></em></p>
+  </article>
+
+  <!-- Share section -->
+  <div class="divider mt-12"></div>
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div>
+      <p class="font-semibold mb-2">Share this post</p>
+      <div class="flex gap-2">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://maheshpabba.com/posts/2026-06-15-enterprise-ai-design.html"
+           target="_blank" rel="noopener"
+           class="btn btn-outline btn-sm gap-2">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://maheshpabba.com/posts/2026-06-15-enterprise-ai-design.html&text="Designing Enterprise AI: From Business Problem to Agent Architecture""
+           target="_blank" rel="noopener"
+           class="btn btn-ghost btn-sm gap-2">
+          <i class="fab fa-twitter"></i> Twitter/X
+        </a>
+      </div>
+    </div>
+    <a href="../blog-home.html" class="btn btn-primary btn-sm">
+      <i class="fas fa-arrow-left mr-1"></i> More posts
+    </a>
+  </div>
+
+  <!-- Author card -->
+  <div class="card bg-base-200 mt-10">
+    <div class="card-body flex-row gap-5 items-center p-6">
+      <div class="w-16 h-16 rounded-full overflow-hidden shrink-0">
+        <img src="../assets/images/profile-lg.jpg" alt="Mahesh Pabba" class="w-full h-full object-cover object-center">
+      </div>
+      <div>
+        <p class="font-bold">Mahesh Pabba</p>
+        <p class="text-sm text-base-content/60">AI &amp; Cloud Architect · Cisco · 22+ years in enterprise infrastructure</p>
+        <div class="flex gap-2 mt-2">
+          <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-github"></i></a>
+          <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-xs"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer — posts/ pages (paths prefixed with ../). Use 2026 as replacement placeholder. -->
+<footer class="footer footer-center p-10 bg-base-300 text-base-content mt-10">
+  <nav class="flex flex-wrap gap-4 justify-center">
+    <a href="../index.html" class="link link-hover">About</a>
+    <a href="../resume.html" class="link link-hover">Resume</a>
+    <a href="../blog-home.html" class="link link-hover">Blog</a>
+    <a href="../contact.html" class="link link-hover">Contact</a>
+  </nav>
+  <nav class="flex gap-4">
+    <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-linkedin-in text-lg"></i></a>
+    <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-github text-lg"></i></a>
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-circle btn-sm"><i class="fas fa-envelope text-lg"></i></a>
+  </nav>
+  <aside><p class="text-base-content/50 text-sm">&#169; 2026 Mahesh Pabba &middot; AI &amp; Cloud Architect</p></aside>
+</footer>
+
+
+<script>hljs.highlightAll();</script>
+</body>
+</html>

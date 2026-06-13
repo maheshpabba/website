@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="solarized-light">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Redis doesn't get conference-talk glory, but without it, real-time multi-user AI systems fall apart. Single-use HMAC tokens, sliding-window rate limiting, session registry — here's the full implementation with production configuration and graceful degradation patterns.">
+  <meta name="author" content="Mahesh Pabba">
+
+  <!-- Open Graph (LinkedIn / Twitter preview) -->
+  <meta property="og:title" content=""Redis in Enterprise AI: Rate Limiting, Token Security, and Session Management"">
+  <meta property="og:description" content="Redis doesn't get conference-talk glory, but without it, real-time multi-user AI systems fall apart. Single-use HMAC tokens, sliding-window rate limiting, session registry — here's the full implementation with production configuration and graceful degradation patterns.">
+  <meta property="og:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://maheshpabba.com/posts/2026-06-20-redis-enterprise-ai.html">
+  <meta property="article:published_time" content="2026-06-20">
+  <meta property="article:author" content="Mahesh Pabba">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content=""Redis in Enterprise AI: Rate Limiting, Token Security, and Session Management"">
+  <meta name="twitter:description" content="Redis doesn't get conference-talk glory, but without it, real-time multi-user AI systems fall apart. Single-use HMAC tokens, sliding-window rate limiting, session registry — here's the full implementation with production configuration and graceful degradation patterns.">
+  <meta name="twitter:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script defer src="../assets/fontawesome/js/all.js"></script>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/blog-post.css">
+  <link rel="stylesheet" href="../assets/plugins/highlight/styles/monokai-sublime.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+</head>
+<body class="min-h-screen bg-base-100">
+
+<!-- Navbar — posts/ pages (paths prefixed with ../) -->
+<div class="navbar bg-base-200 shadow-md sticky top-0 z-50 px-4 lg:px-8">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden"><i class="fas fa-bars text-lg"></i></label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+        <li><a href="../index.html">About</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog-home.html" class="font-semibold">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <a href="../index.html" class="btn btn-ghost text-xl font-bold tracking-tight">Mahesh Pabba</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-1">
+      <li><a href="../index.html" class="font-medium rounded-lg">About</a></li>
+      <li><a href="../resume.html" class="font-medium rounded-lg">Resume</a></li>
+      <li><a href="../blog-home.html" class="font-medium rounded-lg bg-base-300">Blog</a></li>
+      <li><a href="../contact.html" class="font-medium rounded-lg">Contact</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-primary btn-sm">
+      <i class="fas fa-paper-plane mr-1"></i> Hire Me
+    </a>
+  </div>
+</div>
+
+
+<!-- Hero banner -->
+<div class="w-full h-64 overflow-hidden relative">
+  <img src="../assets/images/blog/covers/AI-Infrastructure.png" alt=""Redis in Enterprise AI: Rate Limiting, Token Security, and Session Management"" class="w-full h-full object-cover opacity-40">
+  <div class="absolute inset-0 bg-gradient-to-t from-base-100 to-transparent"></div>
+</div>
+
+<div class="max-w-3xl mx-auto px-4 pb-20 -mt-12 relative">
+
+  <!-- Post header -->
+  <div class="mb-10">
+    <div class="flex flex-wrap gap-2 mb-4"><span class="badge badge-ghost badge-sm">Enterprise AI</span> <span class="badge badge-ghost badge-sm">Redis</span> <span class="badge badge-ghost badge-sm">Rate Limiting</span> <span class="badge badge-ghost badge-sm">WebSocket</span> <span class="badge badge-ghost badge-sm">Security</span> <span class="badge badge-ghost badge-sm">HMAC</span> <span class="badge badge-ghost badge-sm">Getraind</span> <span class="badge badge-ghost badge-sm">Docker</span></div>
+    <h1 class="text-3xl lg:text-4xl font-bold leading-tight mb-4">"Redis in Enterprise AI: Rate Limiting, Token Security, and Session Management"</h1>
+    <div class="flex items-center gap-4 text-sm text-base-content/40">
+      <span><i class="fas fa-user mr-1"></i> Mahesh Pabba</span>
+      <span><i class="fas fa-calendar mr-1"></i> 2026-06-20</span>
+      <a href="../blog-home.html" class="link link-hover ml-auto"><i class="fas fa-arrow-left mr-1"></i> All posts</a>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Article body -->
+  <article class="prose max-w-none">
+    <p>Redis is one of those components where the gap between "installed" and "configured correctly" is wide and consequential. I've seen Redis deployed without a memory cap slowly consume all available RAM until the server falls over. I've seen Redis without AOF disabled creating unnecessary I/O pressure on a machine where every byte of disk bandwidth matters. I've seen Redis not deployed at all, which means WebSocket tokens can be replayed and rate limiting doesn't exist.</p>
+<p>In Getraind, Redis handles three specific things — and it does them exactly right, or the platform is compromised.</p>
+<hr />
+<h2 id="what-redis-does-in-this-platform">What Redis Does in This Platform</h2>
+<p>Redis is not a general-purpose cache here. That role belongs to MongoDB (ExactCache, SemanticCache, NodeOutputCache — covered in the <a href="/posts/2026-06-19-cache-memory-architecture.html">Cache and Memory post</a>). Redis handles the real-time operational primitives that require single-digit millisecond latency and atomic operations:</p>
+<ol>
+<li><strong>WebSocket token single-use enforcement</strong> — preventing replay attacks on session tokens</li>
+<li><strong>Per-user chat rate limiting</strong> — protecting the platform from accidental and intentional overload</li>
+<li><strong>WebSocket session registry</strong> — the foundation for future multi-worker horizontal scaling</li>
+</ol>
+<hr />
+<h2 id="production-configuration">Production Configuration</h2>
+<pre class="codehilite"><code class="language-yaml"># docker-compose.yml
+redis:
+  image: redis:7-alpine
+  container_name: getraind-redis
+  hostname: redis
+  restart: unless-stopped
+  command: &gt;
+    redis-server
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+      --save &quot;&quot;
+      --appendonly no
+  networks:
+    - backend
+  healthcheck:
+    test: [&quot;CMD&quot;, &quot;redis-cli&quot;, &quot;ping&quot;]
+    interval: 10s
+    timeout: 3s
+    retries: 5
+</code></pre>
+
+<p><strong>Every setting is deliberate:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Value</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>maxmemory 512mb</code></td>
+<td>Hard cap</td>
+<td>Prevents Redis from starving other containers. All data stored here is ephemeral — if Redis evicts something, the worst case is a slightly degraded rate-limit window or a replay check that degrades gracefully.</td>
+</tr>
+<tr>
+<td><code>maxmemory-policy allkeys-lru</code></td>
+<td>Evict least-recently-used</td>
+<td>When memory fills, evict the oldest data. No data stored here is irreplaceable — tokens expire naturally, rate counters reset every 60 seconds, session registry is rebuilt on reconnect.</td>
+</tr>
+<tr>
+<td><code>--save ""</code></td>
+<td>Persistence off</td>
+<td>All data is ephemeral by design. Rate-limit counters and session tokens do not need to survive a Redis restart. Persistence would waste I/O with zero benefit.</td>
+</tr>
+<tr>
+<td><code>--appendonly no</code></td>
+<td>AOF off</td>
+<td>Same reason — no durability requirement for ephemeral operational data.</td>
+</tr>
+<tr>
+<td>No <code>ports:</code> mapping</td>
+<td>Not exposed to host</td>
+<td>Redis is only reachable from the <code>backend</code> Docker network. Exposing it to the host would be a security vulnerability.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="use-case-1-websocket-token-single-use-enforcement">Use Case 1: WebSocket Token Single-Use Enforcement</h2>
+<p>WebSocket tokens are HMAC-signed strings issued by the Portal with a 5-minute lifetime. Without Redis, a captured token could be replayed — an attacker who intercepts the token URL could open a second WebSocket connection impersonating the legitimate user.</p>
+<p>The fix is atomic <code>SET NX EX</code> — set-if-not-exists with a TTL:</p>
+<pre class="codehilite"><code class="language-python"># Key: gtaif:ws_token:used:{hmac_signature}
+# TTL: remaining seconds until the token's expiry timestamp
+
+key    = f&quot;gtaif:ws_token:used:{sig}&quot;
+result = await redis_client.set(key, &quot;1&quot;, nx=True, ex=remaining_ttl)
+
+if result is True:
+    return username  # first use — OK
+else:
+    raise ValueError(&quot;Token already consumed — possible replay attack&quot;)
+</code></pre>
+
+<p><code>SET NX</code> (set if not exists) is atomic in Redis — there's no race condition where two simultaneous connections could both read "not consumed" and both succeed. The first write wins; the second sees the key already exists and is rejected.</p>
+<p>The TTL equals the token's remaining validity window. When the token would have expired anyway, the Redis key self-cleans. No separate cleanup job needed.</p>
+<p><strong>Graceful degradation</strong>: If Redis is unavailable, <code>consume_ws_token()</code> skips the replay check and validates only the HMAC signature and expiry timestamp. Token-based authentication still works; replay prevention is temporarily disabled. The platform logs <code>gtaif.redis_unavailable</code> and continues.</p>
+<hr />
+<h2 id="use-case-2-per-user-chat-rate-limiting">Use Case 2: Per-User Chat Rate Limiting</h2>
+<pre class="codehilite"><code class="language-python"># Key: gtaif:rate:chat:{username}
+# Default: 30 messages per 60-second sliding window
+
+async def check_rate_limit(username: str, limit: int = 30, window: int = 60):
+    key = f&quot;gtaif:rate:chat:{username}&quot;
+
+    pipe = redis_client.pipeline()
+    pipe.incr(key)
+    pipe.ttl(key)
+    count, ttl = await pipe.execute()
+
+    if ttl &lt; 0:
+        # First message in this window — set the expiry
+        await redis_client.expire(key, window)
+
+    return count &lt;= limit, count
+</code></pre>
+
+<p><strong>Why this design?</strong></p>
+<p>The <code>INCR</code> + <code>TTL</code> pipeline is atomic — both commands execute in a single round trip. The TTL is only set on the first message of a window (when <code>ttl &lt; 0</code> means "key has no expiry"). Subsequent messages in the same window reuse the existing counter and TTL.</p>
+<p>This is a <strong>sliding window</strong> from the user's first message, not a fixed clock boundary. A user who sends message 30 at 14:59:50 gets a fresh window at 15:00:50, not at exactly 15:00:00. This is intentional — it prevents "burst at the minute boundary" gaming.</p>
+<p><strong>Why rate limiting matters for enterprise AI</strong>: Without it, a single misconfigured process, an automated script, or a curious power user can exhaust your LLM API quota or pin your GPU inference capacity — affecting every other user. Rate limiting is the control mechanism that makes deploying to thousands of users safe.</p>
+<p><strong>Graceful degradation</strong>: If Redis is unavailable, all messages are allowed through. Rate limiting is disabled, not a hard failure.</p>
+<hr />
+<h2 id="use-case-3-websocket-session-registry">Use Case 3: WebSocket Session Registry</h2>
+<pre class="codehilite"><code class="language-python"># On WebSocket connection:
+await redis_client.set(
+    f&quot;gtaif:ws:session:{session_id}&quot;,
+    username,
+    ex=86400   # 24-hour TTL — self-cleans stale entries
+)
+
+# On WebSocket disconnect (always runs in finally block):
+await redis_client.delete(f&quot;gtaif:ws:session:{session_id}&quot;)
+
+# Reverse lookup (for cross-worker routing):
+username = await redis_client.get(f&quot;gtaif:ws:session:{session_id}&quot;)
+</code></pre>
+
+<p>Getraind currently runs as a single worker, so this registry isn't yet used for routing. But it's the essential foundation for horizontal scaling.</p>
+<p>When multiple GTAIF workers run behind nginx, a chat message arriving at worker A might belong to a WebSocket connection held by worker B. The session registry tells a pub/sub router which worker owns which session — enabling cross-worker message routing without sticky sessions.</p>
+<p>The infrastructure is in place. Activating multi-worker deployment requires adding the pub/sub routing layer on top of this foundation.</p>
+<hr />
+<h2 id="key-namespace-summary">Key Namespace Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Key Pattern</th>
+<th>Value</th>
+<th>TTL</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gtaif:ws_token:used:{sig}</code></td>
+<td><code>"1"</code></td>
+<td>Remaining token lifetime</td>
+<td>Consumed WS auth token — replay prevention</td>
+</tr>
+<tr>
+<td><code>gtaif:rate:chat:{username}</code></td>
+<td>Request count (int)</td>
+<td>60-second window</td>
+<td>Per-user rate counter</td>
+</tr>
+<tr>
+<td><code>gtaif:ws:session:{session_id}</code></td>
+<td><code>username</code> (str)</td>
+<td>86400s (24h)</td>
+<td>Live session → owner mapping</td>
+</tr>
+</tbody>
+</table>
+<p>Three key patterns. Three purposes. No overlap, no interference.</p>
+<hr />
+<h2 id="the-connexions-service-separate-namespace">The Connexions Service: Separate Namespace</h2>
+<p>Getraind's <strong>Connexions</strong> service (connector metadata management) also uses Redis, but with a completely separate key namespace — <code>id:{connection_id}</code> — and the synchronous <code>redis</code> driver with RedisJSON.</p>
+<pre class="codehilite"><code class="language-python"># Connexions stores connector documents as JSON blobs
+client.json().set(f'id:{connection_id}', Path.root_path(), document)
+client.json().get(f'id:{connection_id}')
+client.scan_iter('id:*')   # list all connections
+</code></pre>
+
+<p>Both GTAIF and Connexions share the same Redis container but never interfere — <code>gtaif:*</code> and <code>id:*</code> are completely disjoint namespaces.</p>
+<p>One note for future work: Connexions uses the synchronous Redis driver, which blocks the event loop if called from an async context. As Connexions grows in scale, it should migrate to <code>redis.asyncio</code> to avoid this.</p>
+<hr />
+<h2 id="graceful-degradation-the-full-picture">Graceful Degradation: The Full Picture</h2>
+<p>Every Redis use in GTAIF is designed to degrade gracefully — Redis unavailability is not a fatal failure, just a reduced security posture:</p>
+<table>
+<thead>
+<tr>
+<th>Redis Unavailable</th>
+<th>What Happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WebSocket token replay check</td>
+<td>Skipped — tokens valid by HMAC+expiry only. Replay prevention disabled.</td>
+</tr>
+<tr>
+<td>Rate limiting</td>
+<td>Disabled — all messages allowed through.</td>
+</tr>
+<tr>
+<td>Session registry</td>
+<td>Registration skipped — no impact until multi-worker deployment.</td>
+</tr>
+</tbody>
+</table>
+<p>The platform logs <code>gtaif.redis_unavailable</code> on startup if Redis can't be reached, and retries the connection periodically. Most functionality works without Redis; only security hardening and future scaling features require it.</p>
+<hr />
+<h2 id="why-this-matters-for-enterprise-deployments">Why This Matters for Enterprise Deployments</h2>
+<p>The Redis configuration described here is appropriate for Getraind's scale — a few hundred users, one Docker host, modest traffic. Enterprise deployments on Cisco UCS clusters with thousands of users need to think about this differently:</p>
+<ul>
+<li><strong>Redis Cluster or Redis Sentinel</strong> for high availability — single-instance Redis is a single point of failure for token enforcement and rate limiting</li>
+<li><strong>Higher <code>maxmemory</code></strong> — with thousands of concurrent sessions, the session registry alone could consume significant memory</li>
+<li><strong>Redis ACLs</strong> — restrict which keys each service can access. GTAIF should not be able to touch Connexions keys and vice versa.</li>
+<li><strong>Monitoring</strong> — Redis <code>INFO keyspace</code>, <code>INFO memory</code>, and <code>INFO stats</code> should feed into your Prometheus/Grafana stack. A Redis that's evicting keys unexpectedly or approaching memory limits needs attention before it affects rate limiting behavior.</li>
+</ul>
+<p>The architecture is the same. The operational care increases proportionally with scale.</p>
+<hr />
+<h2 id="what-this-series-has-covered">What This Series Has Covered</h2>
+<p>This post completes the software stack series. Together, these eight posts cover the complete enterprise AI implementation — from business problem identification through every layer of the platform:</p>
+<ol>
+<li><a href="/posts/2026-06-12-enterprise-ai-introduction.html">Introduction</a> — Why cloud AI is a trap and what to build instead</li>
+<li><a href="/posts/2026-06-13-llm-gateway-enterprise-ai.html">LLM Gateway</a> — Role-based routing, provider failover, 60–80% cost reduction</li>
+<li><a href="/posts/2026-06-14-gpu-hardware-model-selection.html">GPU Hardware and Model Selection</a> — The sizing math and tiered model strategy</li>
+<li><a href="/posts/2026-06-15-enterprise-ai-design.html">Enterprise AI Design</a> — From business problem to agent topology</li>
+<li><a href="/posts/2026-06-16-agent-factory-declarative-primitives.html">Agent Factory</a> — Declarative primitives and hot-reload compilation</li>
+<li><a href="/posts/2026-06-17-agent-builder-runtime.html">Agent Builder Runtime</a> — The AI that designs AI</li>
+<li><a href="/posts/2026-06-18-agent-chat-runtime.html">Agent Chat Runtime</a> — WebSocket to streamed response, end to end</li>
+<li><a href="/posts/2026-06-19-cache-memory-architecture.html">Cache and Memory</a> — How the platform gets faster and smarter over time</li>
+<li><strong>Redis</strong> (this post) — The operational glue</li>
+</ol>
+<p>For the infrastructure that runs this stack — Cisco UCS, NVIDIA H100s, OpenShift, RoCE v2 networking — the <a href="/posts/2026-05-20-ai-clusters-cisco-ucs.html">enterprise infrastructure post</a> covers every layer.</p>
+<p><em>Questions, war stories, or implementations of your own? <a href="../contact.html">Reach out</a> or find me on <a href="https://www.linkedin.com/in/maheshpabba">LinkedIn</a>.</em></p>
+  </article>
+
+  <!-- Share section -->
+  <div class="divider mt-12"></div>
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div>
+      <p class="font-semibold mb-2">Share this post</p>
+      <div class="flex gap-2">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://maheshpabba.com/posts/2026-06-20-redis-enterprise-ai.html"
+           target="_blank" rel="noopener"
+           class="btn btn-outline btn-sm gap-2">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://maheshpabba.com/posts/2026-06-20-redis-enterprise-ai.html&text="Redis in Enterprise AI: Rate Limiting, Token Security, and Session Management""
+           target="_blank" rel="noopener"
+           class="btn btn-ghost btn-sm gap-2">
+          <i class="fab fa-twitter"></i> Twitter/X
+        </a>
+      </div>
+    </div>
+    <a href="../blog-home.html" class="btn btn-primary btn-sm">
+      <i class="fas fa-arrow-left mr-1"></i> More posts
+    </a>
+  </div>
+
+  <!-- Author card -->
+  <div class="card bg-base-200 mt-10">
+    <div class="card-body flex-row gap-5 items-center p-6">
+      <div class="w-16 h-16 rounded-full overflow-hidden shrink-0">
+        <img src="../assets/images/profile-lg.jpg" alt="Mahesh Pabba" class="w-full h-full object-cover object-center">
+      </div>
+      <div>
+        <p class="font-bold">Mahesh Pabba</p>
+        <p class="text-sm text-base-content/60">AI &amp; Cloud Architect · Cisco · 22+ years in enterprise infrastructure</p>
+        <div class="flex gap-2 mt-2">
+          <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-github"></i></a>
+          <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-xs"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer — posts/ pages (paths prefixed with ../). Use 2026 as replacement placeholder. -->
+<footer class="footer footer-center p-10 bg-base-300 text-base-content mt-10">
+  <nav class="flex flex-wrap gap-4 justify-center">
+    <a href="../index.html" class="link link-hover">About</a>
+    <a href="../resume.html" class="link link-hover">Resume</a>
+    <a href="../blog-home.html" class="link link-hover">Blog</a>
+    <a href="../contact.html" class="link link-hover">Contact</a>
+  </nav>
+  <nav class="flex gap-4">
+    <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-linkedin-in text-lg"></i></a>
+    <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-github text-lg"></i></a>
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-circle btn-sm"><i class="fas fa-envelope text-lg"></i></a>
+  </nav>
+  <aside><p class="text-base-content/50 text-sm">&#169; 2026 Mahesh Pabba &middot; AI &amp; Cloud Architect</p></aside>
+</footer>
+
+
+<script>hljs.highlightAll();</script>
+</body>
+</html>

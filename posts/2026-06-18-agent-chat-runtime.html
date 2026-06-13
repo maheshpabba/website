@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="solarized-light">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="What actually happens between the moment a user sends a message in AI Studio and the moment the first token appears on screen? Eight steps, HMAC token security, LangGraph graph execution, Redis rate limiting, memory injection, and real-time streaming — all in under 200ms to first token.">
+  <meta name="author" content="Mahesh Pabba">
+
+  <!-- Open Graph (LinkedIn / Twitter preview) -->
+  <meta property="og:title" content=""The Agent Chat Runtime: From WebSocket to Streamed Response"">
+  <meta property="og:description" content="What actually happens between the moment a user sends a message in AI Studio and the moment the first token appears on screen? Eight steps, HMAC token security, LangGraph graph execution, Redis rate limiting, memory injection, and real-time streaming — all in under 200ms to first token.">
+  <meta property="og:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://maheshpabba.com/posts/2026-06-18-agent-chat-runtime.html">
+  <meta property="article:published_time" content="2026-06-18">
+  <meta property="article:author" content="Mahesh Pabba">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content=""The Agent Chat Runtime: From WebSocket to Streamed Response"">
+  <meta name="twitter:description" content="What actually happens between the moment a user sends a message in AI Studio and the moment the first token appears on screen? Eight steps, HMAC token security, LangGraph graph execution, Redis rate limiting, memory injection, and real-time streaming — all in under 200ms to first token.">
+  <meta name="twitter:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script defer src="../assets/fontawesome/js/all.js"></script>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/blog-post.css">
+  <link rel="stylesheet" href="../assets/plugins/highlight/styles/monokai-sublime.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+</head>
+<body class="min-h-screen bg-base-100">
+
+<!-- Navbar — posts/ pages (paths prefixed with ../) -->
+<div class="navbar bg-base-200 shadow-md sticky top-0 z-50 px-4 lg:px-8">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden"><i class="fas fa-bars text-lg"></i></label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+        <li><a href="../index.html">About</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog-home.html" class="font-semibold">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <a href="../index.html" class="btn btn-ghost text-xl font-bold tracking-tight">Mahesh Pabba</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-1">
+      <li><a href="../index.html" class="font-medium rounded-lg">About</a></li>
+      <li><a href="../resume.html" class="font-medium rounded-lg">Resume</a></li>
+      <li><a href="../blog-home.html" class="font-medium rounded-lg bg-base-300">Blog</a></li>
+      <li><a href="../contact.html" class="font-medium rounded-lg">Contact</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-primary btn-sm">
+      <i class="fas fa-paper-plane mr-1"></i> Hire Me
+    </a>
+  </div>
+</div>
+
+
+<!-- Hero banner -->
+<div class="w-full h-64 overflow-hidden relative">
+  <img src="../assets/images/blog/covers/AI-Infrastructure.png" alt=""The Agent Chat Runtime: From WebSocket to Streamed Response"" class="w-full h-full object-cover opacity-40">
+  <div class="absolute inset-0 bg-gradient-to-t from-base-100 to-transparent"></div>
+</div>
+
+<div class="max-w-3xl mx-auto px-4 pb-20 -mt-12 relative">
+
+  <!-- Post header -->
+  <div class="mb-10">
+    <div class="flex flex-wrap gap-2 mb-4"><span class="badge badge-ghost badge-sm">Enterprise AI</span> <span class="badge badge-ghost badge-sm">Agent Runtime</span> <span class="badge badge-ghost badge-sm">WebSocket</span> <span class="badge badge-ghost badge-sm">LangGraph</span> <span class="badge badge-ghost badge-sm">HMAC</span> <span class="badge badge-ghost badge-sm">Security</span> <span class="badge badge-ghost badge-sm">Getraind</span></div>
+    <h1 class="text-3xl lg:text-4xl font-bold leading-tight mb-4">"The Agent Chat Runtime: From WebSocket to Streamed Response"</h1>
+    <div class="flex items-center gap-4 text-sm text-base-content/40">
+      <span><i class="fas fa-user mr-1"></i> Mahesh Pabba</span>
+      <span><i class="fas fa-calendar mr-1"></i> 2026-06-18</span>
+      <a href="../blog-home.html" class="link link-hover ml-auto"><i class="fas fa-arrow-left mr-1"></i> All posts</a>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Article body -->
+  <article class="prose max-w-none">
+    <p>When a user sends a message to an agent in Getraind's AI Studio, they see tokens streaming back in real time — starting within 200ms of hitting send. Behind that experience is a pipeline with eight distinct steps, each with its own failure modes and design decisions.</p>
+<p>This post traces exactly what happens, end to end — from browser to model and back.</p>
+<hr />
+<h2 id="architecture-overview">Architecture Overview</h2>
+<pre class="codehilite"><code>Browser
+  │  HTTPS WebSocket  wss://hostname/ai-ws/{session_id}?token=...
+  ▼
+nginx  (proxy_pass → getraind-gtaif:5000)
+  ▼
+GTAIF  /ws/{session_id}
+  │
+  ├─ validate_ws_token()          ← HMAC signature + Redis single-use check
+  ├─ redis.register_ws_session()  ← session registry for future multi-node routing
+  ├─ factory.get_or_build()       ← CompiledStateGraph (cached)
+  ├─ graph.astream_events()       ← LangGraph execution
+  │     └─ LLMGateway.ainvoke()   ← NVIDIA → Anthropic failover chain
+  └─ _translate_event() → ws.send_json()  ← token / node_start / node_complete / done
+</code></pre>
+
+<hr />
+<h2 id="step-1-token-acquisition">Step 1: Token Acquisition</h2>
+<p>Before opening a WebSocket, the browser fetches a short-lived auth token from the Portal:</p>
+<pre class="codehilite"><code>GET /api/studio/ws-token
+Authorization: (session cookie)
+
+← 200 {&quot;token&quot;: &quot;mpabba:1749600000:a3f9...&quot;, &quot;expires_in&quot;: 300}
+</code></pre>
+
+<p>The Portal signs the token with HMAC-SHA256:</p>
+<pre class="codehilite"><code>token = f&quot;{username}:{expiry_unix}:{hmac_sha256(username:expiry, SECRET_KEY)}&quot;
+</code></pre>
+
+<p>Token lifetime: <strong>5 minutes</strong>. The browser must re-fetch before reconnecting after expiry.</p>
+<hr />
+<h2 id="step-2-websocket-handshake-and-token-validation">Step 2: WebSocket Handshake and Token Validation</h2>
+<pre class="codehilite"><code>wss://hostname/ai-ws/{session_id}?token=mpabba%3A1749600000%3Aa3f9...
+</code></pre>
+
+<p>GTAIF validates the token in <code>validate_ws_token()</code>:</p>
+<ol>
+<li><strong>Parse</strong> — split on <code>:</code> to extract username, expiry timestamp, and HMAC signature</li>
+<li><strong>Expiry check</strong> — reject if <code>expiry_unix &lt; now</code></li>
+<li><strong>HMAC verification</strong> — recompute HMAC with the server's <code>SECRET_KEY</code> and compare. Constant-time comparison to prevent timing attacks.</li>
+<li><strong>Single-use enforcement</strong> — atomic Redis <code>SET NX EX</code> on the HMAC signature:</li>
+</ol>
+<pre class="codehilite"><code class="language-python">key    = f&quot;gtaif:ws_token:used:{sig}&quot;
+result = await redis.set(key, &quot;1&quot;, nx=True, ex=remaining_ttl)
+# True  → first use (OK to proceed)
+# None  → already consumed (replay attack — reject)
+</code></pre>
+
+<p>If Redis is unavailable, steps 1–3 still run but replay prevention is disabled — the platform degrades gracefully but logs a warning.</p>
+<p>On success: WebSocket accepted, <code>{"type": "connected", "session_id": session_id}</code> sent to browser.</p>
+<hr />
+<h2 id="step-3-rate-limiting">Step 3: Rate Limiting</h2>
+<p>Before processing a chat message, Redis enforces a per-user rate limit:</p>
+<pre class="codehilite"><code class="language-python">allowed, count = await redis.check_rate_limit(username)
+# Default: 30 messages per 60-second window
+</code></pre>
+
+<p>Implementation: a pipeline <code>INCR</code> + <code>TTL</code> on key <code>gtaif:rate:chat:{username}</code>. First message sets a 60-second expiry. If count exceeds the limit, the user receives:</p>
+<pre class="codehilite"><code class="language-json">{&quot;type&quot;: &quot;error&quot;, &quot;message&quot;: &quot;Rate limit exceeded. Please wait a moment.&quot;, &quot;code&quot;: &quot;rate_limited&quot;}
+</code></pre>
+
+<p>The WebSocket connection stays open — rate limit violations don't disconnect the user. Without Redis: rate limiting is disabled.</p>
+<hr />
+<h2 id="step-4-graph-resolution">Step 4: Graph Resolution</h2>
+<pre class="codehilite"><code class="language-python">factory = app.state.agent_factory
+graph = factory.get_or_build(
+    slug         = agent_id,
+    username     = username,
+    checkpointer = app.state.checkpointer,  # MongoDBSaver
+)
+</code></pre>
+
+<p>Cache hit is O(1). Cache miss triggers compilation (described in the <a href="/posts/2026-06-16-agent-factory-declarative-primitives.html">Agent Factory post</a>). The <code>MongoDBSaver</code> checkpointer enables crash recovery and HITL (human-in-the-loop) approval waits — the graph can be suspended and resumed across WebSocket reconnections.</p>
+<hr />
+<h2 id="step-5-initial-state-construction">Step 5: Initial State Construction</h2>
+<p>The LangGraph graph executes against a typed <code>AgentState</code>. On each new chat message, the initial state is constructed:</p>
+<pre class="codehilite"><code class="language-python">initial_state = {
+    &quot;messages&quot;:        [HumanMessage(content=message)],
+    &quot;route&quot;:           &quot;&quot;,
+    &quot;context&quot;:         [],      # RAG results injected here by rag_retriever nodes
+    &quot;scratchpad&quot;:      [],      # thinker intermediate thoughts
+    &quot;notes&quot;:           [],      # evaluator / architect persistent notes
+    &quot;reasoning_steps&quot;: [],      # thinker ReAct step trace
+    &quot;error&quot;:           None,
+    &quot;done&quot;:            False,
+    &quot;session_id&quot;:      session_id,
+    &quot;username&quot;:        username,
+    &quot;agent_slug&quot;:      agent_id,
+}
+</code></pre>
+
+<p>For the <strong>Agent Builder Studio</strong> (designer mode), prior session state is restored from working memory before execution — the architect's stage progress, confirmed requirements, and design notes from previous sessions are injected so the conversation resumes in context.</p>
+<hr />
+<h2 id="step-6-langgraph-execution-and-event-streaming">Step 6: LangGraph Execution and Event Streaming</h2>
+<pre class="codehilite"><code class="language-python">config = {&quot;configurable&quot;: {&quot;thread_id&quot;: session_id}}
+
+async for event in graph.astream_events(initial_state, config, version=&quot;v2&quot;):
+    await _translate_event(ws, event)
+</code></pre>
+
+<p><code>astream_events</code> emits events as each node executes. The <code>_translate_event</code> function maps LangGraph events to WebSocket messages:</p>
+<table>
+<thead>
+<tr>
+<th>LangGraph Event</th>
+<th>WebSocket Message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>on_chain_start</code> (node)</td>
+<td><code>{"type": "node_start", "node_id": "router"}</code></td>
+</tr>
+<tr>
+<td><code>on_chain_end</code> (node)</td>
+<td><code>{"type": "node_complete", "node_id": "router", "route": "execute"}</code></td>
+</tr>
+<tr>
+<td><code>on_chat_model_stream</code></td>
+<td><code>{"type": "token", "content": "The purchase orders..."}</code></td>
+</tr>
+<tr>
+<td><code>on_chain_end</code> (reasoning)</td>
+<td><code>{"type": "reasoning", "step": "..."}</code></td>
+</tr>
+<tr>
+<td><code>on_tool_start</code></td>
+<td><code>{"type": "tool_call", "tool": "web_search", "args": {...}}</code></td>
+</tr>
+<tr>
+<td><code>on_chain_end</code> (tool)</td>
+<td><code>{"type": "tool_result", "tool": "web_search", "preview": "..."}</code></td>
+</tr>
+</tbody>
+</table>
+<p>The browser renders these progressively — node badges show which agent stage is active, reasoning steps appear collapsed in a details element, and tokens stream into the message bubble as they arrive.</p>
+<hr />
+<h2 id="step-7-inside-a-node-what-happens-during-an-llm-call">Step 7: Inside a Node — What Happens During an LLM Call</h2>
+<p>When LangGraph executes an <code>llm_agent</code> node:</p>
+<pre class="codehilite"><code class="language-python">async def _node(state: AgentState) -&gt; dict:
+    question = _last_human_message(state)
+
+    # 1. Retrieve and inject memory context
+    memory_context = await memory_store.inject_into_context(
+        username=state[&quot;username&quot;], agent_slug=state[&quot;agent_slug&quot;], query=question
+    )
+    full_prompt = f&quot;### Relevant Memory\n{memory_context}\n\n---\n\n{node_system_prompt}&quot;
+
+    # 2. Build messages
+    messages = [SystemMessage(content=full_prompt), *state[&quot;messages&quot;]]
+
+    # 3. Call LLM via gateway (handles provider selection and failover)
+    response = await gateway.ainvoke(messages, role=LLMRole.EXECUTOR)
+
+    # 4. Extract route from first word (if this node sets_route=True)
+    route = response.content.split()[0].lower() if sets_route else &quot;&quot;
+
+    # 5. Record interaction to episodic memory (background, non-blocking)
+    asyncio.create_task(_record_episode(state, response))
+
+    return {
+        &quot;messages&quot;:  [AIMessage(content=response.content)],
+        &quot;route&quot;:     route,
+        &quot;iteration&quot;: state[&quot;iteration&quot;] + 1,
+    }
+</code></pre>
+
+<p>The LLM Gateway call at step 3 handles all provider selection, retry logic, and failover transparently. The node only sees a response object.</p>
+<hr />
+<h2 id="step-8-portal-tool-calls">Step 8: Portal Tool Calls</h2>
+<p>When a <code>thinker</code> node decides to call an external system, it writes a tool spec to <code>state["extra"]</code>:</p>
+<pre class="codehilite"><code class="language-json">{
+  &quot;tool_call&quot;: {
+    &quot;tool&quot;: &quot;getraind-sap&quot;,
+    &quot;operation&quot;: &quot;RFC_READ_TABLE&quot;,
+    &quot;params&quot;: {
+      &quot;table&quot;: &quot;EKPO&quot;,
+      &quot;where&quot;: &quot;LIFNR = '0000001000' AND ELIKZ = ''&quot;,
+      &quot;fields&quot;: [&quot;EBELN&quot;, &quot;EBELP&quot;, &quot;MATNR&quot;, &quot;MENGE&quot;, &quot;NETPR&quot;]
+    }
+  }
+}
+</code></pre>
+
+<p>The <code>portal_task</code> node picks this up, calls the Portal's task API with the spec, and appends the result to <code>state["tool_results"]</code> and <code>state["context"]</code>. On the next thinker iteration, the result is visible in context as if it were retrieved knowledge.</p>
+<p>This indirection — thinker writes a spec, portal_task executes it — means the thinker never has direct access to external systems. All tool execution goes through the Portal's access control and audit layer.</p>
+<hr />
+<h2 id="human-in-the-loop-approval">Human-in-the-Loop Approval</h2>
+<p>For nodes flagged in <code>interrupt_before</code> (defined in the primitive's <code>spec</code>), LangGraph suspends execution and checkpoints the full state:</p>
+<pre class="codehilite"><code class="language-python"># Graph suspends here, state saved to MongoDB
+# Browser receives:
+{&quot;type&quot;: &quot;approval_request&quot;, &quot;action&quot;: &quot;delete_records&quot;, &quot;params&quot;: {...}, &quot;approval_id&quot;: &quot;uuid&quot;}
+</code></pre>
+
+<p>The user sees an approval UI in AI Studio. When they approve or reject, the WebSocket sends:</p>
+<pre class="codehilite"><code class="language-json">{&quot;type&quot;: &quot;approval_response&quot;, &quot;approval_id&quot;: &quot;uuid&quot;, &quot;approved&quot;: true}
+</code></pre>
+
+<p>GTAIF resumes the graph from the checkpoint with <code>approved=True</code> in state. The agent continues. If rejected, the graph routes to a cleanup or explanation node instead.</p>
+<p>This pattern ensures destructive operations — writes, deletes, financial transactions — always have a human decision point. The LLM proposes; the human disposes.</p>
+<hr />
+<h2 id="what-the-browser-sees">What the Browser Sees</h2>
+<p>From the browser's perspective, the experience is:</p>
+<ol>
+<li>User sends message → WebSocket sends <code>{type: "chat", message: "..."}</code></li>
+<li>Server sends <code>{type: "node_start", node_id: "router"}</code> — badge appears</li>
+<li>Server sends <code>{type: "node_complete", node_id: "router", route: "execute"}</code> — badge updates</li>
+<li>Server sends <code>{type: "node_start", node_id: "executor"}</code> — next badge</li>
+<li>Server sends <code>{type: "token", content: "The"}</code>, <code>{type: "token", content: " purchase"}</code>, ... — tokens stream into bubble</li>
+<li>Server sends <code>{type: "node_complete", node_id: "executor"}</code> — done</li>
+<li>Server sends <code>{type: "done"}</code> — streaming ends</li>
+</ol>
+<p>Time from user send to first token: typically 150–300ms on the happy path (cache hit for graph, NVIDIA NIM primary provider available).</p>
+<hr />
+<h2 id="failure-handling">Failure Handling</h2>
+<p>Every failure mode is handled explicitly at the WebSocket layer — no unhandled exceptions reach the user:</p>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Token invalid / expired</td>
+<td><code>close(4001)</code> with reason</td>
+</tr>
+<tr>
+<td>Agent not found</td>
+<td><code>{"type": "error", "code": "agent_not_found"}</code> — connection stays open</td>
+</tr>
+<tr>
+<td>Rate limit exceeded</td>
+<td><code>{"type": "error", "code": "rate_limited"}</code> — connection stays open</td>
+</tr>
+<tr>
+<td>All LLM providers failed</td>
+<td><code>{"type": "error", "code": "llm_unavailable", "message": "..."}</code></td>
+</tr>
+<tr>
+<td>Tool call failed</td>
+<td>Error written to <code>state["error"]</code>, agent routes to error handler node</td>
+</tr>
+<tr>
+<td>Graph crashes</td>
+<td>Exception caught, <code>{"type": "error", "message": "..."}</code> sent, connection stays open</td>
+</tr>
+</tbody>
+</table>
+<p>The design principle: <strong>a failure in one conversation should never affect other users' sessions.</strong> Every error is caught at the per-connection handler level. A graph crash for one user is a <code>send_json</code> call; it doesn't touch anyone else's WebSocket connection.</p>
+<hr />
+<h2 id="scaling-to-multi-node">Scaling to Multi-Node</h2>
+<p>Getraind currently runs as a single GTAIF worker behind nginx. The Redis session registry (<code>gtaif:ws:session:{session_id}</code> → <code>username</code>) is the foundation for future horizontal scaling.</p>
+<p>When multiple workers run, a chat message from the browser must reach the worker that holds that session's WebSocket connection. The session registry tells a pub/sub router which worker to target. The infrastructure for this is in place; the multi-worker deployment is the next operational milestone.</p>
+<p>For enterprise deployments on Cisco UCS clusters with OpenShift, this horizontal scaling is achievable from day one — the software is ready for it even if Getraind's personal deployment hasn't needed it yet.</p>
+<p><em>Next: <a href="/posts/2026-06-19-cache-memory-architecture.html">Cache and Memory Architecture: How Agents Get Faster and Smarter Over Time</a></em></p>
+  </article>
+
+  <!-- Share section -->
+  <div class="divider mt-12"></div>
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div>
+      <p class="font-semibold mb-2">Share this post</p>
+      <div class="flex gap-2">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://maheshpabba.com/posts/2026-06-18-agent-chat-runtime.html"
+           target="_blank" rel="noopener"
+           class="btn btn-outline btn-sm gap-2">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://maheshpabba.com/posts/2026-06-18-agent-chat-runtime.html&text="The Agent Chat Runtime: From WebSocket to Streamed Response""
+           target="_blank" rel="noopener"
+           class="btn btn-ghost btn-sm gap-2">
+          <i class="fab fa-twitter"></i> Twitter/X
+        </a>
+      </div>
+    </div>
+    <a href="../blog-home.html" class="btn btn-primary btn-sm">
+      <i class="fas fa-arrow-left mr-1"></i> More posts
+    </a>
+  </div>
+
+  <!-- Author card -->
+  <div class="card bg-base-200 mt-10">
+    <div class="card-body flex-row gap-5 items-center p-6">
+      <div class="w-16 h-16 rounded-full overflow-hidden shrink-0">
+        <img src="../assets/images/profile-lg.jpg" alt="Mahesh Pabba" class="w-full h-full object-cover object-center">
+      </div>
+      <div>
+        <p class="font-bold">Mahesh Pabba</p>
+        <p class="text-sm text-base-content/60">AI &amp; Cloud Architect · Cisco · 22+ years in enterprise infrastructure</p>
+        <div class="flex gap-2 mt-2">
+          <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-github"></i></a>
+          <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-xs"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer — posts/ pages (paths prefixed with ../). Use 2026 as replacement placeholder. -->
+<footer class="footer footer-center p-10 bg-base-300 text-base-content mt-10">
+  <nav class="flex flex-wrap gap-4 justify-center">
+    <a href="../index.html" class="link link-hover">About</a>
+    <a href="../resume.html" class="link link-hover">Resume</a>
+    <a href="../blog-home.html" class="link link-hover">Blog</a>
+    <a href="../contact.html" class="link link-hover">Contact</a>
+  </nav>
+  <nav class="flex gap-4">
+    <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-linkedin-in text-lg"></i></a>
+    <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-github text-lg"></i></a>
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-circle btn-sm"><i class="fas fa-envelope text-lg"></i></a>
+  </nav>
+  <aside><p class="text-base-content/50 text-sm">&#169; 2026 Mahesh Pabba &middot; AI &amp; Cloud Architect</p></aside>
+</footer>
+
+
+<script>hljs.highlightAll();</script>
+</body>
+</html>

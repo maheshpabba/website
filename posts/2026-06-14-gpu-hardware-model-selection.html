@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="solarized-light">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How many GPUs do you actually need? The vendor answer is "buy more." The honest answer requires math — model memory requirements, concurrent user throughput, latency SLAs, and a tiered model strategy that can cut your GPU footprint by 60–70% compared to the naive approach.">
+  <meta name="author" content="Mahesh Pabba">
+
+  <!-- Open Graph (LinkedIn / Twitter preview) -->
+  <meta property="og:title" content=""GPU Hardware and Model Selection for Enterprise AI: The Math Nobody Shows You"">
+  <meta property="og:description" content="How many GPUs do you actually need? The vendor answer is "buy more." The honest answer requires math — model memory requirements, concurrent user throughput, latency SLAs, and a tiered model strategy that can cut your GPU footprint by 60–70% compared to the naive approach.">
+  <meta property="og:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://maheshpabba.com/posts/2026-06-14-gpu-hardware-model-selection.html">
+  <meta property="article:published_time" content="2026-06-14">
+  <meta property="article:author" content="Mahesh Pabba">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content=""GPU Hardware and Model Selection for Enterprise AI: The Math Nobody Shows You"">
+  <meta name="twitter:description" content="How many GPUs do you actually need? The vendor answer is "buy more." The honest answer requires math — model memory requirements, concurrent user throughput, latency SLAs, and a tiered model strategy that can cut your GPU footprint by 60–70% compared to the naive approach.">
+  <meta name="twitter:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script defer src="../assets/fontawesome/js/all.js"></script>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/blog-post.css">
+  <link rel="stylesheet" href="../assets/plugins/highlight/styles/monokai-sublime.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+</head>
+<body class="min-h-screen bg-base-100">
+
+<!-- Navbar — posts/ pages (paths prefixed with ../) -->
+<div class="navbar bg-base-200 shadow-md sticky top-0 z-50 px-4 lg:px-8">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden"><i class="fas fa-bars text-lg"></i></label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+        <li><a href="../index.html">About</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog-home.html" class="font-semibold">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <a href="../index.html" class="btn btn-ghost text-xl font-bold tracking-tight">Mahesh Pabba</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-1">
+      <li><a href="../index.html" class="font-medium rounded-lg">About</a></li>
+      <li><a href="../resume.html" class="font-medium rounded-lg">Resume</a></li>
+      <li><a href="../blog-home.html" class="font-medium rounded-lg bg-base-300">Blog</a></li>
+      <li><a href="../contact.html" class="font-medium rounded-lg">Contact</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-primary btn-sm">
+      <i class="fas fa-paper-plane mr-1"></i> Hire Me
+    </a>
+  </div>
+</div>
+
+
+<!-- Hero banner -->
+<div class="w-full h-64 overflow-hidden relative">
+  <img src="../assets/images/blog/covers/AI-Infrastructure.png" alt=""GPU Hardware and Model Selection for Enterprise AI: The Math Nobody Shows You"" class="w-full h-full object-cover opacity-40">
+  <div class="absolute inset-0 bg-gradient-to-t from-base-100 to-transparent"></div>
+</div>
+
+<div class="max-w-3xl mx-auto px-4 pb-20 -mt-12 relative">
+
+  <!-- Post header -->
+  <div class="mb-10">
+    <div class="flex flex-wrap gap-2 mb-4"><span class="badge badge-ghost badge-sm">Enterprise AI</span> <span class="badge badge-ghost badge-sm">GPU</span> <span class="badge badge-ghost badge-sm">NVIDIA</span> <span class="badge badge-ghost badge-sm">NVAIE</span> <span class="badge badge-ghost badge-sm">Model Selection</span> <span class="badge badge-ghost badge-sm">Hardware</span> <span class="badge badge-ghost badge-sm">Distributed Inference</span> <span class="badge badge-ghost badge-sm">H100</span></div>
+    <h1 class="text-3xl lg:text-4xl font-bold leading-tight mb-4">"GPU Hardware and Model Selection for Enterprise AI: The Math Nobody Shows You"</h1>
+    <div class="flex items-center gap-4 text-sm text-base-content/40">
+      <span><i class="fas fa-user mr-1"></i> Mahesh Pabba</span>
+      <span><i class="fas fa-calendar mr-1"></i> 2026-06-14</span>
+      <a href="../blog-home.html" class="link link-hover ml-auto"><i class="fas fa-arrow-left mr-1"></i> All posts</a>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Article body -->
+  <article class="prose max-w-none">
+    <p>Every enterprise AI conversation eventually arrives at the same question: <em>"How many GPUs do we need?"</em></p>
+<p>I've been asked this more times than I can count. The vendor answer is always some version of "depends on your workload — let's start with a pilot." The consultant answer is a spreadsheet with 40 variables and a wide confidence interval. Neither is useful when you're in a budget meeting trying to justify hardware spend.</p>
+<p>This post is my answer — the actual math, the model selection tradeoffs, and the tiered strategy that consistently reduces GPU requirements by 60–70% compared to what most teams initially plan.</p>
+<hr />
+<h2 id="start-with-the-model-memory-requirement">Start With the Model Memory Requirement</h2>
+<p>Before you can size anything, you need to know how much GPU memory your model requires. This is the hard floor — you cannot run inference without first fitting the model weights into VRAM.</p>
+<p>The rule of thumb for <strong>FP16 (half precision)</strong>:</p>
+<pre class="codehilite"><code>GPU memory for weights = model parameters × 2 bytes
+
+Examples:
+  7B  parameters → ~14 GB   (fits in 1× H100 80GB with room for KV cache)
+  13B parameters → ~26 GB   (fits in 1× H100 80GB)
+  34B parameters → ~68 GB   (fits in 1× H100 80GB, tight)
+  70B parameters → ~140 GB  (requires 2× H100 80GB — tensor parallel)
+ 405B parameters → ~810 GB  (requires 10–12× H100 — pipeline parallel)
+</code></pre>
+
+<p>But weights are only part of the story. During inference, every active request occupies <strong>KV (key-value) cache</strong> — memory proportional to the context length and batch size. For a 70B model serving 10 concurrent requests with 8K context windows, KV cache adds another 20–40 GB on top of the weight footprint.</p>
+<p><strong>Practical sizing rule: multiply your weight footprint by 1.3–1.5 for KV cache overhead, then round up to the nearest GPU count.</strong></p>
+<hr />
+<h2 id="the-tiered-model-strategy">The Tiered Model Strategy</h2>
+<p>Here's the single most impactful decision in your GPU sizing: <strong>do not run one model for everything.</strong></p>
+<p>Most teams, when they first deploy, pick their most capable model — a 70B or larger — and route everything through it. This feels safe. It is expensive and wasteful.</p>
+<p>The correct approach matches model capability to task complexity, exactly as the LLM Gateway does at the software layer. On the hardware side, this means running multiple model tiers simultaneously:</p>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Model Size</th>
+<th>Use Case</th>
+<th>GPU Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tier 1 — Fast/Cheap</td>
+<td>7–8B</td>
+<td>Routing, classification, validation, cache key generation</td>
+<td>1× H100 serves ~200 concurrent requests</td>
+</tr>
+<tr>
+<td>Tier 2 — Balanced</td>
+<td>13–34B</td>
+<td>Planning, execution, retrieval, summarization</td>
+<td>1× H100 serves ~50 concurrent requests</td>
+</tr>
+<tr>
+<td>Tier 3 — Capable</td>
+<td>70B</td>
+<td>Deep reasoning, code generation, complex analysis</td>
+<td>2× H100 per replica, ~20 concurrent requests</td>
+</tr>
+<tr>
+<td>Tier 4 — Maximum</td>
+<td>405B+</td>
+<td>Advanced research, frontier reasoning</td>
+<td>10–12× H100, pipeline parallel</td>
+</tr>
+</tbody>
+</table>
+<p>When you profile actual enterprise workloads, you typically find:
+- ~50% of requests are Tier 1 tasks
+- ~35% are Tier 2
+- ~13% are Tier 3
+- ~2% or fewer need Tier 4</p>
+<p>Compare these two hardware plans for 500 concurrent enterprise users:</p>
+<p><strong>Naive plan (single 70B model for everything):</strong>
+- 500 concurrent users ÷ 20 requests/replica = 25 replicas
+- 25 replicas × 2× H100 = 50× H100 80GB cards</p>
+<p><strong>Tiered plan (3 tiers, traffic split by LLM Gateway):</strong>
+- Tier 1 (50% traffic = 250 users): 250 ÷ 200 = 2× H100
+- Tier 2 (35% traffic = 175 users): 175 ÷ 50 = 4× H100
+- Tier 3 (13% traffic = 65 users): 65 ÷ 20 = 7× H100 (rounded to pairs = 8×)
+- Total: <strong>14× H100 80GB cards</strong></p>
+<p>That's a 72% reduction in GPU hardware — from 50 cards to 14 — for the same user load. The software layer (LLM Gateway with role-based routing) is doing the work, but it only delivers value when the hardware is sized to match.</p>
+<hr />
+<h2 id="nvidia-ai-enterprise-nvaie-running-models-on-prem">NVIDIA AI Enterprise (NVAIE): Running Models On-Prem</h2>
+<p>For enterprise customers, I always recommend <strong>NVIDIA AI Enterprise (NVAIE)</strong> over cloud APIs for production workloads. Here's why it matters and how it works.</p>
+<p>NVAIE is a software subscription from NVIDIA that includes:
+- <strong>NVIDIA NIM</strong> (Inference Microservices) — optimized, containerized model servers for all major open-weight models
+- <strong>NVIDIA AI Workbench</strong> — developer environment management
+- <strong>TensorRT-LLM</strong> — NVIDIA's inference optimization engine, pre-applied in NIM containers
+- <strong>Support and SLA</strong> from NVIDIA for the entire AI software stack</p>
+<p>The NIM containers are the key piece. They are the exact same models available via the NVIDIA cloud API — same model weights, same API contract — but running inside your data center on your own hardware. Your prompts never leave your network.</p>
+<h3 id="nim-container-deployment-on-openshift">NIM Container Deployment on OpenShift</h3>
+<pre class="codehilite"><code class="language-yaml"># NIM deployment for a 70B model — 2× H100 required
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nim-llama3-70b
+  namespace: ai-inference
+spec:
+  replicas: 2          # 2 replicas → 4× H100 total
+  selector:
+    matchLabels:
+      app: nim-llama3-70b
+  template:
+    spec:
+      nodeSelector:
+        nvidia.com/gpu.product: NVIDIA-H100-SXM5-80GB
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: nim
+          image: nvcr.io/nim/meta/llama-3.1-70b-instruct:latest
+          env:
+            - name: NGC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ngc-credentials
+                  key: api_key
+          resources:
+            limits:
+              nvidia.com/gpu: &quot;2&quot;    # tensor parallel across 2 GPUs
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /v1/health/ready
+              port: 8000
+            initialDelaySeconds: 120   # model loading time
+            periodSeconds: 10
+</code></pre>
+
+<p>The NIM container handles everything: model download, TensorRT-LLM optimization, multi-GPU tensor parallelism, and the OpenAI-compatible API endpoint. Your LLM Gateway points at <code>http://nim-llama3-70b:8000/v1</code> instead of <code>api.nvidia.com</code>, and the rest of the stack works identically.</p>
+<hr />
+<h2 id="sizing-for-distributed-inference">Sizing for Distributed Inference</h2>
+<p>When models exceed a single node's GPU capacity — 405B models, or configurations requiring 8+ GPUs — you need distributed inference across multiple servers.</p>
+<p><strong>Two strategies:</strong></p>
+<p><strong>Tensor Parallelism</strong> — splits a single model layer across multiple GPUs. All GPUs must communicate for every forward pass. Requires ultra-low latency interconnect (NVLink within a node, or InfiniBand/RoCE v2 between nodes). NIM handles this automatically when you specify <code>nvidia.com/gpu: "8"</code> in the pod spec — it detects the topology and shards accordingly.</p>
+<p><strong>Pipeline Parallelism</strong> — assigns different model layers to different GPUs. Each GPU processes its layers and passes activations to the next. Lower interconnect bandwidth requirement than tensor parallel, but higher latency per token. Used for very large models (405B+) when you don't have NVLink between all GPUs.</p>
+<p>For the Cisco UCS infrastructure described in the <a href="/posts/2026-05-20-ai-clusters-cisco-ucs.html">infrastructure post</a>, NVLink within a node handles within-node tensor parallelism at 900 GB/s. For cross-node parallelism (models spanning multiple servers), the 400GbE RoCE v2 fabric handles the gradient and activation exchange with lossless RDMA.</p>
+<h3 id="when-to-use-which">When to Use Which</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Strategy</th>
+<th>Network Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>70B model, 2× H100 same server</td>
+<td>Tensor parallel (NVLink)</td>
+<td>NVLink (in-node)</td>
+</tr>
+<tr>
+<td>70B model, 2× H100 different servers</td>
+<td>Tensor parallel (RDMA)</td>
+<td>400GbE RoCE v2</td>
+</tr>
+<tr>
+<td>405B model, 8–12× H100</td>
+<td>Hybrid tensor+pipeline</td>
+<td>400GbE RoCE v2 minimum</td>
+</tr>
+<tr>
+<td>Training (all sizes)</td>
+<td>Data parallel + tensor parallel</td>
+<td>RoCE v2, lossless</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="gpu-selection-h100-sxm5-vs-h100-pcie-vs-a100">GPU Selection: H100 SXM5 vs H100 PCIe vs A100</h2>
+<p>Not all H100s are equal. The SXM5 and PCIe variants have very different performance profiles for inference and training.</p>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>GPU Memory</th>
+<th>Within-Node Bandwidth</th>
+<th>NVSwitch</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H100 SXM5 80GB</td>
+<td>80 GB HBM3</td>
+<td>900 GB/s (NVLink 4.0)</td>
+<td>Yes (full all-to-all)</td>
+<td>Training, large model inference</td>
+</tr>
+<tr>
+<td>H100 NVL 94GB</td>
+<td>94 GB HBM3e</td>
+<td>900 GB/s (NVLink 4.0)</td>
+<td>Yes</td>
+<td>Large model inference, high memory</td>
+</tr>
+<tr>
+<td>H100 PCIe 80GB</td>
+<td>80 GB HBM3</td>
+<td>128 GB/s (PCIe Gen5)</td>
+<td>No</td>
+<td>Inference, lower-density deployments</td>
+</tr>
+<tr>
+<td>A100 SXM4 80GB</td>
+<td>80 GB HBM2e</td>
+<td>600 GB/s (NVLink 3.0)</td>
+<td>Yes</td>
+<td>Training, older generation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Critical distinction</strong>: The H100 PCIe does not have NVSwitch. Multiple PCIe H100s in the same server communicate through the CPU's PCIe bus, not through NVLink. For a 70B model split across two PCIe H100s, inter-GPU bandwidth drops from 900 GB/s to ~128 GB/s — a 7× reduction that directly impacts throughput.</p>
+<p>For enterprise training and large model inference, the SXM5 form factor in a Cisco UCS X210c M7 or C245 M8 is the right choice. For cost-optimized inference of mid-size models where each GPU serves its own model independently, PCIe is acceptable.</p>
+<hr />
+<h2 id="the-getraind-reality">The Getraind Reality</h2>
+<p>Getraind doesn't run any of this. I use NVIDIA NIM cloud APIs and Anthropic Claude APIs because I don't have H100 hardware available to me personally. That's not a compromise I apologize for — it's the pragmatic starting point that lets you build and validate the entire software stack before committing to hardware spend.</p>
+<p>The tiered model strategy still applies in Getraind — different roles call different NIM models via the cloud API. The cost savings are real even at cloud API pricing. But for a production enterprise deployment where data sovereignty and latency SLAs matter, on-prem NVAIE is the path.</p>
+<p>The architecture you build during the cloud API phase is identical to what you'd run on-prem. When you're ready to bring it local, you change the base URL in the LLM Gateway configuration. That's it.</p>
+<hr />
+<h2 id="summary-hardware-sizing-checklist">Summary: Hardware Sizing Checklist</h2>
+<p>Before you order a single GPU:</p>
+<ol>
+<li><strong>Profile your workload</strong> — what percentage of requests are routing/validation (Tier 1) vs. reasoning (Tier 3)?</li>
+<li><strong>Calculate model memory requirements</strong> — weights × 2 bytes + 30–50% for KV cache</li>
+<li><strong>Determine concurrency target</strong> — peak simultaneous users, not average</li>
+<li><strong>Design the tier strategy</strong> — how many models, which sizes, what split?</li>
+<li><strong>Size each tier independently</strong> — concurrent users per tier ÷ requests per GPU per tier</li>
+<li><strong>Add 20% headroom</strong> — for bursty traffic, rolling updates, and model loading time</li>
+<li><strong>Choose SXM5 for training and large inference</strong> — PCIe only for cost-optimized mid-size inference</li>
+</ol>
+<p>The math isn't complicated once you have the right inputs. The mistake most teams make is skipping the tier strategy and pricing everything at Tier 3 capacity. Don't do that.</p>
+<blockquote>
+<p><strong>Cisco Validated Design</strong>: I co-authored the CVD that puts everything in this post into a validated, production-ready reference architecture: <a href="https://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/UCS_CVDs/flashstack_rag_nim.html"><em>FlashStack for Enterprise RAG Pipeline with NVIDIA NIM, NIM Operator, and RAG Blueprint</em></a> — Cisco UCS X-Series, Pure Storage, NVAIE, NIM Operator, RAG Blueprint, benchmarked on OpenShift. Published May 2025.</p>
+</blockquote>
+<p><em>Next: <a href="/posts/2026-06-15-enterprise-ai-design.html">Designing Enterprise AI: From Business Problem to Agent Architecture</a></em></p>
+  </article>
+
+  <!-- Share section -->
+  <div class="divider mt-12"></div>
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div>
+      <p class="font-semibold mb-2">Share this post</p>
+      <div class="flex gap-2">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://maheshpabba.com/posts/2026-06-14-gpu-hardware-model-selection.html"
+           target="_blank" rel="noopener"
+           class="btn btn-outline btn-sm gap-2">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://maheshpabba.com/posts/2026-06-14-gpu-hardware-model-selection.html&text="GPU Hardware and Model Selection for Enterprise AI: The Math Nobody Shows You""
+           target="_blank" rel="noopener"
+           class="btn btn-ghost btn-sm gap-2">
+          <i class="fab fa-twitter"></i> Twitter/X
+        </a>
+      </div>
+    </div>
+    <a href="../blog-home.html" class="btn btn-primary btn-sm">
+      <i class="fas fa-arrow-left mr-1"></i> More posts
+    </a>
+  </div>
+
+  <!-- Author card -->
+  <div class="card bg-base-200 mt-10">
+    <div class="card-body flex-row gap-5 items-center p-6">
+      <div class="w-16 h-16 rounded-full overflow-hidden shrink-0">
+        <img src="../assets/images/profile-lg.jpg" alt="Mahesh Pabba" class="w-full h-full object-cover object-center">
+      </div>
+      <div>
+        <p class="font-bold">Mahesh Pabba</p>
+        <p class="text-sm text-base-content/60">AI &amp; Cloud Architect · Cisco · 22+ years in enterprise infrastructure</p>
+        <div class="flex gap-2 mt-2">
+          <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-github"></i></a>
+          <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-xs"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer — posts/ pages (paths prefixed with ../). Use 2026 as replacement placeholder. -->
+<footer class="footer footer-center p-10 bg-base-300 text-base-content mt-10">
+  <nav class="flex flex-wrap gap-4 justify-center">
+    <a href="../index.html" class="link link-hover">About</a>
+    <a href="../resume.html" class="link link-hover">Resume</a>
+    <a href="../blog-home.html" class="link link-hover">Blog</a>
+    <a href="../contact.html" class="link link-hover">Contact</a>
+  </nav>
+  <nav class="flex gap-4">
+    <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-linkedin-in text-lg"></i></a>
+    <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-github text-lg"></i></a>
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-circle btn-sm"><i class="fas fa-envelope text-lg"></i></a>
+  </nav>
+  <aside><p class="text-base-content/50 text-sm">&#169; 2026 Mahesh Pabba &middot; AI &amp; Cloud Architect</p></aside>
+</footer>
+
+
+<script>hljs.highlightAll();</script>
+</body>
+</html>

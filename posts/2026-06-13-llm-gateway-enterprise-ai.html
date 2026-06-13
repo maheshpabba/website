@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="solarized-light">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Every enterprise AI request doesn't need the same model. A routing decision costs microseconds on a 7B model. A deep reasoning chain needs your most capable. The LLM Gateway is the component that enforces this — and the difference in monthly cost is not 10%. It's 60–80%.">
+  <meta name="author" content="Mahesh Pabba">
+
+  <!-- Open Graph (LinkedIn / Twitter preview) -->
+  <meta property="og:title" content=""The LLM Gateway: How to Route AI Requests Intelligently and Cut Costs by 60–80%"">
+  <meta property="og:description" content="Every enterprise AI request doesn't need the same model. A routing decision costs microseconds on a 7B model. A deep reasoning chain needs your most capable. The LLM Gateway is the component that enforces this — and the difference in monthly cost is not 10%. It's 60–80%.">
+  <meta property="og:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://maheshpabba.com/posts/2026-06-13-llm-gateway-enterprise-ai.html">
+  <meta property="article:published_time" content="2026-06-13">
+  <meta property="article:author" content="Mahesh Pabba">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content=""The LLM Gateway: How to Route AI Requests Intelligently and Cut Costs by 60–80%"">
+  <meta name="twitter:description" content="Every enterprise AI request doesn't need the same model. A routing decision costs microseconds on a 7B model. A deep reasoning chain needs your most capable. The LLM Gateway is the component that enforces this — and the difference in monthly cost is not 10%. It's 60–80%.">
+  <meta name="twitter:image" content="https://maheshpabba.com/assets/images/blog/covers/AI-Infrastructure.png">
+
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script defer src="../assets/fontawesome/js/all.js"></script>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/blog-post.css">
+  <link rel="stylesheet" href="../assets/plugins/highlight/styles/monokai-sublime.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+</head>
+<body class="min-h-screen bg-base-100">
+
+<!-- Navbar — posts/ pages (paths prefixed with ../) -->
+<div class="navbar bg-base-200 shadow-md sticky top-0 z-50 px-4 lg:px-8">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden"><i class="fas fa-bars text-lg"></i></label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+        <li><a href="../index.html">About</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog-home.html" class="font-semibold">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <a href="../index.html" class="btn btn-ghost text-xl font-bold tracking-tight">Mahesh Pabba</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-1">
+      <li><a href="../index.html" class="font-medium rounded-lg">About</a></li>
+      <li><a href="../resume.html" class="font-medium rounded-lg">Resume</a></li>
+      <li><a href="../blog-home.html" class="font-medium rounded-lg bg-base-300">Blog</a></li>
+      <li><a href="../contact.html" class="font-medium rounded-lg">Contact</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-primary btn-sm">
+      <i class="fas fa-paper-plane mr-1"></i> Hire Me
+    </a>
+  </div>
+</div>
+
+
+<!-- Hero banner -->
+<div class="w-full h-64 overflow-hidden relative">
+  <img src="../assets/images/blog/covers/AI-Infrastructure.png" alt=""The LLM Gateway: How to Route AI Requests Intelligently and Cut Costs by 60–80%"" class="w-full h-full object-cover opacity-40">
+  <div class="absolute inset-0 bg-gradient-to-t from-base-100 to-transparent"></div>
+</div>
+
+<div class="max-w-3xl mx-auto px-4 pb-20 -mt-12 relative">
+
+  <!-- Post header -->
+  <div class="mb-10">
+    <div class="flex flex-wrap gap-2 mb-4"><span class="badge badge-ghost badge-sm">Enterprise AI</span> <span class="badge badge-ghost badge-sm">LLM Gateway</span> <span class="badge badge-ghost badge-sm">NVIDIA NIM</span> <span class="badge badge-ghost badge-sm">NVAIE</span> <span class="badge badge-ghost badge-sm">Anthropic</span> <span class="badge badge-ghost badge-sm">Cost Optimization</span> <span class="badge badge-ghost badge-sm">AI Architecture</span></div>
+    <h1 class="text-3xl lg:text-4xl font-bold leading-tight mb-4">"The LLM Gateway: How to Route AI Requests Intelligently and Cut Costs by 60–80%"</h1>
+    <div class="flex items-center gap-4 text-sm text-base-content/40">
+      <span><i class="fas fa-user mr-1"></i> Mahesh Pabba</span>
+      <span><i class="fas fa-calendar mr-1"></i> 2026-06-13</span>
+      <a href="../blog-home.html" class="link link-hover ml-auto"><i class="fas fa-arrow-left mr-1"></i> All posts</a>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Article body -->
+  <article class="prose max-w-none">
+    <p>Early in building Getraind, every AI request went to the same model. I didn't think much about it — I just picked the most capable model available, set a single API key, and wired it into the platform. It worked. It was also expensive, slow for simple tasks, and fragile — one provider outage meant the entire platform was down.</p>
+<p>That's the naive approach, and almost every enterprise I've worked with starts there.</p>
+<p>The LLM Gateway was the first component I rebuilt from scratch once I understood what was actually happening. It's now the most impactful single piece of the architecture — not because of what it does during a complex reasoning task, but because of what it <em>doesn't</em> do for the 80% of requests that don't need a reasoning model at all.</p>
+<hr />
+<h2 id="the-core-insight-not-all-ai-work-is-equal">The Core Insight: Not All AI Work Is Equal</h2>
+<p>Think about what actually happens when a user sends a message to an enterprise AI agent:</p>
+<ol>
+<li>A <strong>router</strong> reads the message and classifies it into one of a handful of categories — maybe five options. It needs to output one word. One correct word, deterministically, every time.</li>
+<li>A <strong>planner</strong> breaks that categorized task into a sequence of steps. It needs structured output, low creativity, reliable formatting.</li>
+<li>An <strong>executor</strong> runs one of those steps — perhaps calling an API or searching documents. It needs moderate intelligence and tool-use capability.</li>
+<li>A <strong>thinker</strong> — only triggered for the hard problems — reasons through a complex multi-step problem, writes code, builds an argument. This needs the best model available.</li>
+<li>A <strong>validator</strong> checks whether the output meets constraints. Binary yes/no. Deterministic.</li>
+</ol>
+<p>If you send all five of those roles to Claude Sonnet or GPT-4, you're using a forklift to carry a coffee mug for roles 1, 2, and 5. And you're paying Sonnet prices for every single one.</p>
+<p>The LLM Gateway solves this by making the model assignment part of the architecture, not an afterthought.</p>
+<hr />
+<h2 id="how-the-gateway-works">How the Gateway Works</h2>
+<p>Every call to the LLM in Getraind carries a <strong>role</strong>. The role determines the model, the temperature, and the token budget — all baked in at build time so there's no per-request misconfiguration.</p>
+<pre class="codehilite"><code>Incoming request (role=ROUTER)
+       │
+       ▼
+┌──────────────────────────────────────────────────────────┐
+│  LLM Gateway                                             │
+│                                                          │
+│  1. Look up role → model chain + settings                │
+│  2. Try Provider 1 (primary for this role)               │
+│     └─ Retry once on failure (exponential jitter)        │
+│  3. On provider failure → try Provider 2 (fallback)      │
+│  4. On all providers exhausted → raise GatewayError      │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+       │
+       ▼
+  Response (content, tokens, model, provider)
+</code></pre>
+
+<p>The caller never selects a model. It selects a role. The gateway handles everything else.</p>
+<hr />
+<h2 id="the-full-role-table">The Full Role Table</h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Temperature</th>
+<th>Max Tokens</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ROUTER</code></td>
+<td>0.0</td>
+<td>32</td>
+<td>One keyword. Physically cannot write more.</td>
+</tr>
+<tr>
+<td><code>PLANNER</code></td>
+<td>0.2</td>
+<td>4096</td>
+<td>Low creativity, structured step output</td>
+</tr>
+<tr>
+<td><code>EXECUTOR</code></td>
+<td>0.3</td>
+<td>4096</td>
+<td>Tool use and action — slight creativity needed</td>
+</tr>
+<tr>
+<td><code>THINKER</code></td>
+<td>0.4</td>
+<td>8192</td>
+<td>Deep reasoning, ReAct, code — full budget</td>
+</tr>
+<tr>
+<td><code>EMBEDDER</code></td>
+<td>0.0</td>
+<td>256</td>
+<td>Deterministic vector generation</td>
+</tr>
+<tr>
+<td><code>RETRIEVER</code></td>
+<td>0.0</td>
+<td>512</td>
+<td>Deterministic query reformulation for RAG</td>
+</tr>
+<tr>
+<td><code>VALIDATOR</code></td>
+<td>0.0</td>
+<td>128</td>
+<td>Binary approve/reject — must be deterministic</td>
+</tr>
+<tr>
+<td><code>EVALUATOR</code></td>
+<td>0.1</td>
+<td>2048</td>
+<td>Slight warmth for nuanced rubric scoring</td>
+</tr>
+<tr>
+<td><code>MEMORY_MANAGER</code></td>
+<td>0.0</td>
+<td>1024</td>
+<td>Deterministic key extraction</td>
+</tr>
+<tr>
+<td><code>HITL</code></td>
+<td>0.1</td>
+<td>512</td>
+<td>Human-readable summary before interrupt</td>
+</tr>
+<tr>
+<td><code>CACHE_MANAGER</code></td>
+<td>0.0</td>
+<td>64</td>
+<td>Deterministic cache key generation</td>
+</tr>
+</tbody>
+</table>
+<p>The temperature and token limits are enforced in the gateway chain itself — not passed per-request. This prevents a misconfigured caller from accidentally making a ROUTER produce a 4096-token essay.</p>
+<hr />
+<h2 id="provider-strategy-nvidia-nim-anthropic">Provider Strategy: NVIDIA NIM + Anthropic</h2>
+<p>In Getraind (running on modest hardware with no on-prem GPUs), I use two providers:</p>
+<ul>
+<li><strong>NVIDIA NIM cloud API</strong> — primary for most roles. 100+ models available, generous rate limits at <code>build.nvidia.com</code>, fast inference.</li>
+<li><strong>Anthropic Claude API</strong> — primary for THINKER, fallback for everything else.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Role group</th>
+<th>Provider 1 (primary)</th>
+<th>Provider 2 (fallback)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>THINKER</strong></td>
+<td>Anthropic Sonnet</td>
+<td>NVIDIA (reasoning models)</td>
+</tr>
+<tr>
+<td><strong>All other roles</strong></td>
+<td>NVIDIA (role-specific models)</td>
+<td>Anthropic (role-specific fallback)</td>
+</tr>
+<tr>
+<td><strong>EMBEDDER</strong></td>
+<td>NVIDIA only</td>
+<td><em>(Anthropic has no embedding API)</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why THINKER reverses the order?</strong> Deep reasoning, code generation, and ReAct chains are where model quality has the biggest impact on output correctness. Claude Sonnet consistently outperforms for these tasks. For routing, validation, and planning — NVIDIA's smaller models are more than sufficient and dramatically faster.</p>
+<h3 id="the-nvidia-anthropic-fallback-per-role">The NVIDIA Anthropic Fallback Per Role</h3>
+<p>The Anthropic fallback isn't one-size-fits-all. Each role gets a model matched to its complexity:</p>
+<pre class="codehilite"><code class="language-python">ANTHROPIC_ROLE_MODELS = {
+    # Roles that benefit from Sonnet quality as fallback
+    &quot;thinker&quot;:   [&quot;claude-sonnet-4-5&quot;, &quot;claude-haiku-4-5&quot;],
+    &quot;planner&quot;:   [&quot;claude-sonnet-4-5&quot;, &quot;claude-haiku-4-5&quot;],
+    &quot;evaluator&quot;: [&quot;claude-sonnet-4-5&quot;, &quot;claude-haiku-4-5&quot;],
+    &quot;hitl&quot;:      [&quot;claude-sonnet-4-5&quot;, &quot;claude-haiku-4-5&quot;],
+
+    # Roles where Haiku speed is the right tradeoff
+    &quot;executor&quot;:  [&quot;claude-haiku-4-5&quot;, &quot;claude-sonnet-4-5&quot;],
+    &quot;retriever&quot;: [&quot;claude-haiku-4-5&quot;, &quot;claude-sonnet-4-5&quot;],
+
+    # Deterministic roles — Haiku only, no escalation needed
+    &quot;router&quot;:         [&quot;claude-haiku-4-5&quot;],
+    &quot;validator&quot;:      [&quot;claude-haiku-4-5&quot;],
+    &quot;memory_manager&quot;: [&quot;claude-haiku-4-5&quot;],
+    &quot;cache_manager&quot;:  [&quot;claude-haiku-4-5&quot;],
+}
+</code></pre>
+
+<hr />
+<h2 id="the-enterprise-answer-nvidia-ai-enterprise-nvaie">The Enterprise Answer: NVIDIA AI Enterprise (NVAIE)</h2>
+<p>Here's what I use in Getraind vs. what I recommend for enterprise customers — and why they're different.</p>
+<p>Getraind calls <code>api.nvidia.com</code> — the NVIDIA NIM cloud API. Prompts leave my server, go to NVIDIA's infrastructure, responses come back. This is pragmatic for my setup (no H100s) but not acceptable for a bank, a hospital, or a government agency.</p>
+<p>The enterprise answer is <strong>NVIDIA AI Enterprise (NVAIE)</strong>: a software subscription that includes the exact same NIM model containers, deployed inside your own data center, running on your own Cisco UCS H100 hardware.</p>
+<pre class="codehilite"><code>Getraind (API key approach):
+  Agent → LLM Gateway → api.nvidia.com → Model inference → Response
+                              ↑
+                        Data leaves network
+
+Enterprise (NVAIE approach):
+  Agent → LLM Gateway → nim.internal.corp:8000 → Model inference → Response
+                              ↑
+                        Never leaves your building
+</code></pre>
+
+<p><strong>The gateway code is identical.</strong> One configuration value changes — the base URL for the NVIDIA provider. The role table, the fallback logic, the retry behavior — all the same. This is the design principle: abstract the provider so the application layer doesn't care whether inference is local or cloud.</p>
+<p>When I work with enterprise customers deploying on Cisco UCS clusters, this is the path I recommend:</p>
+<ol>
+<li>Start with NVIDIA NIM cloud APIs for development and proof-of-concept</li>
+<li>Size your GPU infrastructure using the math from the <a href="/posts/2026-06-14-gpu-hardware-model-selection.html">GPU hardware post</a></li>
+<li>Get an NVAIE subscription and stand up on-prem NIM containers</li>
+<li>Change one config value in the LLM Gateway</li>
+<li>Prompts never leave your network again</li>
+</ol>
+<hr />
+<h2 id="retry-behavior-and-failover">Retry Behavior and Failover</h2>
+<p>Each provider gets one automatic retry with exponential jitter before the gateway moves to the next provider in the chain:</p>
+<pre class="codehilite"><code class="language-python">def _retried(runnable, attempts=2):
+    return runnable.with_retry(
+        stop_after_attempt      = attempts,
+        wait_exponential_jitter = True,   # ~1s wait, avoids thundering herd
+    )
+</code></pre>
+
+<p><code>attempts=2</code> means one retry per provider. If NVIDIA fails twice, the gateway moves to Anthropic. If Anthropic also fails twice, <code>GatewayError</code> is raised with a clear message:</p>
+<pre class="codehilite"><code class="language-python">raise GatewayError(
+    f&quot;All providers failed for role '{role.value}'. &quot;
+    &quot;Check NVIDIA / Anthropic API keys and rate limits.&quot;
+)
+</code></pre>
+
+<p>In production at Getraind, provider failures are rare but real. NVIDIA NIM cloud has occasional rate limit windows during peak hours. Anthropic has had brief API outages. The failover is automatic — users see no interruption, agents get responses.</p>
+<hr />
+<h2 id="what-this-looks-like-in-practice">What This Looks Like in Practice</h2>
+<p>In production at Getraind, I track which role each request hits and which provider serves it. The breakdown is roughly:</p>
+<ul>
+<li>~45% of requests hit <code>ROUTER</code> or <code>VALIDATOR</code> — tiny models, near-zero cost, sub-100ms latency</li>
+<li>~30% hit <code>EXECUTOR</code> or <code>RETRIEVER</code> — mid-size models, moderate cost</li>
+<li>~15% hit <code>PLANNER</code> — structured output, mid-size models</li>
+<li>~10% hit <code>THINKER</code> — full reasoning models, the expensive tier</li>
+</ul>
+<p>Without the gateway, 100% of those requests would go to the most capable (and most expensive) model. With it, only 10% do. The cost difference is real — not a percentage point or two, but an order of magnitude on the most common request types.</p>
+<p>The latency improvement for simple tasks is equally significant. A ROUTER call on a phi-4-mini model returns in under 200ms. The same classification sent to Claude Sonnet would take 1–3 seconds and generate far more tokens than needed. For an agent that routes every user message, that latency compounds across every interaction.</p>
+<hr />
+<h2 id="the-public-api">The Public API</h2>
+<p>The gateway exposes three methods to the rest of the platform:</p>
+<pre class="codehilite"><code class="language-python"># Single response
+response = await gateway.ainvoke(messages, role=LLMRole.THINKER)
+# response.content, response.input_tokens, response.output_tokens,
+# response.model, response.provider
+
+# Token streaming (for WebSocket real-time display)
+async for chunk in gateway.astream(messages, role=LLMRole.EXECUTOR):
+    await ws.send_json({&quot;type&quot;: &quot;token&quot;, &quot;content&quot;: chunk})
+
+# Convenience shortcut for routing (returns one stripped lowercase word)
+label = await gateway.route(messages)
+
+# Embeddings for vector search and semantic cache
+vectors = await gateway.embed(&quot;query text&quot;, input_type=&quot;query&quot;)
+vectors = await gateway.embed([&quot;doc1&quot;, &quot;doc2&quot;], input_type=&quot;passage&quot;)
+</code></pre>
+
+<p>Every node in every agent goes through these four methods. The gateway is the only place in the codebase that knows which model is serving which request.</p>
+<hr />
+<h2 id="what-comes-after-this-post">What Comes After This Post</h2>
+<p>The LLM Gateway is the economic engine of the platform — it's what makes enterprise-scale AI affordable without sacrificing capability where it matters. But it's only valuable if the hardware underneath it can serve models fast enough to meet latency SLAs.</p>
+<p>The next post covers the hardware side: how to size GPUs, select models for a tiered strategy, and design for distributed inference when models are too large for a single node.</p>
+<p><em>Next: <a href="/posts/2026-06-14-gpu-hardware-model-selection.html">GPU Hardware and Model Selection: The Math Nobody Shows You</a></em></p>
+  </article>
+
+  <!-- Share section -->
+  <div class="divider mt-12"></div>
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div>
+      <p class="font-semibold mb-2">Share this post</p>
+      <div class="flex gap-2">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://maheshpabba.com/posts/2026-06-13-llm-gateway-enterprise-ai.html"
+           target="_blank" rel="noopener"
+           class="btn btn-outline btn-sm gap-2">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://maheshpabba.com/posts/2026-06-13-llm-gateway-enterprise-ai.html&text="The LLM Gateway: How to Route AI Requests Intelligently and Cut Costs by 60–80%""
+           target="_blank" rel="noopener"
+           class="btn btn-ghost btn-sm gap-2">
+          <i class="fab fa-twitter"></i> Twitter/X
+        </a>
+      </div>
+    </div>
+    <a href="../blog-home.html" class="btn btn-primary btn-sm">
+      <i class="fas fa-arrow-left mr-1"></i> More posts
+    </a>
+  </div>
+
+  <!-- Author card -->
+  <div class="card bg-base-200 mt-10">
+    <div class="card-body flex-row gap-5 items-center p-6">
+      <div class="w-16 h-16 rounded-full overflow-hidden shrink-0">
+        <img src="../assets/images/profile-lg.jpg" alt="Mahesh Pabba" class="w-full h-full object-cover object-center">
+      </div>
+      <div>
+        <p class="font-bold">Mahesh Pabba</p>
+        <p class="text-sm text-base-content/60">AI &amp; Cloud Architect · Cisco · 22+ years in enterprise infrastructure</p>
+        <div class="flex gap-2 mt-2">
+          <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-xs"><i class="fab fa-github"></i></a>
+          <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-xs"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer — posts/ pages (paths prefixed with ../). Use 2026 as replacement placeholder. -->
+<footer class="footer footer-center p-10 bg-base-300 text-base-content mt-10">
+  <nav class="flex flex-wrap gap-4 justify-center">
+    <a href="../index.html" class="link link-hover">About</a>
+    <a href="../resume.html" class="link link-hover">Resume</a>
+    <a href="../blog-home.html" class="link link-hover">Blog</a>
+    <a href="../contact.html" class="link link-hover">Contact</a>
+  </nav>
+  <nav class="flex gap-4">
+    <a href="https://www.linkedin.com/in/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-linkedin-in text-lg"></i></a>
+    <a href="https://github.com/maheshpabba" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm"><i class="fab fa-github text-lg"></i></a>
+    <a href="mailto:mahesh.pabba@gmail.com" class="btn btn-ghost btn-circle btn-sm"><i class="fas fa-envelope text-lg"></i></a>
+  </nav>
+  <aside><p class="text-base-content/50 text-sm">&#169; 2026 Mahesh Pabba &middot; AI &amp; Cloud Architect</p></aside>
+</footer>
+
+
+<script>hljs.highlightAll();</script>
+</body>
+</html>
